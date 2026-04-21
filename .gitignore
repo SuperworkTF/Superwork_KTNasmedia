@@ -1,0 +1,22 @@
+_workspace/
+.claude
+.openchrome
+.playwright-mcp/
+reference-site-full.png
+
+# dependencies
+/node_modules
+
+# Next.js
+/.next/
+/out/
+
+# misc
+.DS_Store
+*.pem
+.env*
+!.env.example
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
