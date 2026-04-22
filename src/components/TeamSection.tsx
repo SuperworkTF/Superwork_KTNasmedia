@@ -57,7 +57,7 @@ export function TeamSection() {
         </motion.div>
 
         {/* Grid */}
-        <div className="grid-2col">
+        <div className="grid-2col" style={{ maxWidth: '640px', margin: '0 auto' }}>
           {team.map((member, index) => (
             <motion.article
               key={member.username}
@@ -68,18 +68,18 @@ export function TeamSection() {
               whileHover={{ y: -4 }}
               style={{
                 display: 'flex',
-                alignItems: 'flex-start',
-                gap: '20px',
-                borderRadius: '16px',
+                alignItems: 'center',
+                gap: '14px',
+                borderRadius: '12px',
                 border: '1px solid #3F3F46',
                 backgroundColor: '#27272A',
-                padding: '28px',
+                padding: '16px 18px',
                 transition: 'border-color 0.2s, box-shadow 0.2s',
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLElement;
                 el.style.borderColor = '#A855F7';
-                el.style.boxShadow = '0 8px 40px rgba(0,0,0,0.5)';
+                el.style.boxShadow = '0 6px 24px rgba(0,0,0,0.4)';
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget as HTMLElement;
@@ -99,8 +99,8 @@ export function TeamSection() {
                 <img
                   src={member.avatarUrl}
                   alt={`${member.displayName} 프로필 이미지`}
-                  width={72}
-                  height={72}
+                  width={48}
+                  height={48}
                   style={{
                     borderRadius: '50%',
                     border: '2px solid #3F3F46',
@@ -117,38 +117,17 @@ export function TeamSection() {
               </a>
 
               {/* Info */}
-              <div style={{ minWidth: 0 }}>
+              <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 <h3
                   style={{
-                    fontSize: '1.25rem',
+                    fontSize: '1rem',
                     fontWeight: 600,
                     color: '#FAFAFA',
-                    marginBottom: '4px',
                     lineHeight: 1.3,
                   }}
                 >
                   {member.displayName}
                 </h3>
-                <p
-                  style={{
-                    fontSize: '0.875rem',
-                    fontWeight: 500,
-                    color: '#BF7FFF',
-                    marginBottom: '8px',
-                  }}
-                >
-                  {member.role}
-                </p>
-                <p
-                  style={{
-                    fontSize: '0.875rem',
-                    lineHeight: 1.6,
-                    color: '#A1A1AA',
-                    marginBottom: '12px',
-                  }}
-                >
-                  {member.description}
-                </p>
                 <a
                   href={member.githubUrl}
                   target="_blank"

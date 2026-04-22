@@ -167,8 +167,9 @@ body {
 }
 
 /* 스크롤 앵커 내비게이션 활성 상태: aria-current="location" (WAI-ARIA 1.1 §6.6.4)
-   미래 서브라우트(/tas 등) 추가 시 aria-current="page"로 전환 */
-.sidebar-item[aria-current="location"] {
+   서브라우트(/projects/[slug]) 활성 상태: aria-current="page" */
+.sidebar-item[aria-current="location"],
+.sidebar-item[aria-current="page"] {
   border-left-color: var(--sidebar-item-active-border);
   background-color: var(--sidebar-item-active-bg);
   color: var(--color-snow);

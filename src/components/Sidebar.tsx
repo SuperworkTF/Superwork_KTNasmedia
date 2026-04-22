@@ -1,6 +1,8 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Home, Users, ExternalLink, X } from 'lucide-react';
 import FocusTrap from 'focus-trap-react';
@@ -24,25 +26,29 @@ function GitHubIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-// ── 프로젝트 항목: 내부 스크롤 링크 + 외부 GitHub ↗ 버튼 ─────────────
-// isActive를 제거 — 카테고리 헤더(섹션 레이블)가 scrollspy 하이라이트를 소유.
-// 서브아이템은 plain link (aria-current 없음) → 양쪽이 동시에 켜지는 문제 해소.
+// ── 프로젝트 항목: 상세 라우트 Link + 외부 GitHub ↗ 버튼 ─────────────
+// isActive: pathname.startsWith(`/projects/${project.id}`) → aria-current="page"
 function SidebarProjectItem({
   icon,
   label,
+  href,
   externalHref,
+  isActive,
   onNav,
 }: {
   icon: string;
   label: string;
+  href: string;
   externalHref: string;
+  isActive: boolean;
   onNav: () => void;
 }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
-      <a
-        href="#projects"
+      <Link
+        href={href}
         className="sidebar-item"
+        aria-current={isActive ? 'page' : undefined}
         onClick={onNav}
         style={{ flex: 1, minWidth: 0 }}
       >
@@ -58,7 +64,7 @@ function SidebarProjectItem({
         >
           {label}
         </span>
-      </a>
+      </Link>
       <a
         href={externalHref}
         target="_blank"
@@ -99,6 +105,7 @@ export function Sidebar() {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const activeId = useSidebarScrollspy(SECTION_IDS);
   const isDesktop = useMediaQuery('(min-width: 1024px)');
+  const pathname = usePathname();
 
   // 모바일 드로어 오픈 시 X 버튼으로 포커스 이동
   useEffect(() => {
@@ -148,8 +155,8 @@ export function Sidebar() {
           flexShrink: 0,
         }}
       >
-        <a
-          href="#home"
+        <Link
+          href="/#home"
           onClick={closeSidebar}
           style={{
             fontSize: '1rem',
@@ -160,7 +167,7 @@ export function Sidebar() {
           }}
         >
           SUPERWORK
-        </a>
+        </Link>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
           {/* GitHub 외부링크 (항상 표시) */}
@@ -237,15 +244,15 @@ export function Sidebar() {
         style={{ flex: 1, padding: '8px', overflowY: 'auto' }}
       >
         {/* 홈 */}
-        <a
-          href="#home"
+        <Link
+          href="/#home"
           className="sidebar-item"
           aria-current={activeId === 'home' ? 'location' : undefined}
           onClick={closeSidebar}
         >
           <Home size={16} aria-hidden="true" />
           홈
-        </a>
+        </Link>
 
         {/* ── 프로젝트 섹션 ── */}
         {/* 카테고리 레이블이 scrollspy 하이라이트 소유 (ember 색상 변화) */}
@@ -263,7 +270,9 @@ export function Sidebar() {
             key={project.id}
             icon={project.icon}
             label={project.title}
+            href={`/projects/${project.id}`}
             externalHref={project.link}
+            isActive={pathname.startsWith(`/projects/${project.id}`)}
             onNav={closeSidebar}
           />
         ))}
@@ -271,15 +280,15 @@ export function Sidebar() {
         {/* ── 팀 섹션 ── */}
         <p className="sidebar-section-label">팀</p>
 
-        <a
-          href="#team"
+        <Link
+          href="/#team"
           className="sidebar-item"
           aria-current={activeId === 'team' ? 'location' : undefined}
           onClick={closeSidebar}
         >
           <Users size={16} aria-hidden="true" />
           SUPERWORK팀
-        </a>
+        </Link>
 
         {/* ── 링크 섹션 ── */}
         <p className="sidebar-section-label">링크</p>

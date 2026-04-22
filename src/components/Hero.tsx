@@ -144,42 +144,6 @@ export function Hero() {
             프로젝트 보기 →
           </a>
         </motion.div>
-
-        {/* Stat strip */}
-        <motion.div
-          {...fadeUp(0.4)}
-          style={{
-            marginTop: '64px',
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '48px',
-            flexWrap: 'wrap',
-          }}
-        >
-          {[
-            { label: '오픈소스 프로젝트', value: '2' },
-            { label: '개발자', value: '2' },
-            { label: 'AI 플랫폼 지원', value: '5+' },
-          ].map((stat) => (
-            <div key={stat.label} style={{ textAlign: 'center' }}>
-              <div
-                style={{
-                  fontSize: '2rem',
-                  fontWeight: 700,
-                  background: 'linear-gradient(135deg, #F97316, #A855F7)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  lineHeight: 1.1,
-                  marginBottom: '4px',
-                }}
-              >
-                {stat.value}
-              </div>
-              <div style={{ fontSize: '0.875rem', color: '#A1A1AA' }}>{stat.label}</div>
-            </div>
-          ))}
-        </motion.div>
       </div>
     </section>
   );
