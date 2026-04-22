@@ -18,10 +18,10 @@ export async function generateMetadata({
   const project = projects.find((p) => p.id === slug);
   if (!project) return {};
   return {
-    title: `${project.title} — SUPERWORK`,
+    title: `${project.displayTitle} — SUPERWORK`,
     description: project.description,
     openGraph: {
-      title: `${project.title} — SUPERWORK`,
+      title: `${project.displayTitle} — SUPERWORK`,
       description: project.description,
     },
   };
@@ -39,8 +39,22 @@ export default async function ProjectPage({
   const accentVar =
     project.accentColor === 'ember' ? 'var(--color-ember)' : 'var(--color-aurora)';
 
+  const breadcrumbJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '홈' },
+      { '@type': 'ListItem', position: 2, name: '프로젝트' },
+      { '@type': 'ListItem', position: 3, name: project.displayTitle },
+    ],
+  });
+
   return (
     <main id="main-content">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: breadcrumbJsonLd }}
+      />
       <div
         style={{
           maxWidth: '800px',
@@ -48,6 +62,27 @@ export default async function ProjectPage({
           padding: '48px 24px 96px',
         }}
       >
+        {/* ── 브레드크럼 ── */}
+        <nav aria-label="탐색 경로" style={{ marginBottom: '24px' }}>
+          <ol className="breadcrumb">
+            <li>
+              <Link href="/" className="breadcrumb-link">
+                홈
+              </Link>
+            </li>
+            <li aria-hidden="true" className="breadcrumb-sep">/</li>
+            <li>
+              <Link href="/#projects" className="breadcrumb-link">
+                프로젝트
+              </Link>
+            </li>
+            <li aria-hidden="true" className="breadcrumb-sep">/</li>
+            <li aria-current="page" className="breadcrumb-current">
+              {project.displayTitle}
+            </li>
+          </ol>
+        </nav>
+
         {/* ── Hero banner image ── */}
         <div
           style={{
@@ -62,7 +97,7 @@ export default async function ProjectPage({
         >
           <Image
             src={withBasePath(`/projects/${project.id}.jpg`)}
-            alt={`${project.title} 프로젝트 대표 이미지`}
+            alt={`${project.displayTitle} 프로젝트 대표 이미지`}
             fill
             sizes="(max-width: 800px) 100vw, 800px"
             priority
@@ -80,19 +115,20 @@ export default async function ProjectPage({
             marginBottom: '32px',
           }}
         >
-          <div style={{ fontSize: '2.5rem', marginBottom: '12px' }}>
+          <div style={{ fontSize: '2rem', marginBottom: '12px' }}>
             {project.icon}
           </div>
           <h1
             style={{
-              fontSize: '1.75rem',
+              fontSize: 'clamp(1.75rem, 3vw, 2.25rem)',
               fontWeight: 700,
               color: 'var(--color-snow)',
               letterSpacing: '-0.02em',
               marginBottom: '8px',
+              wordBreak: 'keep-all',
             }}
           >
-            {project.title}
+            {project.displayTitle}
           </h1>
           <p style={{ color: 'var(--color-muted)', marginBottom: '16px' }}>
             {project.subtitle}
@@ -126,28 +162,33 @@ export default async function ProjectPage({
 
           {/* CTAs */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-            {/* project.link is currently always a GitHub URL for both projects */}
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '8px 18px',
-                borderRadius: '8px',
-                fontSize: '0.875rem',
-                fontWeight: 600,
-                backgroundColor: accentVar,
-                color: '#fff',
-                textDecoration: 'none',
-              }}
-            >
-              GitHub에서 보기 ↗
-            </a>
+            {/* link 없는 비공개 프로젝트는 GitHub CTA 숨김 */}
+            {project.link && (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="project-cta-primary"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '8px 18px',
+                  borderRadius: '8px',
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  backgroundColor: accentVar,
+                  color: 'var(--color-void)', /* 흰 텍스트 2.81:1(fail) → 어두운 텍스트 7.06:1+ (WCAG AA) */
+                  textDecoration: 'none',
+                  width: '100%',
+                }}
+              >
+                GitHub에서 보기 ↗
+              </a>
+            )}
             <Link
               href="/#projects"
+              className="project-cta-secondary"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -160,6 +201,7 @@ export default async function ProjectPage({
                 color: 'var(--color-muted)',
                 border: '1px solid var(--color-outline)',
                 textDecoration: 'none',
+                width: '100%',
               }}
             >
               ← 프로젝트 목록으로
@@ -172,13 +214,33 @@ export default async function ProjectPage({
           style={{
             color: 'var(--color-muted)',
             lineHeight: 1.75,
-            marginBottom: '32px',
+            marginBottom: project.relatedWorkflowId ? '16px' : '32px',
           }}
         >
           {project.description}
         </p>
 
-        {/* ── Features as "사용 방법" ── */}
+        {/* ── 관련 워크플로우 링크 ── */}
+        {project.relatedWorkflowId && (
+          <div style={{ marginBottom: '32px' }}>
+            <Link
+              href={`/workflow#${project.relatedWorkflowId}`}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontSize: '0.875rem',
+                color: accentVar,
+                textDecoration: 'none',
+                fontWeight: 500,
+              }}
+            >
+              Superwork Workflow에서 보기 →
+            </Link>
+          </div>
+        )}
+
+        {/* ── Features as "주요 기능" ── */}
         <section>
           <h2
             style={{
@@ -188,7 +250,7 @@ export default async function ProjectPage({
               marginBottom: '16px',
             }}
           >
-            사용 방법
+            주요 기능
           </h2>
           <ul
             style={{

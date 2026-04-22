@@ -2,13 +2,16 @@
 
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import Link from 'next/link';
 import { useSidebar } from '@/contexts/SidebarContext';
 
 export function Header() {
   const { isSidebarOpen, toggleSidebar } = useSidebar();
 
+  // header-main: lg+에서 CSS로 숨김 — 데스크탑은 사이드바가 내비 역할
   return (
     <motion.header
+      className="header-main"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
@@ -35,8 +38,8 @@ export function Header() {
         }}
       >
         {/* 모바일 전용 브랜드 로고 (lg+: CSS로 숨김) */}
-        <a
-          href="#home"
+        <Link
+          href="/"
           className="header-brand-mobile"
           style={{
             fontSize: '1.25rem',
@@ -48,7 +51,7 @@ export function Header() {
           aria-label="SUPERWORK 홈으로"
         >
           SUPERWORK
-        </a>
+        </Link>
 
         <nav aria-label="주요 메뉴" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           {/* 햄버거 버튼 — 모바일 전용 (lg+: CSS로 숨김) */}

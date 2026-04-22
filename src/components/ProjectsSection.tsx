@@ -18,7 +18,7 @@ export function ProjectsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, ease: 'easeOut' as const }}
-          style={{ marginBottom: '64px', textAlign: 'center' }}
+          style={{ marginBottom: 'clamp(40px, 5vw, 64px)', textAlign: 'center' }}
         >
           <p
             style={{
@@ -34,7 +34,7 @@ export function ProjectsSection() {
           </p>
           <h2
             style={{
-              fontSize: '2.25rem',
+              fontSize: 'clamp(1.5rem, 3.5vw, 2.25rem)',
               fontWeight: 700,
               color: '#FAFAFA',
               lineHeight: 1.2,

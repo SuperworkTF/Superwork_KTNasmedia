@@ -8,11 +8,12 @@ export function TeamSection() {
     <>
       {/* ── 인트로 섹션 ─────────────────────────────────────────────── */}
       <section
+        id="team"
         aria-label="Superwork Team 소개"
         style={{
           position: 'relative',
           overflow: 'hidden',
-          padding: 'clamp(48px, 8vw, 96px) clamp(16px, 4vw, 48px) 64px',
+          padding: 'clamp(48px, 8vw, 96px) clamp(16px, 4vw, 48px) clamp(40px, 6vw, 64px)',
           background: 'linear-gradient(180deg, #0C0C0F 0%, #09090B 100%)',
           borderBottom: '1px solid var(--color-outline)',
         }}
@@ -56,9 +57,10 @@ export function TeamSection() {
               letterSpacing: '-0.03em',
               lineHeight: 1.2,
               marginBottom: '20px',
+              wordBreak: 'keep-all',
             }}
           >
-            Superwork: Think Deep, Acting Autonomous
+            Superwork: Think Deeply, Act Autonomously
           </h1>
 
           {/* Paragraph */}
@@ -97,7 +99,7 @@ export function TeamSection() {
               key={member.username}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={{ once: true, amount: 0.05 }}
               transition={{ duration: 0.5, ease: 'easeOut' as const, delay: index * 0.1 }}
               whileHover={{ y: -4 }}
               style={{
@@ -128,6 +130,14 @@ export function TeamSection() {
                 rel="noopener noreferrer"
                 aria-label={`${member.displayName} GitHub 프로필`}
                 style={{ display: 'inline-block', width: 'fit-content' }}
+                onMouseEnter={(e) => {
+                  const img = e.currentTarget.querySelector('img') as HTMLImageElement | null;
+                  if (img) img.style.borderColor = '#A855F7';
+                }}
+                onMouseLeave={(e) => {
+                  const img = e.currentTarget.querySelector('img') as HTMLImageElement | null;
+                  if (img) img.style.borderColor = '#3F3F46';
+                }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -135,10 +145,13 @@ export function TeamSection() {
                   alt={`${member.displayName} 프로필 이미지`}
                   width={64}
                   height={64}
+                  loading="lazy"
+                  decoding="async"
                   style={{
                     borderRadius: '50%',
                     border: '2px solid #3F3F46',
                     display: 'block',
+                    transition: 'border-color 0.15s ease-out',
                   }}
                 />
               </a>
@@ -170,7 +183,7 @@ export function TeamSection() {
 
               {/* tagline (optional) */}
               {member.tagline && (
-                <blockquote style={{ margin: 0, fontStyle: 'italic', color: 'var(--color-muted)' }}>
+                <blockquote style={{ margin: 0, fontStyle: 'italic', color: 'var(--color-muted)', fontSize: '0.875rem' }}>
                   {member.tagline}
                 </blockquote>
               )}

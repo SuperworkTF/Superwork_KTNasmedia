@@ -1,6 +1,15 @@
 import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 import './globals.css';
 import { LayoutShell } from '@/components/LayoutShell';
+
+const pretendard = localFont({
+  src: './fonts/PretendardVariable.woff2',
+  variable: '--font-pretendard',
+  display: 'swap',
+  weight: '45 920',
+  preload: true,
+});
 
 export const metadata: Metadata = {
   title: 'SUPERWORK — 오픈소스 AI 도구',
@@ -20,18 +29,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={pretendard.variable}>
       <head>
-        <link rel="icon" href="/Superwork_KTNasmedia/favicon.svg" />
-        <link
-          rel="preconnect"
-          href="https://cdn.jsdelivr.net"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"
-        />
+        <link rel="icon" href="/Superwork_KTNasmedia/favicon.svg" type="image/svg+xml" />
       </head>
       <body>
         <a href="#main-content" className="skip-link">본문으로 바로가기</a>

@@ -298,7 +298,7 @@ function SelfHealingDiagram() {
             minWidth: '200px',
           }}
         >
-          에러 감지 &amp; 분류
+          에러 감지 & 분류
         </div>
         <p style={labelStyle}>빈도 · 스택 트레이스 · 영향 범위</p>
       </div>
@@ -480,9 +480,8 @@ function SelfHealingDisclaimer() {
           lineHeight: 1.6,
         }}
       >
-        이 섹션은 TAS 개발 로드맵에 포함되어 있으나 아직 구현되지 않은
-        기능입니다. 운영 환경 자동화 비전으로 제시되며, 현재는 구현되지
-        않은 기능입니다.
+        TAS 개발 로드맵에 포함된 기능으로, 아직 구현 전입니다.
+        운영 환경 자동화 비전으로 제시됩니다.
       </p>
     </div>
   );
@@ -531,7 +530,7 @@ function SubsectionBlock({ sub }: { sub: WorkflowSubsection }) {
       <h3
         id={`${sub.id}-heading`}
         style={{
-          fontSize: '1.0625rem',
+          fontSize: 'clamp(1.0625rem, 2vw, 1.1875rem)',
           fontWeight: 700,
           color: 'var(--color-snow)',
           letterSpacing: '-0.02em',

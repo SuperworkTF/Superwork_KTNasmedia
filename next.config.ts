@@ -3,6 +3,7 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   output: 'export',
   basePath: '/Superwork_KTNasmedia',
+  transpilePackages: ['framer-motion'],
   images: {
     unoptimized: true,
     remotePatterns: [

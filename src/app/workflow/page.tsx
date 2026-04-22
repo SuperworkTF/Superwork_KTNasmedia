@@ -22,7 +22,7 @@ export default function WorkflowPage() {
         style={{
           position: 'relative',
           overflow: 'hidden',
-          padding: 'clamp(48px, 8vw, 96px) clamp(16px, 4vw, 48px) 64px',
+          padding: 'clamp(48px, 8vw, 96px) clamp(16px, 4vw, 48px) clamp(40px, 6vw, 64px)',
           background: 'linear-gradient(180deg, #0C0C0F 0%, #09090B 100%)',
           borderBottom: '1px solid var(--color-outline)',
         }}
@@ -74,6 +74,7 @@ export default function WorkflowPage() {
               lineHeight: 1.2,
               marginBottom: '20px',
               whiteSpace: 'pre-line',
+              wordBreak: 'keep-all',
             }}
           >
             {heroCopy.headline}

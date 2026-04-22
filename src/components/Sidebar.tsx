@@ -87,6 +87,15 @@ export function Sidebar() {
             color: 'var(--color-snow)',
             textDecoration: 'none',
             letterSpacing: '-0.02em',
+            transition: 'color 0.15s ease-out',
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.color =
+              'var(--color-ember)';
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.color =
+              'var(--color-snow)';
           }}
         >
           SUPERWORK
@@ -103,8 +112,8 @@ export function Sidebar() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '32px',
-            height: '32px',
+            width: '44px',
+            height: '44px',
             borderRadius: '6px',
             border: 'none',
             backgroundColor: 'transparent',

@@ -2,13 +2,13 @@
 
 import { motion } from 'framer-motion';
 
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, ease: 'easeOut' as const, delay } as const,
-});
-
 export function Hero() {
+  const fadeUp = (delay = 0) => ({
+    initial: { opacity: 0, y: 24 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6, ease: 'easeOut' as const, delay } as const,
+  });
+
   return (
     <section
       id="home"
@@ -17,6 +17,9 @@ export function Hero() {
         position: 'relative',
         overflow: 'hidden',
         backgroundColor: '#09090B',
+        minHeight: '100svh',
+        display: 'flex',
+        alignItems: 'center',
       }}
     >
       {/* Background gradient glow */}
@@ -83,11 +86,13 @@ export function Hero() {
             fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
             lineHeight: 1.1,
             letterSpacing: '-0.03em',
+            wordBreak: 'keep-all',
           }}
         >
           <span
             style={{
               background: 'linear-gradient(135deg, #F97316 0%, #EC4899 50%, #A855F7 100%)',
+              color: '#F97316', /* gradient-clip 미지원 환경 폴백 */
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -116,8 +121,10 @@ export function Hero() {
 
         {/* CTA */}
         <motion.div {...fadeUp(0.3)}>
-          <a
+          <motion.a
             href="#projects"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
             style={{
               display: 'inline-block',
               padding: '14px 32px',
@@ -125,24 +132,20 @@ export function Hero() {
               background: 'linear-gradient(135deg, #F97316, #EC4899)',
               fontSize: '1rem',
               fontWeight: 600,
-              color: '#FAFAFA',
+              color: '#09090B', /* 흰 텍스트 2.69:1(fail) → 어두운 텍스트 5.92:1+ (WCAG AA) */
               textDecoration: 'none',
               boxShadow: '0 0 24px rgba(249,115,22,0.35)',
-              transition: 'transform 0.15s, box-shadow 0.15s',
+              transition: 'box-shadow 0.15s ease-out',
             }}
             onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLAnchorElement;
-              el.style.transform = 'scale(1.02)';
-              el.style.boxShadow = '0 0 40px rgba(249,115,22,0.55)';
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 0 40px rgba(249,115,22,0.55)';
             }}
             onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLAnchorElement;
-              el.style.transform = 'scale(1)';
-              el.style.boxShadow = '0 0 24px rgba(249,115,22,0.35)';
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 0 24px rgba(249,115,22,0.35)';
             }}
           >
             프로젝트 보기 →
-          </a>
+          </motion.a>
         </motion.div>
       </div>
     </section>

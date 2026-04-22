@@ -5,12 +5,13 @@
   --color-dark:    #18181B;
   --color-surface: #27272A;
   --color-outline: #3F3F46;
-  --color-ember:   #F97316;
-  --color-aurora:  #A855F7;
+  --color-ember:       #F97316;
+  --color-aurora:      #BF7FFF; /* 텍스트 안전 퍼플 (L≈0.337, on void ≈ 7.27:1) */
+  --color-aurora-dim:  #A855F7; /* 글로우·틴트·그라디언트용 진한 퍼플 */
   --color-snow:    #FAFAFA;
   --color-muted:   #A1A1AA;
 
-  --font-sans: 'Pretendard Variable', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans: var(--font-pretendard), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* ── 사이드바 토큰 ── */
   --sidebar-width:                260px;
@@ -23,13 +24,14 @@
 }
 
 html {
+  color-scheme: dark;
   scroll-behavior: smooth;
 }
 
 body {
   background-color: #09090B;
   color: #FAFAFA;
-  font-family: 'Pretendard Variable', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-pretendard), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -139,6 +141,18 @@ body {
   .header-brand-mobile {
     display: none !important;
   }
+  /* 헤더 컨테이너: 데스크탑에서 숨김 — 콘텐츠가 이미 숨겨져 있어 64px 빈 바만 남던 문제 해소 */
+  .header-main {
+    display: none !important;
+  }
+
+  /* hydration 전 framer-motion inline transform 제압
+     — x:-260 슬라이드-인 플래시 차단
+     — opacity 미포함: 기본값 1 그대로, 독자 혼란 방지 */
+  .sidebar-nav {
+    transform: none !important;
+    visibility: visible !important;
+  }
 }
 
 /* ── 사이드바 항목 ───────────────────────────────────────── */
@@ -152,7 +166,7 @@ body {
   font-size: 0.875rem;
   color: var(--color-muted);
   text-decoration: none;
-  transition: background-color 0.15s, color 0.15s, border-left-color 0.15s;
+  transition: background-color 0.15s ease-out, color 0.15s ease-out, border-left-color 0.15s ease-out;
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
@@ -185,14 +199,55 @@ body {
   font-size: 0.875rem;
   font-weight: 600;
   background-color: var(--color-ember);
-  color: #fff;
+  color: var(--color-void); /* #09090B — 흰 텍스트 2.69:1(fail) → 어두운 텍스트 7.06:1(WCAG AA) */
   text-decoration: none;
-  transition: opacity 0.15s, transform 0.15s;
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out;
 }
 
 .workflow-cta-btn:hover {
   opacity: 0.88;
   transform: translateY(-1px);
+}
+
+.workflow-cta-btn:active {
+  opacity: 0.75;
+  transform: translateY(0) scale(0.97);
+}
+
+/* ── /projects/[slug] CTA 버튼 ──────────────────────────── */
+.project-cta-primary {
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+}
+
+.project-cta-primary:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.project-cta-primary:active {
+  opacity: 0.75;
+  transform: translateY(0) scale(0.98);
+}
+
+/* 컬러 버튼 포커스 링 — ember/aurora 배경과 동색 ring 방지 */
+.workflow-cta-btn:focus-visible,
+.project-cta-primary:focus-visible {
+  outline-color: var(--color-void);
+}
+
+.project-cta-secondary {
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out, background-color 0.15s ease-out;
+}
+
+.project-cta-secondary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.project-cta-secondary:active {
+  opacity: 0.75;
+  transform: translateY(0) scale(0.98);
 }
 
 /* ── /workflow 상세 페이지 2단 레이아웃 ───────────────────── */
@@ -210,7 +265,7 @@ body {
 .workflow-content-col {
   flex: 1;
   min-width: 0;
-  padding: 24px 20px 64px;
+  padding: 24px 16px 64px;
 }
 
 @media (min-width: 1024px) {
@@ -239,13 +294,13 @@ body {
 .sidebar-subitem {
   display: flex;
   align-items: center;
-  padding: 6px 10px 6px 20px;
+  padding: 8px 10px 8px 20px;
   border-radius: 4px;
   border-left: 2px solid transparent;
   font-size: 0.8125rem;
   color: var(--color-muted);
   text-decoration: none;
-  transition: background-color 0.15s, color 0.15s, border-left-color 0.15s;
+  transition: background-color 0.15s ease-out, color 0.15s ease-out, border-left-color 0.15s ease-out;
   width: 100%;
   box-sizing: border-box;
   white-space: nowrap;
@@ -267,13 +322,13 @@ body {
 .sidebar-subsubitem {
   display: flex;
   align-items: center;
-  padding: 4px 10px 4px 32px;
+  padding: 6px 10px 6px 32px;
   border-radius: 4px;
   border-left: 2px solid transparent;
   font-size: 0.75rem;
   color: var(--color-muted);
   text-decoration: none;
-  transition: background-color 0.15s, color 0.15s, border-left-color 0.15s;
+  transition: background-color 0.15s ease-out, color 0.15s ease-out, border-left-color 0.15s ease-out;
   width: 100%;
   box-sizing: border-box;
   white-space: nowrap;
@@ -301,7 +356,96 @@ body {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--sidebar-section-label-color);
-  /* 클릭 불가, 스크린리더에는 읽힘 */
+  /* 클릭 불가, 스크린리더는 읽지 않음 (aria-hidden) */
   pointer-events: none;
   user-select: none;
+}
+
+/* ── Breadcrumb ──────────────────────────────────────────── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.8125rem;
+}
+
+.breadcrumb-link {
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: color 0.15s ease-out;
+}
+
+.breadcrumb-link:hover {
+  color: var(--color-snow);
+}
+
+.breadcrumb-sep {
+  color: var(--color-outline);
+  user-select: none;
+}
+
+.breadcrumb-current {
+  color: var(--color-snow);
+  font-weight: 500;
+}
+
+/* ── Footer 그리드 ─────────────────────────────────────── */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+@media (min-width: 640px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer-grid {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+}
+
+.footer-col-heading {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin: 0 0 12px;
+}
+
+.footer-link {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: color 0.15s ease-out;
+}
+
+.footer-link:hover {
+  color: var(--color-snow);
+}
+
+/* ── prefers-reduced-motion ─────────────────────────────────
+   CSS animations + transitions 억제
+   — MotionConfig reducedMotion="user" 미적용 CSS animation 보완 (heroGlow 포함)
+   — 사이드 이펙트: hover transition 등도 제거됨
+     → WCAG 2.1 SC 2.3.3(Animation from Interactions) 관점에서 올바른 동작 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

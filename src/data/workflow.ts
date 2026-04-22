@@ -9,7 +9,7 @@ import type { WorkflowHeroCopy, WorkflowSection } from '@/lib/workflow';
 export const heroCopy: WorkflowHeroCopy = {
   headline: '신사업, 이제 명령어 하나로 시작한다.\nSuperwork가 선택한 AI 개발 방법론.',
   subcopy:
-    '아이디어를 입력하면 기획·개발·검증·통합이 자동으로 진행됩니다. 우리는 이 시스템으로 superwork의 모든 프로젝트를 운영합니다.',
+    '아이디어를 입력하면 기획·개발·검증·통합이 자동으로 진행됩니다. 우리는 이 시스템으로 Superwork의 모든 프로젝트를 운영합니다.',
   ctaLabel: '워크플로우 살펴보기',
 };
 
@@ -149,7 +149,7 @@ Executor 에이전트(正)가 초안을 제시하면 HumanRole 에이전트(反)
       {
         id: 'core-tas',
         title: 'TAS (simsimhae91/tas)',
-        navLabel: 'TAS (Thesis Antithesis Synthesis)',
+        navLabel: 'TAS',
         body: `**TAS v0.2.3 (MIT)** — Claude Code 기반 변증법 멀티 에이전트 오케스트레이션 플러그인.
 
 **3계층 구조:**
@@ -178,8 +178,8 @@ git clone https://github.com/simsimhae91/tas
         navLabel: 'ImageGen MCP',
         body: `**ImageGen MCP** — Claude Desktop / Cursor / VS Code 호환 MCP 서버. OpenAI gpt-image 패밀리를 Claude 워크플로우에서 직접 사용할 수 있습니다.
 
-**지원 모델 (gpt-image 패밀리):**
-gpt-image-1, gpt-image-1-mini, gpt-image-1.5, gpt-image-2
+**지원 모델:**
+DALL-E 3, gpt-image-1
 
 **6 도구:**
 - \`gpt_image_generate\` — 텍스트 기반 이미지 생성

@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import { SidebarContext } from '@/contexts/SidebarContext';
 import { Sidebar } from './Sidebar';
+import { Header } from './Header';
+import { Footer } from './Footer';
 import { ErrorBoundary } from './ErrorBoundary';
 
 export function LayoutShell({ children }: { children: React.ReactNode }) {
@@ -29,8 +31,14 @@ export function LayoutShell({ children }: { children: React.ReactNode }) {
     return () => document.removeEventListener('keydown', handler);
   }, [closeSidebar]);
 
+  const ctxValue = useMemo(
+    () => ({ isSidebarOpen, openSidebar, closeSidebar, toggleSidebar }),
+    [isSidebarOpen, openSidebar, closeSidebar, toggleSidebar]
+  );
+
   return (
-    <SidebarContext.Provider value={{ isSidebarOpen, openSidebar, closeSidebar, toggleSidebar }}>
+    <MotionConfig reducedMotion="user">
+    <SidebarContext.Provider value={ctxValue}>
       <div style={{ display: 'flex', minHeight: '100vh' }}>
         <ErrorBoundary>
           <Sidebar />
@@ -61,9 +69,12 @@ export function LayoutShell({ children }: { children: React.ReactNode }) {
 
         {/* 콘텐츠 영역 — lg+: margin-left: 260px, <lg: full width */}
         <div className="content-area">
+          <Header />
           {children}
+          <Footer />
         </div>
       </div>
     </SidebarContext.Provider>
+    </MotionConfig>
   );
 }

@@ -33,8 +33,13 @@ export function useWorkflowScrollspy(): string {
       return;
     }
 
-    // Workflow 경로 진입 시 초기값을 첫 섹션으로 세팅 (기존 동작 복원)
-    setActiveId(workflowSections[0]?.id ?? '');
+    // URL hash가 유효한 섹션 ID면 그 섹션으로 초기화, 아니면 첫 섹션
+    const hash = typeof window !== 'undefined' ? window.location.hash.slice(1) : '';
+    const initialId =
+      hash && WORKFLOW_SCROLLSPY_IDS.includes(hash)
+        ? hash
+        : workflowSections[0]?.id ?? '';
+    setActiveId(initialId);
 
     const observer = new IntersectionObserver(
       (entries) => {
