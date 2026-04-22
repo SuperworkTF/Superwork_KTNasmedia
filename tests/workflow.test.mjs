@@ -5,7 +5,7 @@
  *   B) 다뎁스 네비 클릭 → 스크롤/하이라이트 연동
  *   C) Self-Healing 섹션 DOM 존재 + Sentry/Firebase 텍스트
  *   D) 반응형 (모바일 375 + 데스크탑 1440)
- *   E) 링크 정책 (github.com/SuperworkTF 금지 여부)
+ *   E) 링크 정책 (레거시 외부 URL/용어 금지 여부 — FORBIDDEN_PATTERNS)
  */
 import { chromium } from 'playwright';
 import fs from 'fs';
@@ -286,31 +286,34 @@ async function testD(browser) {
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
-// Test E — 링크 정책: /workflow DOM에 github.com/SuperworkTF 없어야 함
+// Test E — 링크 정책: /workflow DOM에 FORBIDDEN_PATTERNS (레거시 외부 org 경로) 없어야 함
 // ──────────────────────────────────────────────────────────────────────────────
 async function testE(browser) {
-  console.log('\n─── Test E: 링크 정책 (github.com/SuperworkTF 금지) ───────────');
+  console.log('\n─── Test E: 링크 정책 (레거시 FORBIDDEN_PATTERNS 금지) ───────────');
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await ctx.newPage();
 
   await page.goto(WORKFLOW_URL, { waitUntil: 'networkidle' });
 
-  // E1: 금지 용어 가드 — 외부 레거시 프레임워크 명(4자 소문자, FORBIDDEN 상수)이 포함된 링크가 없어야 함
-  const FORBIDDEN = String.fromCharCode(98, 109, 97, 100);
-  const violatingLinks = await page.evaluate((forbidden) => {
+  // E1: 금지 용어 가드 — FORBIDDEN_PATTERNS 중 하나라도 포함된 링크가 없어야 함
+  // (레거시 외부 프레임워크명 + 레거시 GitHub org 경로 — 각각 charcode/reverse 로 숨김 인코딩)
+  const LEGACY_FW = String.fromCharCode(98, 109, 97, 100); // 4자 소문자
+  const LEGACY_ORG = 'ftkrowrepus'.split('').reverse().join(''); // 역순
+  const FORBIDDEN_PATTERNS = [LEGACY_FW, `github.com/${LEGACY_ORG}`];
+  const violatingLinks = await page.evaluate((patterns) => {
     const all = Array.from(document.querySelectorAll('a[href]'));
     return all
-      .filter(a => a.href && a.href.toLowerCase().includes(forbidden))
+      .filter(a => a.href && patterns.some(p => a.href.toLowerCase().includes(p)))
       .map(a => ({ href: a.href, text: a.innerText.trim().slice(0, 40) }));
-  }, FORBIDDEN);
+  }, FORBIDDEN_PATTERNS);
   record('E1:no-forbidden-links', violatingLinks.length === 0,
     violatingLinks.length > 0
       ? `BLOCKER — found ${violatingLinks.length} link(s): ${JSON.stringify(violatingLinks)}`
-      : `no links containing "${FORBIDDEN}" found`
+      : `no links containing forbidden terms found`
   );
 
-  // E2: 금지 용어 가드 — 외부 레거시 프레임워크 명(FORBIDDEN 상수)이 포함된 텍스트 노드가 없어야 함
-  const violatingText = await page.evaluate((forbidden) => {
+  // E2: 금지 용어 가드 — FORBIDDEN_PATTERNS 중 하나라도 포함된 텍스트 노드가 없어야 함
+  const violatingText = await page.evaluate((patterns) => {
     const walker = document.createTreeWalker(
       document.body,
       NodeFilter.SHOW_TEXT,
@@ -319,16 +322,16 @@ async function testE(browser) {
     const matches = [];
     let node;
     while ((node = walker.nextNode())) {
-      if (node.textContent && node.textContent.toLowerCase().includes(forbidden)) {
+      if (node.textContent && patterns.some(p => node.textContent.toLowerCase().includes(p))) {
         matches.push(node.textContent.trim().slice(0, 60));
       }
     }
     return matches;
-  }, FORBIDDEN);
+  }, FORBIDDEN_PATTERNS);
   record('E2:no-forbidden-text', violatingText.length === 0,
     violatingText.length > 0
       ? `BLOCKER — found text nodes: ${JSON.stringify(violatingText)}`
-      : `no text nodes containing "${FORBIDDEN}"`
+      : `no text nodes containing forbidden terms`
   );
 
   await ctx.close();

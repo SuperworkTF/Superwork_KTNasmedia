@@ -51,42 +51,6 @@ export function Header() {
         </a>
 
         <nav aria-label="주요 메뉴" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {/* 모바일 전용 GitHub 버튼 (lg+: CSS로 숨김 — 사이드바에 존재) */}
-          <a
-            href="https://github.com/SuperworkTF"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="sidebar-hamburger"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '8px 16px',
-              borderRadius: '8px',
-              border: '1px solid #3F3F46',
-              fontSize: '0.875rem',
-              fontWeight: 500,
-              color: '#A1A1AA',
-              textDecoration: 'none',
-              transition: 'border-color 0.15s, color 0.15s',
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLAnchorElement;
-              el.style.borderColor = '#F97316';
-              el.style.color = '#FAFAFA';
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLAnchorElement;
-              el.style.borderColor = '#3F3F46';
-              el.style.color = '#A1A1AA';
-            }}
-          >
-            GitHub
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4.5M9.5 2.5V7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </a>
-
           {/* 햄버거 버튼 — 모바일 전용 (lg+: CSS로 숨김) */}
           <button
             id="sidebar-toggle-btn"

@@ -28,29 +28,8 @@ export function Footer() {
         >
           SUPERWORK
         </p>
-        <a
-          href="https://github.com/SuperworkTF"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: 'inline-block',
-            marginBottom: '16px',
-            fontSize: '0.875rem',
-            color: '#A1A1AA',
-            textDecoration: 'none',
-            transition: 'color 0.15s',
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.color = '#FAFAFA';
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.color = '#A1A1AA';
-          }}
-        >
-          github.com/SuperworkTF
-        </a>
         <p style={{ fontSize: '0.75rem', color: '#A1A1AA' }}>
-          © 2026 SuperworkTF. MIT License.
+          © 2026 Superwork. MIT License.
         </p>
       </div>
     </footer>

@@ -70,7 +70,7 @@ export function Hero() {
               color: '#A1A1AA',
             }}
           >
-            SuperworkTF · 오픈소스 AI 도구
+            Superwork · 오픈소스 AI 도구
           </span>
         </motion.div>
 
