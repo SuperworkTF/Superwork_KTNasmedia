@@ -144,7 +144,7 @@ Executor 에이전트(正)가 초안을 제시하면 HumanRole 에이전트(反)
   {
     id: 'core-module',
     title: 'Core Module',
-    body: 'Superwork 워크플로우를 구성하는 핵심 오픈소스 모듈입니다. TAS는 변증법 기반 멀티 에이전트 오케스트레이션을, ImageGen MCP는 이미지 생성 AI 통합을 담당합니다.',
+    body: 'Superwork 워크플로우를 구성하는 핵심 오픈소스 모듈입니다. TAS는 변증법 기반 멀티 에이전트 오케스트레이션을, ImageGen MCP는 이미지 생성 AI 통합을, Self-Healing은 운영 에러 자동 감지·수정을 담당합니다.',
     children: [
       {
         id: 'core-tas',
@@ -192,33 +192,32 @@ gpt-image-1, gpt-image-1-mini, gpt-image-1.5, gpt-image-2
 git clone https://github.com/LimSuyun/openai-image-mcp-server
 \`\`\``,
       },
-    ],
-  },
-
-  // ── Depth 1: Self-Healing ──────────────────────────────────────────────────
-  {
-    id: 'self-healing',
-    title: 'Self-Healing (자가 복구)',
-    // forward-looking — 운영 환경 자동화 비전
-    body: '운영 중인 서비스에서 발생하는 에러를 자동으로 감지하고 수정하는 자가 복구 시스템입니다. Sentry와 Firebase Crashlytics로부터 에러를 수집하고, TAS 워크플로우로 자동 수정 후 PR을 생성합니다.',
-    children: [
+      // ── Depth 2: Self-Healing ─────────────────────────────────────────────
       {
-        id: 'error-detection',
-        title: '에러 감지 (Sentry + Firebase)',
-        // forward-looking — 외부 연동 (Sentry, Firebase Crashlytics)
-        body: 'Sentry(백엔드/프론트엔드 런타임 에러)와 Firebase Crashlytics(모바일 크래시)로부터 실시간 에러 이벤트를 수집합니다. 에러 빈도·스택 트레이스·영향 범위를 기준으로 자동 처리 대상을 분류합니다.\n\n- **낮은 심각도** → 로그 기록만\n- **높은 심각도** → TAS Quick 자동 트리거',
-      },
-      {
-        id: 'auto-fix',
-        title: '자동 수정',
-        // forward-looking — tas quick 패턴 기반
-        body: '임계값을 초과하는 에러 이벤트 발생 시 TAS 워크플로우가 자동으로 트리거됩니다.\n\n```\ntas quick "{에러 스택 + 재현 조건}"\n```\n\nExecutor 에이전트(正)가 수정 코드를 제안하고, HumanRole 에이전트(反)가 변증법적으로 검증합니다. ACCEPT Verdict 시 자동 커밋됩니다.',
-      },
-      {
-        id: 'auto-pr',
-        title: 'PR 자동 생성',
-        // forward-looking — GitHub API + Slack 연동
-        body: '수정이 완료되면 GitHub API로 Pull Request가 자동으로 생성됩니다. PR에는 다음 내용이 포함됩니다:\n\n- 에러 원인 분석 및 재현 조건\n- 수정 내용 요약\n- 재발 방지 조치\n\n담당자에게 Slack/이메일 알림 후 코드 리뷰를 대기합니다.',
+        id: 'self-healing',
+        title: 'Self-Healing (자가 복구)',
+        // forward-looking — 운영 환경 자동화 비전
+        body: '운영 중인 서비스에서 발생하는 에러를 자동으로 감지하고 수정하는 자가 복구 시스템입니다. Sentry와 Firebase Crashlytics로부터 에러를 수집하고, TAS 워크플로우로 자동 수정 후 PR을 생성합니다.',
+        children: [
+          {
+            id: 'error-detection',
+            title: '에러 감지 (Sentry + Firebase)',
+            // forward-looking — 외부 연동 (Sentry, Firebase Crashlytics)
+            body: 'Sentry(백엔드/프론트엔드 런타임 에러)와 Firebase Crashlytics(모바일 크래시)로부터 실시간 에러 이벤트를 수집합니다. 에러 빈도·스택 트레이스·영향 범위를 기준으로 자동 처리 대상을 분류합니다.\n\n- **낮은 심각도** → 로그 기록만\n- **높은 심각도** → TAS Quick 자동 트리거',
+          },
+          {
+            id: 'auto-fix',
+            title: '자동 수정',
+            // forward-looking — tas quick 패턴 기반
+            body: '임계값을 초과하는 에러 이벤트 발생 시 TAS 워크플로우가 자동으로 트리거됩니다.\n\n```\ntas quick "{에러 스택 + 재현 조건}"\n```\n\nExecutor 에이전트(正)가 수정 코드를 제안하고, HumanRole 에이전트(反)가 변증법적으로 검증합니다. ACCEPT Verdict 시 자동 커밋됩니다.',
+          },
+          {
+            id: 'auto-pr',
+            title: 'PR 자동 생성',
+            // forward-looking — GitHub API + Slack 연동
+            body: '수정이 완료되면 GitHub API로 Pull Request가 자동으로 생성됩니다. PR에는 다음 내용이 포함됩니다:\n\n- 에러 원인 분석 및 재현 조건\n- 수정 내용 요약\n- 재발 방지 조치\n\n담당자에게 Slack/이메일 알림 후 코드 리뷰를 대기합니다.',
+          },
+        ],
       },
     ],
   },

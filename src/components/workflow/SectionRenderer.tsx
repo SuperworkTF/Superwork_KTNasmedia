@@ -513,6 +513,7 @@ function LeafSection({ leaf }: { leaf: WorkflowLeaf }) {
         {leaf.title}
       </h4>
       {leaf.body && <BodyText text={leaf.body} />}
+      {leaf.id === 'auto-fix' && <SelfHealingDiagram />}
     </section>
   );
 }
@@ -520,13 +521,7 @@ function LeafSection({ leaf }: { leaf: WorkflowLeaf }) {
 // ──────────────────────────────────────────────────────────────────────────────
 // Subsection 렌더러 (Depth 2)
 // ──────────────────────────────────────────────────────────────────────────────
-function SubsectionBlock({
-  sub,
-  isSelfHealing,
-}: {
-  sub: WorkflowSubsection;
-  isSelfHealing: boolean;
-}) {
+function SubsectionBlock({ sub }: { sub: WorkflowSubsection }) {
   return (
     <section
       id={sub.id}
@@ -560,10 +555,10 @@ function SubsectionBlock({
         {sub.title}
       </h3>
 
-      {sub.body && <BodyText text={sub.body} />}
+      {/* Self-Healing 면책 배너 (Depth 2로 이동된 self-healing 섹션에 삽입) */}
+      {sub.id === 'self-healing' && <SelfHealingDisclaimer />}
 
-      {/* Self-Healing 자동 수정 섹션에 개념도 삽입 */}
-      {isSelfHealing && sub.id === 'auto-fix' && <SelfHealingDiagram />}
+      {sub.body && <BodyText text={sub.body} />}
 
       {sub.children && sub.children.length > 0 && (
         <div style={{ paddingLeft: '0', marginTop: '16px' }}>
@@ -580,7 +575,6 @@ function SubsectionBlock({
 // 최상위 SectionRenderer (Depth 1)
 // ──────────────────────────────────────────────────────────────────────────────
 export function SectionRenderer({ section }: { section: WorkflowSection }) {
-  const isSelfHealing = section.id === 'self-healing';
   const isOverview = section.id === 'overview';
 
   return (
@@ -610,9 +604,6 @@ export function SectionRenderer({ section }: { section: WorkflowSection }) {
         {section.title}
       </h2>
 
-      {/* Self-Healing 면책 배너 */}
-      {isSelfHealing && <SelfHealingDisclaimer />}
-
       {/* Depth 1 본문 */}
       {section.body && <BodyText text={section.body} />}
 
@@ -620,11 +611,7 @@ export function SectionRenderer({ section }: { section: WorkflowSection }) {
       {section.children && section.children.length > 0 && (
         <div style={{ marginTop: '24px' }}>
           {section.children.map((sub) => (
-            <SubsectionBlock
-              key={sub.id}
-              sub={sub}
-              isSelfHealing={isSelfHealing}
-            />
+            <SubsectionBlock key={sub.id} sub={sub} />
           ))}
         </div>
       )}
