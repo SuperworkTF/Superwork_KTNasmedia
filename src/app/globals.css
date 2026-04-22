@@ -175,6 +175,61 @@ body {
   color: var(--color-snow);
 }
 
+/* ── /workflow 히어로 CTA ────────────────────────────────── */
+.workflow-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background-color: var(--color-ember);
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.workflow-cta-btn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+/* ── /workflow 상세 페이지 2단 레이아웃 ───────────────────── */
+.workflow-layout {
+  display: flex;
+  flex-direction: column;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.workflow-sidebar-col {
+  padding: 24px 20px 0;
+}
+
+.workflow-content-col {
+  flex: 1;
+  min-width: 0;
+  padding: 24px 20px 64px;
+}
+
+@media (min-width: 1024px) {
+  .workflow-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .workflow-sidebar-col {
+    flex-shrink: 0;
+    padding: 40px 0 40px 0;
+  }
+
+  .workflow-content-col {
+    max-width: 800px;
+    padding: 40px 48px 80px;
+  }
+}
+
 /* ── 섹션 레이블 ─────────────────────────────────────────── */
 .sidebar-section-label {
   padding: 16px 12px 4px;

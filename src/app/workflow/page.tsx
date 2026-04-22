@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { heroCopy, workflowSections } from '@/data/workflow';
+import { DetailSidebar } from '@/components/workflow/DetailSidebar';
+import { SectionRenderer } from '@/components/workflow/SectionRenderer';
 
 export const metadata: Metadata = {
   title: 'Superwork Workflow — SUPERWORK',
@@ -15,24 +17,58 @@ export const metadata: Metadata = {
 export default function WorkflowPage() {
   return (
     <main id="main-content">
-      <div
+      {/* ── 히어로 ─────────────────────────────────────────────── */}
+      <section
+        aria-label="Superwork Workflow 소개"
         style={{
-          maxWidth: '960px',
-          margin: '0 auto',
-          padding: '48px 24px 96px',
+          position: 'relative',
+          overflow: 'hidden',
+          padding: 'clamp(48px, 8vw, 96px) clamp(16px, 4vw, 48px) 64px',
+          background: 'linear-gradient(180deg, #0C0C0F 0%, #09090B 100%)',
+          borderBottom: '1px solid var(--color-outline)',
         }}
       >
-        {/* ── 히어로 ─────────────────────────────────────────────────── */}
-        <section
+        {/* 배경 글로우 */}
+        <div
+          aria-hidden="true"
           style={{
-            marginBottom: '72px',
-            paddingBottom: '48px',
-            borderBottom: '1px solid var(--color-outline)',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '50%',
+            background:
+              'radial-gradient(ellipse 70% 80% at 30% -20%, rgba(249,115,22,0.08) 0%, transparent 70%)',
+            pointerEvents: 'none',
           }}
-        >
+        />
+
+        <div style={{ position: 'relative', maxWidth: '860px' }}>
+          {/* 배지 */}
+          <div style={{ marginBottom: '20px' }}>
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '4px 12px',
+                borderRadius: '9999px',
+                border: '1px solid var(--color-outline)',
+                backgroundColor: 'var(--color-surface)',
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                color: 'var(--color-ember)',
+              }}
+            >
+              AI 개발 방법론
+            </span>
+          </div>
+
           <h1
             style={{
-              fontSize: 'clamp(1.75rem, 4vw, 2.625rem)',
+              fontSize: 'clamp(1.75rem, 4.5vw, 2.75rem)',
               fontWeight: 700,
               color: 'var(--color-snow)',
               letterSpacing: '-0.03em',
@@ -43,127 +79,38 @@ export default function WorkflowPage() {
           >
             {heroCopy.headline}
           </h1>
+
           <p
             style={{
               color: 'var(--color-muted)',
               lineHeight: 1.75,
-              fontSize: '1rem',
-              maxWidth: '620px',
-              marginBottom: '28px',
+              fontSize: 'clamp(0.9375rem, 1.5vw, 1.0625rem)',
+              maxWidth: '600px',
+              marginBottom: '32px',
             }}
           >
             {heroCopy.subcopy}
           </p>
+
           {heroCopy.ctaLabel && (
-            <a
-              href="#overview"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '10px 20px',
-                borderRadius: '8px',
-                fontSize: '0.875rem',
-                fontWeight: 600,
-                backgroundColor: 'var(--color-ember)',
-                color: '#fff',
-                textDecoration: 'none',
-              }}
-            >
+            <a href="#overview" className="workflow-cta-btn">
               {heroCopy.ctaLabel} ↓
             </a>
           )}
-        </section>
+        </div>
+      </section>
 
-        {/* ── 섹션 목록 스켈레톤 (chunk 3에서 다뎁스 네비 + 본문 확장) ── */}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '48px',
-          }}
-        >
+      {/* ── 2단 레이아웃: 좌측 네비 + 우측 본문 ─────────────────── */}
+      <div className="workflow-layout">
+        {/* 좌측: 페이지 내 섹션 네비 (DetailSidebar가 desktop/mobile 내부 분기) */}
+        <div className="workflow-sidebar-col">
+          <DetailSidebar sections={workflowSections} />
+        </div>
+
+        {/* 우측: 본문 콘텐츠 */}
+        <div className="workflow-content-col">
           {workflowSections.map((section) => (
-            <section key={section.id} id={section.id}>
-              {/* 섹션 헤딩 */}
-              <h2
-                style={{
-                  fontSize: '1.25rem',
-                  fontWeight: 700,
-                  color: 'var(--color-snow)',
-                  letterSpacing: '-0.02em',
-                  marginBottom: '12px',
-                }}
-              >
-                {section.title}
-              </h2>
-
-              {/* 섹션 본문 */}
-              {section.body && (
-                <p
-                  style={{
-                    color: 'var(--color-muted)',
-                    lineHeight: 1.75,
-                    fontSize: '0.9375rem',
-                    marginBottom: section.children ? '20px' : 0,
-                    whiteSpace: 'pre-line',
-                  }}
-                >
-                  {section.body}
-                </p>
-              )}
-
-              {/* 하위 항목 카드 목록 */}
-              {section.children && section.children.length > 0 && (
-                <ul
-                  style={{
-                    listStyle: 'none',
-                    padding: 0,
-                    margin: 0,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '10px',
-                  }}
-                >
-                  {section.children.map((child) => (
-                    <li
-                      key={child.id}
-                      id={child.id}
-                      style={{
-                        padding: '16px 20px',
-                        borderRadius: '10px',
-                        background: 'var(--color-surface)',
-                        border: '1px solid var(--color-outline)',
-                      }}
-                    >
-                      <p
-                        style={{
-                          fontSize: '0.9375rem',
-                          fontWeight: 600,
-                          color: 'var(--color-snow)',
-                          marginBottom: child.body ? '8px' : 0,
-                          letterSpacing: '-0.01em',
-                        }}
-                      >
-                        {child.title}
-                      </p>
-                      {child.body && (
-                        <p
-                          style={{
-                            fontSize: '0.875rem',
-                            color: 'var(--color-muted)',
-                            lineHeight: 1.7,
-                            whiteSpace: 'pre-line',
-                          }}
-                        >
-                          {child.body}
-                        </p>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </section>
+            <SectionRenderer key={section.id} section={section} />
           ))}
         </div>
       </div>
