@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { projects } from '@/data/projects';
+import { withBasePath } from '@/lib/basePath';
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.id }));
@@ -46,6 +48,28 @@ export default async function ProjectPage({
           padding: '48px 24px 96px',
         }}
       >
+        {/* ── Hero banner image ── */}
+        <div
+          style={{
+            position: 'relative',
+            marginBottom: '24px',
+            borderRadius: '12px',
+            overflow: 'hidden',
+            border: `1px solid ${project.gradientFrom}33`,
+            aspectRatio: '1600 / 914',
+            backgroundColor: 'var(--color-surface)',
+          }}
+        >
+          <Image
+            src={withBasePath(`/projects/${project.id}.jpg`)}
+            alt={`${project.title} 프로젝트 대표 이미지`}
+            fill
+            sizes="(max-width: 800px) 100vw, 800px"
+            priority
+            style={{ objectFit: 'cover' }}
+          />
+        </div>
+
         {/* ── Header accent card ── */}
         <div
           style={{
