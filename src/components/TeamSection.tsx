@@ -5,23 +5,38 @@ import { team } from '@/data/team';
 
 export function TeamSection() {
   return (
-    <section
-      id="team"
-      className="section-full"
-      style={{ backgroundColor: '#09090B' }}
-    >
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-        {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5, ease: 'easeOut' as const }}
-          style={{ marginBottom: '64px', textAlign: 'center' }}
-        >
+    <>
+      {/* ── 인트로 섹션 ─────────────────────────────────────────────── */}
+      <section
+        aria-label="Superwork Team 소개"
+        style={{
+          position: 'relative',
+          overflow: 'hidden',
+          padding: 'clamp(48px, 8vw, 96px) clamp(16px, 4vw, 48px) 64px',
+          background: 'linear-gradient(180deg, #0C0C0F 0%, #09090B 100%)',
+          borderBottom: '1px solid var(--color-outline)',
+        }}
+      >
+        {/* 배경 글로우 */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '50%',
+            background:
+              'radial-gradient(ellipse 70% 80% at 30% -20%, rgba(168,85,247,0.08) 0%, transparent 70%)',
+            pointerEvents: 'none',
+          }}
+        />
+
+        <div style={{ position: 'relative', maxWidth: '860px' }}>
+          {/* Eyebrow */}
           <p
             style={{
-              marginBottom: '12px',
+              marginBottom: '16px',
               fontSize: '0.75rem',
               fontWeight: 600,
               letterSpacing: '0.1em',
@@ -29,35 +44,54 @@ export function TeamSection() {
               color: '#BF7FFF',
             }}
           >
-            만든 사람들
+            SUPERWORK TEAM
           </p>
-          <h2
+
+          {/* H1 */}
+          <h1
             style={{
-              fontSize: '2.25rem',
+              fontSize: 'clamp(1.75rem, 4.5vw, 2.75rem)',
               fontWeight: 700,
-              color: '#FAFAFA',
+              color: 'var(--color-snow)',
+              letterSpacing: '-0.03em',
               lineHeight: 1.2,
-              letterSpacing: '-0.02em',
-              marginBottom: '16px',
+              marginBottom: '20px',
             }}
           >
-            SUPERWORK팀
-          </h2>
+            Superwork: Think Deep, Acting Autonomous
+          </h1>
+
+          {/* Paragraph */}
           <p
             style={{
-              maxWidth: '480px',
-              margin: '0 auto',
-              fontSize: '1rem',
-              lineHeight: 1.6,
-              color: '#A1A1AA',
+              color: 'var(--color-muted)',
+              lineHeight: 1.75,
+              fontSize: 'clamp(0.9375rem, 1.5vw, 1.0625rem)',
+              maxWidth: '660px',
             }}
           >
-            SuperworkTF는 AI 도구를 직접 만들고 실무에서 쓰는 개발자 팀입니다.
+            우리는 문제의 밑바닥까지 깊게 파고들어(Question & Re-define), AI 에이전트 워크플로우를 통해 가장 효율적인 방식으로 비즈니스 해답을 찾아냅니다. 기획부터 배포까지, 끊김 없는(Seamless) AI 네이티브 환경을 구축하는 것이 우리의 목표입니다.
           </p>
-        </motion.div>
+        </div>
+      </section>
 
-        {/* Grid */}
-        <div className="grid-2col" style={{ maxWidth: '640px', margin: '0 auto' }}>
+      {/* ── 멤버 카드 그리드 ───────────────────────────────────────────── */}
+      <section
+        aria-label="팀 멤버"
+        style={{
+          padding: 'clamp(48px, 6vw, 80px) clamp(16px, 4vw, 48px)',
+          backgroundColor: '#09090B',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '24px',
+          }}
+        >
           {team.map((member, index) => (
             <motion.article
               key={member.username}
@@ -68,18 +102,18 @@ export function TeamSection() {
               whileHover={{ y: -4 }}
               style={{
                 display: 'flex',
-                alignItems: 'center',
-                gap: '14px',
-                borderRadius: '12px',
+                flexDirection: 'column',
+                gap: '12px',
+                borderRadius: '16px',
                 border: '1px solid #3F3F46',
-                backgroundColor: '#27272A',
-                padding: '16px 18px',
+                backgroundColor: '#18181B',
+                padding: '24px',
                 transition: 'border-color 0.2s, box-shadow 0.2s',
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLElement;
                 el.style.borderColor = '#A855F7';
-                el.style.boxShadow = '0 6px 24px rgba(0,0,0,0.4)';
+                el.style.boxShadow = '0 8px 32px rgba(0,0,0,0.4)';
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget as HTMLElement;
@@ -87,72 +121,99 @@ export function TeamSection() {
                 el.style.boxShadow = 'none';
               }}
             >
-              {/* Avatar */}
+              {/* 아바타 */}
               <a
                 href={member.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${member.displayName} GitHub 프로필`}
-                style={{ flexShrink: 0 }}
+                style={{ display: 'inline-block', width: 'fit-content' }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={member.avatarUrl}
                   alt={`${member.displayName} 프로필 이미지`}
-                  width={48}
-                  height={48}
+                  width={64}
+                  height={64}
                   style={{
                     borderRadius: '50%',
                     border: '2px solid #3F3F46',
-                    transition: 'border-color 0.2s',
                     display: 'block',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLImageElement).style.borderColor = '#A855F7';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLImageElement).style.borderColor = '#3F3F46';
                   }}
                 />
               </a>
 
-              {/* Info */}
-              <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                <h3
-                  style={{
-                    fontSize: '1rem',
-                    fontWeight: 600,
-                    color: '#FAFAFA',
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {member.displayName}
-                </h3>
-                <a
-                  href={member.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    fontSize: '0.75rem',
-                    fontWeight: 500,
-                    color: '#A1A1AA',
-                    textDecoration: 'none',
-                    transition: 'color 0.15s',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.color = '#FAFAFA';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.color = '#A1A1AA';
-                  }}
-                >
-                  @{member.username} →
-                </a>
-              </div>
+              {/* displayName */}
+              <h2
+                style={{
+                  fontSize: '1.125rem',
+                  fontWeight: 600,
+                  color: '#FAFAFA',
+                  lineHeight: 1.3,
+                  margin: 0,
+                }}
+              >
+                {member.displayName}
+              </h2>
+
+              {/* role */}
+              <p
+                style={{
+                  fontSize: '0.875rem',
+                  fontWeight: 500,
+                  color: '#BF7FFF',
+                  margin: 0,
+                }}
+              >
+                {member.role}
+              </p>
+
+              {/* tagline (optional) */}
+              {member.tagline && (
+                <blockquote style={{ margin: 0, fontStyle: 'italic', color: 'var(--color-muted)' }}>
+                  {member.tagline}
+                </blockquote>
+              )}
+
+              {/* description */}
+              <p
+                style={{
+                  fontSize: '0.9375rem',
+                  lineHeight: 1.65,
+                  color: '#A1A1AA',
+                  margin: 0,
+                  flex: 1,
+                }}
+              >
+                {member.description}
+              </p>
+
+              {/* @username GitHub 링크 */}
+              <a
+                href={member.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  fontSize: '0.8125rem',
+                  fontWeight: 500,
+                  color: '#A1A1AA',
+                  textDecoration: 'none',
+                  transition: 'color 0.15s',
+                  marginTop: 'auto',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.color = '#FAFAFA';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.color = '#A1A1AA';
+                }}
+              >
+                @{member.username} →
+              </a>
             </motion.article>
           ))}
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
