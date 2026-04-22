@@ -44,10 +44,10 @@ export const team: TeamMember[] = [
   {
     username: 'jmp0813',
     displayName: 'jmp0813',
-    role: 'TODO: 역할 확인 필요',
+    role: 'self-healing 개발 담당',
     tagline: undefined,
-    description: 'TODO: 설명 확인 필요',
-    project: 'TODO',
+    description: 'Self-Healing 시스템 개발 · 운영 에러 자동 수정',
+    project: 'self-healing',
     githubUrl: 'https://github.com/jmp0813',
     avatarUrl: 'https://github.com/jmp0813.png',
   },
