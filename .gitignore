@@ -3,6 +3,7 @@ _workspace/
 .openchrome
 .playwright-mcp/
 reference-site-full.png
+screenshots/
 
 # dependencies
 /node_modules
