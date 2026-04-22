@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { LayoutShell } from '@/components/LayoutShell';
 
 export const metadata: Metadata = {
   title: 'SUPERWORK — 오픈소스 AI 도구',
@@ -34,7 +35,9 @@ export default function RootLayout({
       </head>
       <body>
         <a href="#main-content" className="skip-link">본문으로 바로가기</a>
-        {children}
+        <LayoutShell>
+          {children}
+        </LayoutShell>
       </body>
     </html>
   );

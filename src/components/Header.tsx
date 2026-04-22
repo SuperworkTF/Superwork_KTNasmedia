@@ -1,8 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
+import { useSidebar } from '@/contexts/SidebarContext';
 
 export function Header() {
+  const { isSidebarOpen, toggleSidebar } = useSidebar();
+
   return (
     <motion.header
       initial={{ opacity: 0, y: -20 }}
@@ -30,8 +34,10 @@ export function Header() {
           justifyContent: 'space-between',
         }}
       >
+        {/* 모바일 전용 브랜드 로고 (lg+: CSS로 숨김) */}
         <a
-          href="#"
+          href="#home"
+          className="header-brand-mobile"
           style={{
             fontSize: '1.25rem',
             fontWeight: 700,
@@ -44,11 +50,13 @@ export function Header() {
           SUPERWORK
         </a>
 
-        <nav aria-label="주요 메뉴">
+        <nav aria-label="주요 메뉴" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {/* 모바일 전용 GitHub 버튼 (lg+: CSS로 숨김 — 사이드바에 존재) */}
           <a
             href="https://github.com/SuperworkTF"
             target="_blank"
             rel="noopener noreferrer"
+            className="sidebar-hamburger"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -78,6 +86,45 @@ export function Header() {
               <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4.5M9.5 2.5V7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>
+
+          {/* 햄버거 버튼 — 모바일 전용 (lg+: CSS로 숨김) */}
+          <button
+            id="sidebar-toggle-btn"
+            onClick={toggleSidebar}
+            aria-expanded={isSidebarOpen}
+            aria-controls="sidebar-drawer"
+            aria-label={isSidebarOpen ? '메뉴 닫기' : '메뉴 열기'}
+            className="sidebar-hamburger"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '40px',
+              height: '40px',
+              borderRadius: '8px',
+              border: '1px solid #3F3F46',
+              backgroundColor: 'transparent',
+              color: '#A1A1AA',
+              cursor: 'pointer',
+              transition: 'border-color 0.15s, color 0.15s',
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLButtonElement;
+              el.style.borderColor = '#F97316';
+              el.style.color = '#FAFAFA';
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLButtonElement;
+              el.style.borderColor = '#3F3F46';
+              el.style.color = '#A1A1AA';
+            }}
+          >
+            {isSidebarOpen ? (
+              <X size={18} aria-hidden="true" />
+            ) : (
+              <Menu size={18} aria-hidden="true" />
+            )}
+          </button>
         </nav>
       </div>
     </motion.header>

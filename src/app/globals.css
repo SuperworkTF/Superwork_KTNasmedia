@@ -11,6 +11,15 @@
   --color-muted:   #A1A1AA;
 
   --font-sans: 'Pretendard Variable', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* ── 사이드바 토큰 ── */
+  --sidebar-width:                260px;
+  --sidebar-bg:                   #111113;
+  --sidebar-border:               #2D2D30;
+  --sidebar-item-active-bg:       rgba(249, 115, 22, 0.08);
+  --sidebar-item-active-border:   #F97316;
+  --sidebar-item-hover-bg:        rgba(255, 255, 255, 0.04);
+  --sidebar-section-label-color:  #A1A1AA; /* contrast vs #111113 ≈ 7.2:1 (WCAG AA) */
 }
 
 html {
@@ -93,4 +102,88 @@ body {
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
+}
+
+/* ── 사이드바 레이아웃 ─────────────────────────────────────── */
+.sidebar-nav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: var(--sidebar-width);
+  z-index: 60; /* Header(z=50)보다 높아 모바일 드로어가 헤더를 오버레이 */
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-outline) transparent;
+}
+
+.content-area {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── 반응형 ──────────────────────────────────────────────── */
+@media (min-width: 1024px) {
+  .content-area {
+    margin-left: var(--sidebar-width);
+  }
+  /* 모바일 전용 요소를 데스크탑에서 숨김 */
+  .sidebar-hamburger {
+    display: none !important;
+  }
+  .header-brand-mobile {
+    display: none !important;
+  }
+}
+
+/* ── 사이드바 항목 ───────────────────────────────────────── */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-left: 2px solid transparent;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s, border-left-color 0.15s;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sidebar-item:hover {
+  background-color: var(--sidebar-item-hover-bg);
+  color: var(--color-snow);
+}
+
+/* 스크롤 앵커 내비게이션 활성 상태: aria-current="location" (WAI-ARIA 1.1 §6.6.4)
+   미래 서브라우트(/tas 등) 추가 시 aria-current="page"로 전환 */
+.sidebar-item[aria-current="location"] {
+  border-left-color: var(--sidebar-item-active-border);
+  background-color: var(--sidebar-item-active-bg);
+  color: var(--color-snow);
+}
+
+/* ── 섹션 레이블 ─────────────────────────────────────────── */
+.sidebar-section-label {
+  padding: 16px 12px 4px;
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sidebar-section-label-color);
+  /* 클릭 불가, 스크린리더에는 읽힘 */
+  pointer-events: none;
+  user-select: none;
 }

@@ -11,6 +11,7 @@ const fadeUp = (delay = 0) => ({
 export function Hero() {
   return (
     <section
+      id="home"
       className="section-full"
       style={{
         position: 'relative',
