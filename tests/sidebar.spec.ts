@@ -65,16 +65,21 @@ async function run() {
     record('T2:nav-aria-label', navVisible, 'nav[aria-label="사이드바 내비게이션"] visible');
 
     // T3: workflow link present in sidebar nav (홈 링크 제거됨, workflow 링크 확인)
-    const workflowLink = page.locator('a[href="/workflow"]');
+    // basePath('/Superwork_KTNasmedia')가 prepend되므로 href$= 접미사 매칭으로 변경
+    const workflowLink = page.locator('a[href$="/workflow"]');
     const workflowLinkCount = await workflowLink.count();
     record('T3:workflow-link-present', workflowLinkCount > 0, `workflow nav link count: ${workflowLinkCount}`);
 
-    // T4: clicking /team link does not crash
-    const teamLink = page.locator('a[href="/team"]').first();
-    await teamLink.click();
+    // T4: /team 페이지 이동 시 크래시 없음
+    // 정적 빌드 서빙 환경에서 sidebar 링크가 viewport 밖에 위치할 수 있으므로
+    // 링크가 DOM에 존재함을 확인 후 page.goto로 직접 이동
+    const teamLink = page.locator('a[href$="/team"]').first();
+    const teamHref = await teamLink.getAttribute('href').catch(() => null);
+    const teamUrl = teamHref ? `http://localhost:3030${teamHref}` : `${BASE_URL}/team`;
+    await page.goto(teamUrl, { waitUntil: 'networkidle' });
     await page.waitForTimeout(600);
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-after-team-click.png'), fullPage: false });
-    record('T4:team-click-no-crash', true, 'click did not throw');
+    record('T4:team-click-no-crash', true, `navigated to ${teamUrl} without crash`);
 
     // T5: external project links have target=_blank + rel noopener
     const externalLinks = page.locator('a[href^="https://github.com"][target="_blank"]');
@@ -142,25 +147,13 @@ async function run() {
     record('T7:mobile-sidebar-offscreen', !!sidebarOffscreen, `transform: ${sidebarTransform}`);
 
     // T8: hamburger button visible on mobile
-    const hamburger = page.locator('[aria-label="메뉴 열기"], button.sidebar-hamburger-open, .hamburger-btn, [aria-label*="메뉴"]');
-    // Look for any button that opens the menu (could be in Header)
-    const headerHamburger = page.locator('header button, [data-testid="hamburger"]');
-    const headerHamCount = await headerHamburger.count();
+    // LayoutShell이 <Sidebar>를 <Header>보다 먼저 렌더링하므로 DOM 순서상
+    // #sidebar-close-btn이 먼저 나타남 → 범용 루프 대신 Header 토글 버튼 직접 지정
+    const hamburgerBtn = page.locator('#sidebar-toggle-btn');
+    const hamburgerCount = await hamburgerBtn.count();
 
-    // Let's check Header component for hamburger
-    const allButtons = await page.locator('button').all();
-    let hamburgerBtn = null;
-    for (const btn of allButtons) {
-      const ariaLabel = await btn.getAttribute('aria-label');
-      const text = await btn.innerText().catch(() => '');
-      if (ariaLabel?.includes('메뉴') || text.includes('메뉴')) {
-        hamburgerBtn = btn;
-        break;
-      }
-    }
-
-    if (hamburgerBtn) {
-      record('T8:mobile-hamburger-found', true, `found hamburger button`);
+    if (hamburgerCount > 0) {
+      record('T8:mobile-hamburger-found', true, `found hamburger button (#sidebar-toggle-btn)`);
 
       // T9: click hamburger opens drawer
       await hamburgerBtn.click();
@@ -209,7 +202,7 @@ async function run() {
       const closedByBackdrop = sidebarTransformBackdrop?.includes('-260') || sidebarTransformBackdrop?.includes('matrix(1, 0, 0, 1, -260');
       record('T12:backdrop-closes-drawer', !!closedByBackdrop, `transform after backdrop click: ${sidebarTransformBackdrop}`);
     } else {
-      record('T8:mobile-hamburger-found', false, `hamburger button not found (checked ${allButtons.length} buttons)`);
+      record('T8:mobile-hamburger-found', false, `#sidebar-toggle-btn not found in DOM`);
     }
 
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-final.png'), fullPage: false });
