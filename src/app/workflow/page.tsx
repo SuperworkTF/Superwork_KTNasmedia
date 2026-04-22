@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { heroCopy, workflowSections } from '@/data/workflow';
-import { DetailSidebar } from '@/components/workflow/DetailSidebar';
 import { SectionRenderer } from '@/components/workflow/SectionRenderer';
 
 export const metadata: Metadata = {
@@ -100,14 +99,8 @@ export default function WorkflowPage() {
         </div>
       </section>
 
-      {/* ── 2단 레이아웃: 좌측 네비 + 우측 본문 ─────────────────── */}
+      {/* ── 본문 콘텐츠 (좌측 글로벌 사이드바가 목차 역할 대체) ─── */}
       <div className="workflow-layout">
-        {/* 좌측: 페이지 내 섹션 네비 (DetailSidebar가 desktop/mobile 내부 분기) */}
-        <div className="workflow-sidebar-col">
-          <DetailSidebar sections={workflowSections} />
-        </div>
-
-        {/* 우측: 본문 콘텐츠 */}
         <div className="workflow-content-col">
           {workflowSections.map((section) => (
             <SectionRenderer key={section.id} section={section} />

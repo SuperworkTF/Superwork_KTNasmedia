@@ -581,6 +581,7 @@ function SubsectionBlock({
 // ──────────────────────────────────────────────────────────────────────────────
 export function SectionRenderer({ section }: { section: WorkflowSection }) {
   const isSelfHealing = section.id === 'self-healing';
+  const isOverview = section.id === 'overview';
 
   return (
     <article
@@ -592,17 +593,18 @@ export function SectionRenderer({ section }: { section: WorkflowSection }) {
         marginBottom: '48px',
       }}
     >
-      {/* Depth 1 헤딩 */}
+      {/* Depth 1 헤딩 — overview는 section-label처럼 다운사이즈 */}
       <h2
         id={`${section.id}-heading`}
         style={{
-          fontSize: 'clamp(1.25rem, 2.5vw, 1.5rem)',
-          fontWeight: 700,
-          color: 'var(--color-snow)',
-          letterSpacing: '-0.025em',
+          fontSize: isOverview ? '0.875rem' : 'clamp(1.25rem, 2.5vw, 1.5rem)',
+          fontWeight: isOverview ? 600 : 700,
+          color: isOverview ? 'var(--color-muted)' : 'var(--color-snow)',
+          letterSpacing: isOverview ? '0.05em' : '-0.025em',
+          textTransform: isOverview ? 'uppercase' : 'none',
           marginBottom: '16px',
-          paddingBottom: '12px',
-          borderBottom: '1px solid var(--color-outline)',
+          paddingBottom: isOverview ? 0 : '12px',
+          borderBottom: isOverview ? 'none' : '1px solid var(--color-outline)',
         }}
       >
         {section.title}

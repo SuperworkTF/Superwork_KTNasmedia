@@ -64,19 +64,17 @@ async function run() {
     const navVisible = await sidebarNav.isVisible();
     record('T2:nav-aria-label', navVisible, 'nav[aria-label="사이드바 내비게이션"] visible');
 
-    // T3: home link has aria-current=location
-    const homeLink = page.locator('a[href="#home"][aria-current="location"]');
-    const homeLinkCount = await homeLink.count();
-    record('T3:home-aria-current', homeLinkCount > 0, `aria-current links: ${homeLinkCount}`);
+    // T3: workflow link present in sidebar nav (홈 링크 제거됨, workflow 링크 확인)
+    const workflowLink = page.locator('a[href="/workflow"]');
+    const workflowLinkCount = await workflowLink.count();
+    record('T3:workflow-link-present', workflowLinkCount > 0, `workflow nav link count: ${workflowLinkCount}`);
 
-    // T4: clicking #projects link scrolls and updates aria-current
-    const projectsLink = page.locator('a[href="#projects"]').first();
-    await projectsLink.click();
-    await page.waitForTimeout(600); // scrollspy debounce
-    // After clicking, page should scroll (can't always assert aria-current from scrollspy without real scroll)
-    // At minimum: no crash, screenshot taken
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-after-projects-click.png'), fullPage: false });
-    record('T4:projects-click-no-crash', true, 'click did not throw');
+    // T4: clicking /team link does not crash
+    const teamLink = page.locator('a[href="/team"]').first();
+    await teamLink.click();
+    await page.waitForTimeout(600);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-after-team-click.png'), fullPage: false });
+    record('T4:team-click-no-crash', true, 'click did not throw');
 
     // T5: external project links have target=_blank + rel noopener
     const externalLinks = page.locator('a[href^="https://github.com"][target="_blank"]');

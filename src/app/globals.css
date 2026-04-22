@@ -230,6 +230,68 @@ body {
   }
 }
 
+/* ── 워크플로우 사이드바 서브트리 ─────────────────────────── */
+.sidebar-subtree {
+  margin-top: 2px;
+  margin-bottom: 4px;
+}
+
+.sidebar-subitem {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px 6px 20px;
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s, border-left-color 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-subitem:hover {
+  background-color: var(--sidebar-item-hover-bg);
+  color: var(--color-snow);
+}
+
+.sidebar-subitem[aria-current="location"] {
+  border-left-color: var(--sidebar-item-active-border);
+  background-color: var(--sidebar-item-active-bg);
+  color: var(--color-snow);
+}
+
+.sidebar-subsubitem {
+  display: flex;
+  align-items: center;
+  padding: 4px 10px 4px 32px;
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s, border-left-color 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-subsubitem:hover {
+  background-color: var(--sidebar-item-hover-bg);
+  color: var(--color-snow);
+}
+
+.sidebar-subsubitem[aria-current="location"] {
+  border-left-color: var(--sidebar-item-active-border);
+  background-color: var(--sidebar-item-active-bg);
+  color: var(--color-snow);
+}
+
 /* ── 섹션 레이블 ─────────────────────────────────────────── */
 .sidebar-section-label {
   padding: 16px 12px 4px;
