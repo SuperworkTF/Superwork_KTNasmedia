@@ -292,7 +292,7 @@ export function DetailSidebar({ sections }: Props) {
               }}
             />
           )}
-          <span style={{ flex: 1 }}>{sub.title}</span>
+          <span style={{ flex: 1 }}>{sub.navLabel ?? sub.title}</span>
         </button>
 
         {/* Depth 3 리프 */}
@@ -308,7 +308,7 @@ export function DetailSidebar({ sections }: Props) {
                 style={{ overflow: 'hidden', listStyle: 'none', padding: 0, margin: 0 }}
               >
                 {sub.children!.map((leaf) =>
-                  renderLeafItem(leaf.id, leaf.title, indent + 1),
+                  renderLeafItem(leaf.id, leaf.navLabel ?? leaf.title, indent + 1),
                 )}
               </motion.ul>
             )}
@@ -390,7 +390,7 @@ export function DetailSidebar({ sections }: Props) {
               <ChevronRight size={13} aria-hidden="true" />
             </motion.span>
           )}
-          <span style={{ flex: 1 }}>{section.title}</span>
+          <span style={{ flex: 1 }}>{section.navLabel ?? section.title}</span>
         </button>
 
         {/* Depth 2 자식 */}

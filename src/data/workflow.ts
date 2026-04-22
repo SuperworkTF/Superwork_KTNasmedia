@@ -149,6 +149,7 @@ Executor 에이전트(正)가 초안을 제시하면 HumanRole 에이전트(反)
       {
         id: 'core-tas',
         title: 'TAS (simsimhae91/tas)',
+        navLabel: 'TAS (Thesis Antithesis Synthesis)',
         body: `**TAS v0.2.3 (MIT)** — Claude Code 기반 변증법 멀티 에이전트 오케스트레이션 플러그인.
 
 **3계층 구조:**
@@ -174,6 +175,7 @@ git clone https://github.com/simsimhae91/tas
       {
         id: 'core-imagegen',
         title: 'ImageGen MCP (LimSuyun/openai-image-mcp-server)',
+        navLabel: 'ImageGen MCP',
         body: `**ImageGen MCP** — Claude Desktop / Cursor / VS Code 호환 MCP 서버. OpenAI gpt-image 패밀리를 Claude 워크플로우에서 직접 사용할 수 있습니다.
 
 **지원 모델 (gpt-image 패밀리):**
@@ -196,6 +198,7 @@ git clone https://github.com/LimSuyun/openai-image-mcp-server
       {
         id: 'self-healing',
         title: 'Self-Healing (자가 복구)',
+        navLabel: 'Self-Healing',
         // forward-looking — 운영 환경 자동화 비전
         body: '운영 중인 서비스에서 발생하는 에러를 자동으로 감지하고 수정하는 자가 복구 시스템입니다. Sentry와 Firebase Crashlytics로부터 에러를 수집하고, TAS 워크플로우로 자동 수정 후 PR을 생성합니다.',
         children: [

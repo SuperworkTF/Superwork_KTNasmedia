@@ -11,8 +11,14 @@
 export interface WorkflowLeaf {
   /** 섹션 앵커 ID (URL hash, e.g. 'brainstorm') */
   id: string;
-  /** 사용자 노출 한국어 타이틀 */
+  /** 사용자 노출 한국어 타이틀 (본문/heading 기본값) */
   title: string;
+  /**
+   * 좌측 사이드바 전용 라벨 오버라이드 (선택).
+   * 지정 시 사이드바/DetailSidebar에 표시되는 라벨로 사용.
+   * 상세 페이지 본문/heading은 여전히 `title`을 사용한다.
+   */
+  navLabel?: string;
   /** 마크다운 형식의 본문 텍스트 (선택) */
   body?: string;
   /**
@@ -31,6 +37,12 @@ export interface WorkflowLeaf {
 export interface WorkflowSubsection {
   id: string;
   title: string;
+  /**
+   * 좌측 사이드바 전용 라벨 오버라이드 (선택).
+   * 지정 시 사이드바/DetailSidebar에 표시되는 라벨로 사용.
+   * 상세 페이지 본문/heading은 여전히 `title`을 사용한다.
+   */
+  navLabel?: string;
   body?: string;
   /** Depth 3 하위 항목 (선택) */
   children?: WorkflowLeaf[];
@@ -45,6 +57,12 @@ export interface WorkflowSubsection {
 export interface WorkflowSection {
   id: string;
   title: string;
+  /**
+   * 좌측 사이드바 전용 라벨 오버라이드 (선택).
+   * 지정 시 사이드바/DetailSidebar에 표시되는 라벨로 사용.
+   * 상세 페이지 본문/heading은 여전히 `title`을 사용한다.
+   */
+  navLabel?: string;
   body?: string;
   /** Depth 2 하위 항목 (선택) */
   children?: WorkflowSubsection[];
