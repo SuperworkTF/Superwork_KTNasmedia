@@ -5,6 +5,10 @@ _workspace/
 reference-site-full.png
 screenshots/
 
+# tas iteration scratch tests
+tests/*-iter*.*
+tests/*-retry*.*
+
 # dependencies
 /node_modules
 
