@@ -112,7 +112,8 @@ export function DetailSidebar({ sections }: Props) {
     const el = document.getElementById(id);
     if (el) {
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      el.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+      // 'instant'은 CSS scroll-behavior: smooth 를 무시하고 즉시 스크롤 (테스트 결정성 보장)
+      el.scrollIntoView({ behavior: reducedMotion ? 'instant' : 'smooth', block: 'start' });
     }
     if (!isDesktop) setMobileOpen(false);
   };

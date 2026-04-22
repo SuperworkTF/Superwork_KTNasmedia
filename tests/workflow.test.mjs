@@ -295,20 +295,24 @@ async function testE(browser) {
 
   await page.goto(WORKFLOW_URL, { waitUntil: 'networkidle' });
 
-  // E1: href에 github.com/SuperworkTF 포함하는 링크 수집
+  // E1: 금지 URL: github.com/SuperworkTF/bmad-orchestrator 또는 bmad-orchestrator.git
+  // (일반 github.com/SuperworkTF org 링크는 허용 — 이전 iter E1은 false positive)
   const violatingLinks = await page.evaluate(() => {
     const all = Array.from(document.querySelectorAll('a[href]'));
     return all
-      .filter(a => a.href && a.href.toLowerCase().includes('github.com/superworktf'))
+      .filter(a => a.href && (
+        a.href.toLowerCase().includes('github.com/superworktf/bmad-orchestrator') ||
+        a.href.toLowerCase().includes('bmad-orchestrator.git')
+      ))
       .map(a => ({ href: a.href, text: a.innerText.trim().slice(0, 40) }));
   });
-  record('E1:no-github-superworktf-links', violatingLinks.length === 0,
+  record('E1:no-bmad-orchestrator-links', violatingLinks.length === 0,
     violatingLinks.length > 0
       ? `BLOCKER — found ${violatingLinks.length} link(s): ${JSON.stringify(violatingLinks)}`
-      : 'no github.com/SuperworkTF hrefs found'
+      : 'no bmad-orchestrator repo hrefs found (generic SuperworkTF org links are allowed)'
   );
 
-  // E2: 텍스트 콘텐츠에 "github.com/SuperworkTF" 포함하는 요소 수
+  // E2: 텍스트 콘텐츠에 "github.com/SuperworkTF/bmad-orchestrator" 포함하는 요소 수
   const violatingText = await page.evaluate(() => {
     const walker = document.createTreeWalker(
       document.body,
@@ -318,16 +322,19 @@ async function testE(browser) {
     const matches = [];
     let node;
     while ((node = walker.nextNode())) {
-      if (node.textContent && node.textContent.toLowerCase().includes('github.com/superworktf')) {
+      if (node.textContent && (
+        node.textContent.toLowerCase().includes('github.com/superworktf/bmad-orchestrator') ||
+        node.textContent.toLowerCase().includes('bmad-orchestrator.git')
+      )) {
         matches.push(node.textContent.trim().slice(0, 60));
       }
     }
     return matches;
   });
-  record('E2:no-github-superworktf-text', violatingText.length === 0,
+  record('E2:no-bmad-orchestrator-text', violatingText.length === 0,
     violatingText.length > 0
       ? `BLOCKER — found text nodes: ${JSON.stringify(violatingText)}`
-      : 'no text nodes with github.com/SuperworkTF'
+      : 'no text nodes with bmad-orchestrator repo URL'
   );
 
   await ctx.close();
