@@ -6,11 +6,11 @@ import { SectionRenderer } from '@/components/workflow/SectionRenderer';
 export const metadata: Metadata = {
   title: 'Superwork Workflow — SUPERWORK',
   description:
-    'TAS(bmad-orchestrator) 기반 AI 개발 방법론. 아이디어부터 배포까지 전 과정을 자동화합니다.',
+    'TAS 기반 AI 개발 방법론. 아이디어부터 배포까지 전 과정을 자동화합니다.',
   openGraph: {
     title: 'Superwork Workflow — SUPERWORK',
     description:
-      'TAS(bmad-orchestrator) 기반 AI 개발 방법론. 아이디어부터 배포까지 전 과정을 자동화합니다.',
+      'TAS 기반 AI 개발 방법론. 아이디어부터 배포까지 전 과정을 자동화합니다.',
   },
 };
 

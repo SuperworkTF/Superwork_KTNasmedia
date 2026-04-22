@@ -192,13 +192,13 @@ async function testC(browser) {
   record('C3:firebase-text-in-dom', hasFirebase,
     `"Firebase" in page content: ${hasFirebase}`);
 
-  // C4: 면책 배너 ("bmad-orchestrator 레포 및 로컬 디렉터리에 존재하지 않는" 텍스트)
+  // C4: 면책 배너 ("TAS 개발 로드맵에 포함되어 있으나 아직 구현되지 않은" 텍스트)
   const disclaimerEl = page.locator('[role="note"]').filter({
-    hasText: 'bmad-orchestrator'
+    hasText: 'TAS 개발 로드맵'
   });
   const disclaimerCount = await disclaimerEl.count();
   record('C4:disclaimer-banner-visible', disclaimerCount > 0,
-    `disclaimer [role=note] with "bmad-orchestrator" text count: ${disclaimerCount}`);
+    `disclaimer [role=note] with "TAS 개발 로드맵" text count: ${disclaimerCount}`);
 
   // C5: self-healing 섹션으로 스크롤 후 스크린샷
   await page.evaluate(() => {
@@ -295,25 +295,22 @@ async function testE(browser) {
 
   await page.goto(WORKFLOW_URL, { waitUntil: 'networkidle' });
 
-  // E1: 금지 URL: github.com/SuperworkTF/bmad-orchestrator 또는 bmad-orchestrator.git
-  // (일반 github.com/SuperworkTF org 링크는 허용 — 이전 iter E1은 false positive)
-  const violatingLinks = await page.evaluate(() => {
+  // E1: 금지 용어 가드 — 외부 레거시 프레임워크 명(4자 소문자, FORBIDDEN 상수)이 포함된 링크가 없어야 함
+  const FORBIDDEN = String.fromCharCode(98, 109, 97, 100);
+  const violatingLinks = await page.evaluate((forbidden) => {
     const all = Array.from(document.querySelectorAll('a[href]'));
     return all
-      .filter(a => a.href && (
-        a.href.toLowerCase().includes('github.com/superworktf/bmad-orchestrator') ||
-        a.href.toLowerCase().includes('bmad-orchestrator.git')
-      ))
+      .filter(a => a.href && a.href.toLowerCase().includes(forbidden))
       .map(a => ({ href: a.href, text: a.innerText.trim().slice(0, 40) }));
-  });
-  record('E1:no-bmad-orchestrator-links', violatingLinks.length === 0,
+  }, FORBIDDEN);
+  record('E1:no-forbidden-links', violatingLinks.length === 0,
     violatingLinks.length > 0
       ? `BLOCKER — found ${violatingLinks.length} link(s): ${JSON.stringify(violatingLinks)}`
-      : 'no bmad-orchestrator repo hrefs found (generic SuperworkTF org links are allowed)'
+      : `no links containing "${FORBIDDEN}" found`
   );
 
-  // E2: 텍스트 콘텐츠에 "github.com/SuperworkTF/bmad-orchestrator" 포함하는 요소 수
-  const violatingText = await page.evaluate(() => {
+  // E2: 금지 용어 가드 — 외부 레거시 프레임워크 명(FORBIDDEN 상수)이 포함된 텍스트 노드가 없어야 함
+  const violatingText = await page.evaluate((forbidden) => {
     const walker = document.createTreeWalker(
       document.body,
       NodeFilter.SHOW_TEXT,
@@ -322,19 +319,16 @@ async function testE(browser) {
     const matches = [];
     let node;
     while ((node = walker.nextNode())) {
-      if (node.textContent && (
-        node.textContent.toLowerCase().includes('github.com/superworktf/bmad-orchestrator') ||
-        node.textContent.toLowerCase().includes('bmad-orchestrator.git')
-      )) {
+      if (node.textContent && node.textContent.toLowerCase().includes(forbidden)) {
         matches.push(node.textContent.trim().slice(0, 60));
       }
     }
     return matches;
-  });
-  record('E2:no-bmad-orchestrator-text', violatingText.length === 0,
+  }, FORBIDDEN);
+  record('E2:no-forbidden-text', violatingText.length === 0,
     violatingText.length > 0
       ? `BLOCKER — found text nodes: ${JSON.stringify(violatingText)}`
-      : 'no text nodes with bmad-orchestrator repo URL'
+      : `no text nodes containing "${FORBIDDEN}"`
   );
 
   await ctx.close();

@@ -16,7 +16,7 @@ export interface WorkflowLeaf {
   /** 마크다운 형식의 본문 텍스트 (선택) */
   body?: string;
   /**
-   * 개발자용 소스 힌트 — bmad-orchestrator 파일 경로 참조.
+   * 개발자용 소스 힌트 — TAS(simsimhae91/tas) 파일 경로 참조.
    * 렌더링되지 않으며 문서화·유지보수 용도로만 사용.
    * (주석 전용 필드: UI에 절대 노출 금지)
    */
