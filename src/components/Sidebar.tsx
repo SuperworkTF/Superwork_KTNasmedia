@@ -132,19 +132,8 @@ export function Sidebar() {
         aria-label="사이드바 내비게이션"
         style={{ flex: 1, padding: '8px', overflowY: 'auto' }}
       >
-        {/* Superwork Workflow — Link + 토글 chevron */}
+        {/* Superwork Workflow — 좌측 토글 chevron + Link */}
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Link
-            href="/workflow"
-            className="sidebar-item"
-            aria-current={isWorkflow ? 'page' : undefined}
-            onClick={closeSidebar}
-            style={{ flex: 1 }}
-          >
-            <Layers size={16} aria-hidden="true" />
-            Superwork Workflow
-          </Link>
-
           <button
             ref={chevronRef}
             onClick={() => setIsWorkflowOpen((prev) => !prev)}
@@ -159,8 +148,9 @@ export function Sidebar() {
               alignItems: 'center',
               justifyContent: 'center',
               flexShrink: 0,
-              width: '32px',
+              width: '24px',
               height: '32px',
+              marginLeft: '2px',
               borderRadius: '6px',
               border: 'none',
               backgroundColor: 'transparent',
@@ -179,6 +169,11 @@ export function Sidebar() {
               el.style.backgroundColor = 'transparent';
             }}
           >
+            {/*
+              좌측 배치 chevron — 접힘 ▶ / 펼침 ▼
+              - isWorkflowOpen=false (접힘): rotate(-90deg)로 ChevronDown(▼)을 오른쪽(▶)으로 회전
+              - isWorkflowOpen=true  (펼침): rotate(0deg) 유지 → ▼ (아래)
+            */}
             <ChevronDown
               size={14}
               aria-hidden="true"
@@ -188,6 +183,17 @@ export function Sidebar() {
               }}
             />
           </button>
+
+          <Link
+            href="/workflow"
+            className="sidebar-item"
+            aria-current={isWorkflow ? 'page' : undefined}
+            onClick={closeSidebar}
+            style={{ flex: 1 }}
+          >
+            <Layers size={16} aria-hidden="true" />
+            Superwork Workflow
+          </Link>
         </div>
 
         {/* 워크플로우 서브트리 — isWorkflowOpen 상태 기반 토글 */}
@@ -215,7 +221,7 @@ export function Sidebar() {
                       aria-current={activeId === section.id ? 'location' : undefined}
                       onClick={closeSidebar}
                     >
-                      {section.title}
+                      {section.navLabel ?? section.title}
                     </Link>
                     {section.children?.map((child) => (
                       <Link
@@ -225,7 +231,7 @@ export function Sidebar() {
                         aria-current={activeId === child.id ? 'location' : undefined}
                         onClick={closeSidebar}
                       >
-                        {child.title}
+                        {child.navLabel ?? child.title}
                       </Link>
                     ))}
                   </div>
