@@ -4,7 +4,7 @@ import { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Home, Users, ExternalLink, X } from 'lucide-react';
+import { Home, Users, ExternalLink, X, Layers } from 'lucide-react';
 import FocusTrap from 'focus-trap-react';
 import { useSidebar } from '@/contexts/SidebarContext';
 import { useSidebarScrollspy, SECTION_IDS } from '@/hooks/useSidebarScrollspy';
@@ -252,6 +252,17 @@ export function Sidebar() {
         >
           <Home size={16} aria-hidden="true" />
           홈
+        </Link>
+
+        {/* Superwork Workflow */}
+        <Link
+          href="/workflow"
+          className="sidebar-item"
+          aria-current={pathname.startsWith('/workflow') ? 'page' : undefined}
+          onClick={closeSidebar}
+        >
+          <Layers size={16} aria-hidden="true" />
+          Superwork Workflow
         </Link>
 
         {/* ── 프로젝트 섹션 ── */}
