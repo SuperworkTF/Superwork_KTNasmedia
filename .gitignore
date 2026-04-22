@@ -9,6 +9,14 @@ screenshots/
 tests/*-iter*.*
 tests/*-retry*.*
 
+# tas iteration scratch artifacts (repo root, Playwright captures + debug scripts)
+/it[0-9]*-*.png
+/it[0-9]*-*.mjs
+/screenshot-*.png
+/verify-*.png
+/verify-*.md
+/*-snapshot-retry*.md
+
 # dependencies
 /node_modules
 
