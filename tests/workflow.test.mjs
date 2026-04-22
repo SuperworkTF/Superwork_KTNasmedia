@@ -61,19 +61,17 @@ async function testA(browser) {
   record('A2:workflow-link-in-sidebar', workflowLinkCount > 0,
     `href link count: ${workflowLinkCount}`);
 
-  // A3: 사이드바 DOM 순서 — Home → Workflow → 프로젝트 섹션 (텍스트 순서)
+  // A3: 사이드바 DOM 순서 — Superwork Workflow → Superwork Team (상위 IA 2항목)
   const sidebarText = await page.evaluate(() => {
     const sidebar = document.querySelector('aside nav');
     if (!sidebar) return '';
     return sidebar.innerText;
   });
-  const homeIdx = sidebarText.indexOf('홈');
   const workflowIdx = sidebarText.indexOf('Superwork Workflow');
-  const projectsIdx = sidebarText.indexOf('프로젝트');
-  const orderCorrect = homeIdx !== -1 && workflowIdx !== -1 && projectsIdx !== -1
-    && homeIdx < workflowIdx && workflowIdx < projectsIdx;
-  record('A3:sidebar-order-home-workflow-projects', orderCorrect,
-    `idx: home=${homeIdx} workflow=${workflowIdx} projects=${projectsIdx}`);
+  const teamIdx = sidebarText.indexOf('Superwork Team');
+  const orderCorrect = workflowIdx !== -1 && teamIdx !== -1 && workflowIdx < teamIdx;
+  record('A3:sidebar-order-workflow-team', orderCorrect,
+    `idx: workflow=${workflowIdx} team=${teamIdx}`);
 
   // A4: 클릭 → /workflow 라우트 이동
   if (workflowLinkCount > 0) {
@@ -122,12 +120,12 @@ async function testB(browser) {
   ];
 
   for (const item of navItems) {
-    // DetailSidebar 버튼 — aria-expanded 속성이 있거나 텍스트가 일치하는 버튼
-    // (자식 없는 섹션이면 aria-expanded가 없음)
-    const btn = page.locator(`button:has-text("${item.label}")`).first();
+    // 통합 Sidebar 링크 — /workflow#id hash 기반 Link
+    // (글로벌 사이드바가 DetailSidebar 역할 흡수)
+    const btn = page.locator(`aside.sidebar-nav a[href$="#${item.id}"]`).first();
     const btnCount = await btn.count();
     record(`B-btn-found:${item.id}`, btnCount > 0,
-      `button with text "${item.label}" count: ${btnCount}`);
+      `sidebar anchor href*="#${item.id}" count: ${btnCount}`);
 
     if (btnCount > 0) {
       await btn.click();
@@ -147,11 +145,10 @@ async function testB(browser) {
       record(`B-scroll:${item.id}`, sectionInView,
         `section#${item.id} in viewport: ${sectionInView}`);
 
-      // 활성 상태 확인: aria-current="true" 버튼이 존재 (IntersectionObserver 기반)
-      // 버튼을 클릭하면 scrollIntoView → IntersectionObserver가 activeId를 업데이트
-      const activeBtnCount = await page.locator(`button[aria-current="true"]`).count();
+      // 활성 상태 확인: aria-current="location" Link가 존재 (IntersectionObserver 기반)
+      const activeBtnCount = await page.locator(`aside.sidebar-nav a[aria-current]`).count();
       record(`B-active:${item.id}`, activeBtnCount > 0,
-        `aria-current="true" buttons: ${activeBtnCount}`);
+        `aside sidebar aria-current anchors: ${activeBtnCount}`);
 
       // 스크린샷
       await page.screenshot({ path: ss(item.screenshot), fullPage: false });
@@ -239,10 +236,11 @@ async function testD(browser) {
     const h1Visible = await page.locator('h1').first().isVisible().catch(() => false);
     record('D2:mobile-h1-visible', h1Visible, `h1 visible: ${h1Visible}`);
 
-    // D3: DetailSidebar 모바일 패널 (목차 버튼 존재)
-    const mobileNavToggle = await page.locator('button[aria-expanded][aria-controls="mobile-detail-nav"]').count();
-    record('D3:mobile-detail-nav-toggle-exists', mobileNavToggle > 0,
-      `mobile detail nav toggle count: ${mobileNavToggle}`);
+    // D3: 모바일에서 글로벌 사이드바 또는 상단 네비 링크로 Workflow 콘텐츠 이동 가능 여부 확인
+    // (/workflow 페이지는 LayoutShell만 사용 — Header 미포함. 사이드바 DOM은 존재하며 CSS로 토글)
+    const mobileSidebarExists = await page.locator('aside.sidebar-nav').count();
+    record('D3:mobile-sidebar-dom-exists', mobileSidebarExists > 0,
+      `mobile sidebar DOM count: ${mobileSidebarExists}`);
 
     await page.screenshot({ path: ss('workflow-05-mobile.png'), fullPage: false });
     console.log('📸 workflow-05-mobile.png');
@@ -268,15 +266,15 @@ async function testD(browser) {
     record('D4:desktop-no-horizontal-overflow', desktopOverflow <= 2,
       `scrollWidth - clientWidth = ${desktopOverflow}px`);
 
-    // D5: DetailSidebar 데스크탑 sticky 컬럼 가시성
-    const detailSidebarBox = await page.locator('nav[aria-label="Workflow sections"]').boundingBox();
-    record('D5:desktop-detail-sidebar-visible', detailSidebarBox !== null && detailSidebarBox.width > 0,
-      `box: ${JSON.stringify(detailSidebarBox)}`);
+    // D5: 글로벌 사이드바 데스크탑 가시성 (DetailSidebar → 통합 Sidebar)
+    const sidebarBox = await page.locator('aside.sidebar-nav').boundingBox();
+    record('D5:desktop-sidebar-visible', sidebarBox !== null && sidebarBox.width > 0,
+      `sidebar box: ${JSON.stringify(sidebarBox)}`);
 
-    // D6: 2단 레이아웃 — workflow-layout 존재
-    const layoutEl = await page.locator('.workflow-layout').count();
-    record('D6:desktop-2col-layout-exists', layoutEl > 0,
-      `.workflow-layout count: ${layoutEl}`);
+    // D6: /workflow 경로에서 좌측 사이드바에 3-depth 서브트리 렌더 확인
+    const subtreeCount = await page.locator('aside.sidebar-nav a[href*="/workflow#"]').count();
+    record('D6:workflow-subtree-exists', subtreeCount > 0,
+      `sidebar subtree anchor count: ${subtreeCount}`);
 
     await page.screenshot({ path: ss('workflow-06-desktop.png'), fullPage: false });
     console.log('📸 workflow-06-desktop.png');
