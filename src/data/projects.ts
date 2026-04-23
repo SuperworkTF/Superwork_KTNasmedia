@@ -45,14 +45,14 @@ export const projects: Project[] = [
     displayTitle: 'OpenAI Image MCP Server',
     subtitle: 'OpenAI 이미지 생성 MCP 서버',
     description:
-      'DALL-E 3 & gpt-image-1로 이미지를 생성·편집·변형하는 MCP 서버',
+      'gpt-image-api로 이미지를 생성·편집·변형하는 MCP 서버',
     link: 'https://github.com/LimSuyun/openai-image-mcp-server',
-    tags: ['Node.js', 'MCP', 'DALL-E', 'Image AI'],
+    tags: ['Node.js', 'MCP', 'Image AI'],
     icon: '🎨',
     gradientFrom: '#EC4899',
     gradientTo: '#A855F7',
     features: [
-      '텍스트 프롬프트 → 이미지 생성 (DALL-E 2 / DALL-E 3 / gpt-image-1)',
+      '텍스트 프롬프트 → 이미지 생성',
       '이미지 편집 & 인페인팅 마스킹',
       '스타일 변형 생성',
       '게임 캐릭터 3프레임 스프라이트 시트 자동 생성',

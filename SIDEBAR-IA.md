@@ -35,7 +35,7 @@
 | # | 식별자 | 제목 | 외부 URL | 카테고리 | 아이콘 | 설명 |
 |---|--------|------|----------|----------|--------|------|
 | 1 | `tas` | tas | https://github.com/simsimhae91/tas | AI 도구 / Claude Code Plugin | ⚖️ | 두 AI 에이전트가 논쟁하며 더 나은 코드를 만드는 Claude Code 플러그인 |
-| 2 | `openai-image-mcp-server` | openai-image-mcp-server | https://github.com/LimSuyun/openai-image-mcp-server | AI 도구 / MCP Server | 🎨 | DALL-E 3 & gpt-image-1로 이미지를 생성·편집·변형하는 MCP 서버 |
+| 2 | `openai-image-mcp-server` | openai-image-mcp-server | https://github.com/LimSuyun/openai-image-mcp-server | AI 도구 / MCP Server | 🎨 | gpt-image-1,2로 이미지를 생성·편집·변형하는 MCP 서버 |
 
 ### 1-B. 현재 렌더링 구조 (변경 전)
 
@@ -72,7 +72,7 @@
 
 | 항목 | 내용 |
 |------|------|
-| **무엇인가** | MCP 서버 — OpenAI 이미지 모델(DALL-E 2/3, gpt-image-1)을 Claude Desktop·Cursor·VS Code·Claude Code 등 MCP 클라이언트에서 직접 사용 |
+| **무엇인가** | MCP 서버 — OpenAI 이미지 모델(gpt-image-1,2)을 Claude Desktop·Cursor·VS Code·Claude Code 등 MCP 클라이언트에서 직접 사용 |
 | **누가/언제 쓰는가** | 코드 에디터 내에서 이미지 생성·편집이 필요한 개발자·디자이너. 별도 UI 없이 채팅 창에서 이미지 작업을 원할 때 |
 | **요구 사항** | Node.js 18+, OpenAI API 키(`sk-...`) |
 | **진입 동선** | Claude Code: `claude mcp add openai-image -e OPENAI_API_KEY=sk-... -- npx -y openai-image-mcp-server@latest` (1줄) |

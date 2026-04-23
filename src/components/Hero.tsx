@@ -116,7 +116,7 @@ export function Hero() {
           }}
         >
           Claude Code에서 두 에이전트가 논쟁하며 코드를 개선하는 TAS,{' '}
-          DALL-E 3·gpt-image-1로 이미지를 생성·편집하는 MCP 서버입니다.
+          gpt-image-api로 이미지를 생성·편집하는 MCP 서버입니다.
         </motion.p>
 
         {/* CTA */}

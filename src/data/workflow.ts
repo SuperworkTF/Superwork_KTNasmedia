@@ -40,11 +40,6 @@ ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고,
         title: '프로젝트 설정 자동화',
         body: '프로젝트를 클론하고 `tas init` 한 번이면 팀 모든 구성원이 동일한 에이전트 환경을 공유합니다.\n\n 자동으로 설정되는 항목:\n\n- **settings.json** — Claude Code 권한 정책 + Hook 매핑\n- **CLAUDE.md** — 프로젝트 구조 가이드 (에이전트 컨텍스트 초기화)\n- **rules/tech-stack.md** — 기술 스택 선택 강제 (BaaS, 프레임워크)\n- **.gitignore managed block** — idempotent 삽입으로 중복 없이 패턴 추가',
       },
-      {
-        id: 'env-config',
-        title: '환경 변수 구성',
-        body: '`.env.example`을 기반으로 에이전트 동작을 세밀하게 제어합니다.\n\n주요 환경 변수:\n\n- **dialectic_executor_model** — ThesisAgent(正) 에이전트 모델 선택\n- **dialectic_human_role_model** — AntithesisAgent(反) 에이전트 모델 선택\n- **TIMEOUT_*** — 단계별 타임아웃 설정\n\nMCP 서버(이미지 생성, Graph Memory, 외부 서비스 연동 등) 활성화 여부도 환경 변수로 제어합니다.',
-      },
     ],
   },
 
@@ -210,12 +205,7 @@ gpt-image-1, gpt-image-2
 - \`gpt_image_create_variation\` — 이미지 변형 생성
 - \`gpt_image_create_character_reference\` — 캐릭터 레퍼런스 생성
 - \`gpt_image_generate_pose\` — 포즈 기반 이미지 생성
-- \`gpt_image_generate_sprite_sheet\` — 스프라이트 시트 생성
-
-**설치:**\n
-\`\`\`bash
-git clone https://github.com/LimSuyun/openai-image-mcp-server
-\`\`\``,
+- \`gpt_image_generate_sprite_sheet\` — 스프라이트 시트 생성`,
       },
       // ── Depth 2: Self-Healing ─────────────────────────────────────────────
       {

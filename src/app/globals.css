@@ -254,7 +254,7 @@ body {
 .workflow-layout {
   display: flex;
   flex-direction: column;
-  max-width: 1160px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -272,6 +272,10 @@ body {
   .workflow-layout {
     flex-direction: row;
     align-items: flex-start;
+    /* 사이드바 앵커: 중앙정렬 시 좌측 공백이 과도해 보여 좌측 고정,
+       여유 공간은 우측으로 흘려보냄 (사이드바 하이라이트와 콘텐츠 헤딩 정렬) */
+    margin-left: 0;
+    margin-right: auto;
   }
 
   .workflow-sidebar-col {
@@ -280,7 +284,8 @@ body {
   }
 
   .workflow-content-col {
-    max-width: 800px;
+    max-width: none;
+    /* 좌측 48px: 사이드바(260px)와의 숨쉬는 간격 */
     padding: 40px 48px 80px;
   }
 }
@@ -455,7 +460,10 @@ body {
 
 .workflow-slider__track {
   list-style: none;
-  padding: 0;
+  /* hover translateY(-2px) + box-shadow 상단 가시성 확보.
+     overflow-y는 hidden이라 패딩 박스 edge가 클리핑 경계 —
+     14px 세로 패딩이 카드의 변환·그림자를 패딩 영역 안에 수용 */
+  padding: 14px 0;
   margin: 0;
   display: flex;
   gap: 16px;
