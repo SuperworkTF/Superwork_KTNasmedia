@@ -432,6 +432,18 @@ body {
   color: var(--color-snow);
 }
 
+/* ── /workflow Core Module heading 옆 GitHub 레포 링크 */
+.workflow-repo-link:hover,
+.workflow-repo-link:focus-visible {
+  color: var(--color-snow) !important;
+  border-color: var(--color-ember) !important;
+}
+
+.workflow-repo-link:focus-visible {
+  outline: 2px solid var(--color-ember);
+  outline-offset: 2px;
+}
+
 /* ── prefers-reduced-motion ─────────────────────────────────
    CSS animations + transitions 억제
    — MotionConfig reducedMotion="user" 미적용 CSS animation 보완 (heroGlow 포함)

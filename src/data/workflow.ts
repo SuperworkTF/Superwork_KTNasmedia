@@ -19,7 +19,7 @@ export const workflowSections: WorkflowSection[] = [
   {
     id: 'overview',
     title: '개요',
-    body: `Superwork는 모든 신규 프로젝트를 TAS(simsimhae91/tas v0.2.3) 위에서 시작합니다. 정반합(正反合) 변증법 기반 멀티 에이전트 시스템이 아이디어 강화부터 배포까지 전 과정을 자동화합니다.
+    body: `Superwork팀은 프로젝트를 Superwork Workflow로 시작합니다. 정반합(正反合) 변증법 기반 멀티 에이전트 시스템이 아이디어 강화부터 배포까지 전 과정을 자동화합니다.
 
 Executor 에이전트(正)가 초안을 제시하면 HumanRole 에이전트(反)가 검증하고, ACCEPT Verdict가 나올 때까지 반복해 산출물 품질을 끌어올립니다. 사람은 방향을 정하고, 시스템이 실행합니다.`,
   },
@@ -38,12 +38,12 @@ Executor 에이전트(正)가 초안을 제시하면 HumanRole 에이전트(反)
       {
         id: 'project-setup',
         title: '프로젝트 설정 자동화',
-        body: '프로젝트를 클론하고 `tas init` 한 번이면 팀 모든 구성원이 동일한 에이전트 환경을 공유합니다. 자동으로 설정되는 항목:\n\n- **settings.json** — Claude Code 권한 정책 + Hook 매핑\n- **CLAUDE.md** — 프로젝트 구조 가이드 (에이전트 컨텍스트 초기화)\n- **rules/tech-stack.md** — 기술 스택 선택 강제 (BaaS, 프레임워크)\n- **.gitignore managed block** — idempotent 삽입으로 중복 없이 패턴 추가',
+        body: '프로젝트를 클론하고 `tas init` 한 번이면 팀 모든 구성원이 동일한 에이전트 환경을 공유합니다.\n\n 자동으로 설정되는 항목:\n\n- **settings.json** — Claude Code 권한 정책 + Hook 매핑\n- **CLAUDE.md** — 프로젝트 구조 가이드 (에이전트 컨텍스트 초기화)\n- **rules/tech-stack.md** — 기술 스택 선택 강제 (BaaS, 프레임워크)\n- **.gitignore managed block** — idempotent 삽입으로 중복 없이 패턴 추가',
       },
       {
         id: 'env-config',
         title: '환경 변수 구성',
-        body: '`.env.example`을 기반으로 에이전트 동작을 세밀하게 제어합니다.\n\n주요 환경 변수:\n- **PINGPONG_executor_model** — Executor(正) 에이전트 모델 선택\n- **PINGPONG_human_role_model** — HumanRole(反) 에이전트 모델 선택\n- **TIMEOUT_*** — 단계별 타임아웃 설정\n\nMCP 서버(이미지 생성, 외부 서비스 연동 등) 활성화 여부도 환경 변수로 제어합니다.',
+        body: '`.env.example`을 기반으로 에이전트 동작을 세밀하게 제어합니다.\n\n주요 환경 변수:\n\n- **dialectic_executor_model** — Executor(正) 에이전트 모델 선택\n- **dialectic_human_role_model** — HumanRole(反) 에이전트 모델 선택\n- **TIMEOUT_*** — 단계별 타임아웃 설정\n\nMCP 서버(이미지 생성, Graph Memory, 외부 서비스 연동 등) 활성화 여부도 환경 변수로 제어합니다.',
       },
     ],
   },
@@ -52,17 +52,17 @@ Executor 에이전트(正)가 초안을 제시하면 HumanRole 에이전트(反)
   {
     id: 'lifecycle',
     title: '전체 라이프사이클: tas lifecycle',
-    body: '`tas lifecycle "아이디어"` 명령 하나로 Phase 0(아이디어 강화)부터 Phase 5(WaveExecutor)까지 전체 라이프사이클이 자동으로 실행됩니다. `LifecycleState`로 중단 후 재개(resume)를 지원합니다.',
+    body: '`tas lifecycle "아이디어"` 명령 하나로,\n\n **Phase 0(아이디어 강화)**부터 **Phase 5(WaveExecutor)**까지 전체 라이프사이클이 자동으로 실행됩니다. `LifecycleState`로 중단 후 재개(resume)를 지원합니다.',
     children: [
       {
         id: 'idea-enrichment',
         title: '아이디어 강화 (raw → enriched)',
-        body: '`tas lifecycle "아이디어"` 입력 시 Phase 0이 시작됩니다. `IdeaEnricher`가 WebSearch로 관련 플랫폼·도메인·경쟁사를 조사하고 구조화된 `project_concept.md`를 생성합니다.\n\n- **PROJECT_SLUG** 자동 추출\n- 플랫폼 제약·핵심 개념·미결정 항목 구조화\n- 이 문서가 이후 모든 단계(기획·개발·검증)의 기반이 됩니다.',
+        body: '`tas lifecycle "아이디어"` 입력 시 Phase 0이 시작됩니다.\n\n `IdeaEnricher`가 WebSearch로 관련 플랫폼·도메인·경쟁사를 조사하고 구조화된 `project_concept.md`를 생성합니다.\n\n- 플랫폼 제약·핵심 개념·미결정 항목 구조화\n- 이 문서가 이후 모든 단계(기획·개발·검증)의 Antithesis 에게 제공됩니다.',
       },
       {
         id: 'planning',
         title: '기획 단계 (Planning)',
-        body: 'NavigatorAgent가 단계별 스킬을 동적으로 호출하며 브레인스토밍 → 도메인 리서치 → PRD → Epic 순서로 기획을 진행합니다. 컨텍스트를 누적하며 다음 워크플로우를 자동으로 결정합니다.',
+        body: '**NavigatorAgent**가 `아이디어` 구현에 필요한 **Epic** 도출을 위해\n\n기획 단계 세부 스텝을 동적으로 선정하고, 각 단계를 dialectic 변증법으로 진행합니다.\n\n예를 들어, 이미 유사한 서비스가 있는 경우에는 도메인/기술 리서치를 통해 차별점을 도출하게 됩니다.',
         children: [
           {
             id: 'brainstorm',
@@ -72,12 +72,12 @@ Executor 에이전트(正)가 초안을 제시하면 HumanRole 에이전트(反)
           {
             id: 'domain-research',
             title: '도메인 리서치',
-            body: 'NavigatorAgent가 브레인스토밍 컨텍스트를 누적한 뒤 도메인 리서치 워크플로우를 동적으로 선택합니다. 시장 조사·기술 스택·제약 조건을 구조화된 문서로 산출하며, PingPong 변증법으로 산출물 품질을 보장합니다.',
+            body: 'NavigatorAgent가 브레인스토밍 컨텍스트를 누적한 뒤 도메인 리서치 워크플로우를 동적으로 선택합니다. 시장 조사·기술 스택·제약 조건을 구조화된 문서로 산출하며, 변증법으로 산출물 품질을 보장합니다.',
           },
           {
             id: 'prd',
             title: 'PRD 생성',
-            body: '브레인스토밍 + 도메인 리서치 컨텍스트를 바탕으로 Product Requirements Document를 자동 생성합니다. 기능 목록, 성공 기준, 기술 제약이 구조화된 마크다운으로 저장됩니다. PingPong 변증법으로 완성도를 검증합니다.',
+            body: '브레인스토밍 + 도메인 리서치 컨텍스트를 바탕으로 Product Requirements Document를 자동 생성합니다. 기능 목록, 성공 기준, 기술 제약이 구조화된 마크다운으로 저장됩니다. 변증법으로 완성도를 검증합니다.',
           },
           {
             id: 'epics',
@@ -87,14 +87,31 @@ Executor 에이전트(正)가 초안을 제시하면 HumanRole 에이전트(反)
         ],
       },
       {
+        id: 'sprint-execution',
+        title: '병렬 스프린트: sprint-execution-plan',
+        body: 'ExecutionPlanner가 epics.md의 의존성을 분석해 execution-plan.yaml을 생성하고, WaveExecutor가 웨이브별로 스토리를 병렬 실행합니다. Git worktree 격리로 브랜치 간 충돌 없이 동시 개발이 가능합니다.',
+        children: [
+          {
+            id: 'wave-plan',
+            title: '의존성 기반 웨이브 계획',
+            body: '`ExecutionPlanner`가 `epics.md`의 스토리 의존성을 분석해 `execution-plan.yaml`을 생성합니다.\n\n- **networkx DAG + 위상 정렬**로 병렬 실행 가능한 웨이브 구성\n- **"에픽당 1스토리/웨이브" 제약**으로 병합 충돌 최소화\n- 사이클 감지 및 자동 파괴(cycle-breaking) 기능 포함\n- `sprint-status.yaml`로 웨이브별 실행 상태 추적',
+          },
+          {
+            id: 'git-worktree',
+            title: 'Git Worktree 병렬 개발',
+            body: '`WaveExecutor`가 웨이브 내 스토리를 `asyncio.gather()`로 동시에 실행합니다.\n\n- 각 스토리는 **독립된 Git worktree 브랜치**에서 진행 (기본 최대 5개 동시)\n- **WorktreePool** 세마포어로 동시성 상한 제어\n- 완료된 스토리부터 순차적으로 wave 머지\n- 다음 웨이브는 머지 결과를 기반으로 시작',
+          },
+        ],
+      },
+      {
         id: 'implementation',
         title: '구현 단계 (Implementation)',
-        body: 'StoryPipeline이 각 Story를 `create → dev → CR(코드 리뷰) + rework 루프 → merge` 순서로 처리합니다. 각 단계를 PingPong 세션으로 실행해 품질을 보장합니다.',
+        body: 'StoryPipeline이 각 Story를 `create → dev → CR(코드 리뷰) + rework 루프 → merge` 순서로 처리합니다. 각 단계를 dialectic 세션으로 실행해 품질을 보장합니다.',
         children: [
           {
             id: 'story',
             title: 'Story 생성 (CS)',
-            body: 'StoryPipeline의 첫 단계입니다. Epic에서 개발 가능한 단위인 Story를 생성합니다. PingPong 세션으로 Story 범위·수용 기준(AC)·의존성을 확정합니다.',
+            body: 'StoryPipeline의 첫 단계입니다. Epic에서 개발 가능한 단위인 Story를 생성합니다. dialectic 세션으로 Story 범위·수용 기준(AC)·의존성을 확정합니다.',
           },
           {
             id: 'dev',
@@ -104,7 +121,7 @@ Executor 에이전트(正)가 초안을 제시하면 HumanRole 에이전트(反)
           {
             id: 'qa-review',
             title: 'QA / 코드 리뷰 (CR)',
-            body: '코드 리뷰(CR) PingPong 세션에서 코드 품질·보안·테스트 커버리지를 검증합니다. ACCEPT 시 Antithesis Playtest(AP) 런타임 검증을 실행하고, REFINE/COUNTER 시 개발 rework 루프를 반복합니다.',
+            body: '코드 리뷰(CR) dialectic 세션에서 코드 품질·보안·테스트 커버리지를 검증합니다. ACCEPT 시 Antithesis Playtest(AP) 런타임 검증을 실행하고, REFINE/COUNTER 시 개발 rework 루프를 반복합니다.',
           },
           {
             id: 'simulator',
@@ -120,68 +137,52 @@ Executor 에이전트(正)가 초안을 제시하면 HumanRole 에이전트(反)
       },
     ],
   },
-
-  // ── Depth 1: 병렬 스프린트 ─────────────────────────────────────────────────
-  {
-    id: 'sprint-execution',
-    title: '병렬 스프린트: sprint-execution-plan',
-    body: 'ExecutionPlanner가 epics.md의 의존성을 분석해 execution-plan.yaml을 생성하고, WaveExecutor가 웨이브별로 스토리를 병렬 실행합니다. Git worktree 격리로 브랜치 간 충돌 없이 동시 개발이 가능합니다.',
-    children: [
-      {
-        id: 'wave-plan',
-        title: '의존성 기반 웨이브 계획',
-        body: '`ExecutionPlanner`가 `epics.md`의 스토리 의존성을 분석해 `execution-plan.yaml`을 생성합니다.\n\n- **networkx DAG + 위상 정렬**로 병렬 실행 가능한 웨이브 구성\n- **"에픽당 1스토리/웨이브" 제약**으로 병합 충돌 최소화\n- 사이클 감지 및 자동 파괴(cycle-breaking) 기능 포함\n- `sprint-status.yaml`로 웨이브별 실행 상태 추적',
-      },
-      {
-        id: 'git-worktree',
-        title: 'Git Worktree 병렬 개발',
-        body: '`WaveExecutor`가 웨이브 내 스토리를 `asyncio.gather()`로 동시에 실행합니다.\n\n- 각 스토리는 **독립된 Git worktree 브랜치**에서 진행 (기본 최대 5개 동시)\n- **WorktreePool** 세마포어로 동시성 상한 제어\n- 완료된 스토리부터 순차적으로 wave 머지\n- 다음 웨이브는 머지 결과를 기반으로 시작',
-      },
-    ],
-  },
-
   // ── Depth 1: Core Module ──────────────────────────────────────────────────
   {
     id: 'core-module',
     title: 'Core Module',
-    body: 'Superwork 워크플로우를 구성하는 핵심 오픈소스 모듈입니다. TAS는 변증법 기반 멀티 에이전트 오케스트레이션을, ImageGen MCP는 이미지 생성 AI 통합을, Self-Healing은 운영 에러 자동 감지·수정을 담당합니다.',
+    body: 'Superwork 워크플로우를 구성하는 모듈입니다. TAS는 변증법 기반 멀티 에이전트 오케스트레이션을, ImageGen MCP는 이미지 생성 AI 통합을, Self-Healing은 운영 에러 자동 감지·수정을 담당합니다.',
     children: [
       {
         id: 'core-tas',
-        title: 'TAS (simsimhae91/tas)',
+        title: 'TAS (Thesis Antithesis Synthesis)',
         navLabel: 'TAS',
-        body: `**TAS v0.2.3 (MIT)** — Claude Code 기반 변증법 멀티 에이전트 오케스트레이션 플러그인.
+        repoUrl: 'https://github.com/simsimhae91/tas',
+        body: `**TAS** — Claude Code 기반 변증법 멀티 에이전트 오케스트레이션 플러그인.
 
-**3계층 구조:**
+**3계층 구조:**\n\n
 - **MainOrchestrator** — 전체 라이프사이클 조율
 - **MetaAgent** — 단계 계획 및 에이전트 파견
 - **ThesisAgent(正) · AntithesisAgent(反)** — 변증법적 산출물 검증
 
-**5 스킬:**
+**5 스킬:**\n\n
 - \`/tas\` — 주요 오케스트레이션 진입점
 - \`/tas-review\` — 산출물 리뷰
 - \`/tas-verify\` — 검증 단계 (역할반전: Attacker 모드)
 - \`/tas-explain\` — 워크플로우 설명
 - \`/tas-workspace\` — 워크스페이스 관리
 
-**4단계 라이프사이클:**
+**4단계 라이프사이클:**\n\n
 기획 → 구현 → 검증(역할반전) → 테스트(역할반전)
 
-**설치:**
+**설치:**\n\n
 \`\`\`bash
-git clone https://github.com/simsimhae91/tas
+# claude code 실행 후
+/plugin marketplace add https://github.com/simsimhae91/tas.git
+/plugin install tas@tas
 \`\`\``,
       },
       {
         id: 'core-imagegen',
-        title: 'ImageGen MCP (LimSuyun/openai-image-mcp-server)',
+        title: 'ImageGen MCP',
         navLabel: 'ImageGen MCP',
+        repoUrl: 'https://github.com/LimSuyun/openai-image-mcp-server',
         body: `**ImageGen MCP** — Claude Desktop / Cursor / VS Code 호환 MCP 서버. OpenAI gpt-image 패밀리를 Claude 워크플로우에서 직접 사용할 수 있습니다.
 
-**지원 모델:**
-DALL-E 3, gpt-image-1
+**지원 모델:**\n\n
+gpt-image-1, gpt-image-2
 
-**6 도구:**
+**6 도구:**\n\n
 - \`gpt_image_generate\` — 텍스트 기반 이미지 생성
 - \`gpt_image_edit\` — 이미지 편집
 - \`gpt_image_create_variation\` — 이미지 변형 생성
@@ -189,7 +190,7 @@ DALL-E 3, gpt-image-1
 - \`gpt_image_generate_pose\` — 포즈 기반 이미지 생성
 - \`gpt_image_generate_sprite_sheet\` — 스프라이트 시트 생성
 
-**설치:**
+**설치:**\n\n
 \`\`\`bash
 git clone https://github.com/LimSuyun/openai-image-mcp-server
 \`\`\``,

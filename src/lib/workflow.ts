@@ -44,6 +44,12 @@ export interface WorkflowSubsection {
    */
   navLabel?: string;
   body?: string;
+  /**
+   * 공개 깃 레포 URL (선택).
+   * 지정 시 상세 페이지 heading 옆에 GitHub 링크로 표시된다.
+   * 비공개 레포 URL은 절대 넣지 않는다.
+   */
+  repoUrl?: string;
   /** Depth 3 하위 항목 (선택) */
   children?: WorkflowLeaf[];
   sourceHint?: string;
