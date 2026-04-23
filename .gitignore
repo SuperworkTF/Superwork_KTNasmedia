@@ -16,6 +16,8 @@ tests/*-retry*.*
 /verify-*.png
 /verify-*.md
 /*-snapshot-retry*.md
+/workflow-*.png
+/*-snapshot*.md
 
 # dependencies
 /node_modules
