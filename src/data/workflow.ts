@@ -1,13 +1,13 @@
 // ──────────────────────────────────────────────────────────────────────────────
 // /workflow 페이지 콘텐츠 데이터
-// 기획서(WORKFLOW_PLAN.md) §3·§4·§5 기반으로 작성된 실제 콘텐츠.
+// TAS_WORKFLOW_SHOWCASE.md 기반: Discovery & Planning 8장 + Story Cycle 6장
 // ──────────────────────────────────────────────────────────────────────────────
 
 import type { WorkflowHeroCopy, WorkflowSection } from '@/lib/workflow';
 
 // ── 히어로 카피 (안 C — 팩트 드리븐 선언형) ────────────────────────────────
 export const heroCopy: WorkflowHeroCopy = {
-  headline: '신사업, 이제 명령어 하나로 시작한다.\nSuperwork가 선택한 AI 개발 방법론.',
+  headline: '신사업, 이제 명령어 하나로 시작한다.\nSuperwork가 선택한 변증법 AI 개발 방법론.',
   subcopy:
     '아이디어를 입력하면 기획·개발·검증·통합이 자동으로 진행됩니다. 우리는 이 시스템으로 Superwork의 모든 프로젝트를 운영합니다.',
   ctaLabel: '워크플로우 살펴보기',
@@ -21,7 +21,7 @@ export const workflowSections: WorkflowSection[] = [
     title: '개요',
     body: `Superwork팀은 프로젝트를 Superwork Workflow로 시작합니다. 정반합(正反合) 변증법 기반 멀티 에이전트 시스템이 아이디어 강화부터 배포까지 전 과정을 자동화합니다.
 
-Executor 에이전트(正)가 초안을 제시하면 HumanRole 에이전트(反)가 검증하고, ACCEPT Verdict가 나올 때까지 반복해 산출물 품질을 끌어올립니다. 사람은 방향을 정하고, 시스템이 실행합니다.`,
+ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고, ACCEPT Verdict가 나올 때까지 반복해 산출물 품질을 끌어올립니다. 사람은 방향을 정하고, 시스템이 실행합니다.`,
   },
 
   // ── Depth 1: 시작하기: tas init ────────────────────────────────────────────
@@ -43,7 +43,7 @@ Executor 에이전트(正)가 초안을 제시하면 HumanRole 에이전트(反)
       {
         id: 'env-config',
         title: '환경 변수 구성',
-        body: '`.env.example`을 기반으로 에이전트 동작을 세밀하게 제어합니다.\n\n주요 환경 변수:\n\n- **dialectic_executor_model** — Executor(正) 에이전트 모델 선택\n- **dialectic_human_role_model** — HumanRole(反) 에이전트 모델 선택\n- **TIMEOUT_*** — 단계별 타임아웃 설정\n\nMCP 서버(이미지 생성, Graph Memory, 외부 서비스 연동 등) 활성화 여부도 환경 변수로 제어합니다.',
+        body: '`.env.example`을 기반으로 에이전트 동작을 세밀하게 제어합니다.\n\n주요 환경 변수:\n\n- **dialectic_executor_model** — ThesisAgent(正) 에이전트 모델 선택\n- **dialectic_human_role_model** — AntithesisAgent(反) 에이전트 모델 선택\n- **TIMEOUT_*** — 단계별 타임아웃 설정\n\nMCP 서버(이미지 생성, Graph Memory, 외부 서비스 연동 등) 활성화 여부도 환경 변수로 제어합니다.',
       },
     ],
   },
@@ -52,91 +52,108 @@ Executor 에이전트(正)가 초안을 제시하면 HumanRole 에이전트(反)
   {
     id: 'lifecycle',
     title: '전체 라이프사이클: tas lifecycle',
-    body: '`tas lifecycle "아이디어"` 명령 하나로,\n\n **Phase 0(아이디어 강화)**부터 **Phase 5(WaveExecutor)**까지 전체 라이프사이클이 자동으로 실행됩니다. `LifecycleState`로 중단 후 재개(resume)를 지원합니다.',
+    body: '`tas lifecycle "아이디어"` 명령 하나로 전체 개발 라이프사이클이 시작됩니다.\n\nNavigatorAgent가 아이디어를 분석해 Discovery & Planning 단계를 동적으로 구성하고, Story Cycle이 모든 스토리를 ACCEPT까지 자동 실행합니다. 실행 상태가 저장되어 중단 후 재개를 지원합니다.',
     children: [
+      // ── Depth 2: 아이디어 강화 ────────────────────────────────────────────
       {
         id: 'idea-enrichment',
         title: '아이디어 강화 (raw → enriched)',
-        body: '`tas lifecycle "아이디어"` 입력 시 Phase 0이 시작됩니다.\n\n `IdeaEnricher`가 WebSearch로 관련 플랫폼·도메인·경쟁사를 조사하고 구조화된 `project_concept.md`를 생성합니다.\n\n- 플랫폼 제약·핵심 개념·미결정 항목 구조화\n- 이 문서가 이후 모든 단계(기획·개발·검증)의 Antithesis 에게 제공됩니다.',
+        body: '`tas lifecycle "아이디어"` 입력 시 NavigatorAgent가 아이디어를 분석하고 관련 플랫폼·도메인·경쟁사를 조사해 구조화된 프로젝트 컨셉 문서를 생성합니다.\n\n- 플랫폼 제약·핵심 개념·미결정 항목 구조화\n- 이 문서가 이후 모든 단계(Discovery·Planning·Story Cycle)의 컨텍스트로 공유됩니다.',
       },
+
+      // ── Depth 2: Discovery & Planning ────────────────────────────────────
       {
-        id: 'planning',
-        title: '기획 단계 (Planning)',
-        body: '**NavigatorAgent**가 `아이디어` 구현에 필요한 **Epic** 도출을 위해\n\n기획 단계 세부 스텝을 동적으로 선정하고, 각 단계를 dialectic 변증법으로 진행합니다.\n\n예를 들어, 이미 유사한 서비스가 있는 경우에는 도메인/기술 리서치를 통해 차별점을 도출하게 됩니다.',
+        id: 'discovery-planning',
+        title: 'Discovery & Planning',
+        body: 'NavigatorAgent가 프로젝트 성격을 분석해 아래 단계 중 필요한 것만 동적으로 선택·실행합니다. 각 단계는 변증법 루프로 산출물 완성도를 보장합니다.',
         children: [
           {
             id: 'brainstorm',
-            title: '브레인스토밍',
-            body: 'NavigatorAgent가 첫 워크플로우로 브레인스토밍 세션을 선택합니다. Executor(正) 에이전트가 초안 아이디어를 제시하고, HumanRole(反) 에이전트가 가정을 검증합니다. ACCEPT Verdict가 나오면 다음 단계로 자동 진행합니다.',
+            title: 'Brainstorm',
+            body: '막연한 아이디어를 구체적 방향으로 흔들어 깨웁니다.\n\n- **산출물**: Brainstorm 세션 기록\n- **언제**: 아이디어가 "한 줄"일 때, 방향을 펼쳐야 할 때\n- **특징**: 단일·다중 기법 가이드 퍼실리테이션 — 발산과 수렴을 한 번에',
+          },
+          {
+            id: 'market-research',
+            title: 'Market Research',
+            body: '"이거 이미 누가 하고 있나?"에 답하기 전에 넘어가지 않습니다.\n\n- **산출물**: 시장·경쟁·고객 니즈 리포트\n- **언제**: 사업성·차별화가 쟁점일 때\n- **특징**: 경쟁 구도·트렌드·타깃 분석을 구조화된 문서로 — 차별화 포인트를 데이터로 뒷받침',
           },
           {
             id: 'domain-research',
-            title: '도메인 리서치',
-            body: 'NavigatorAgent가 브레인스토밍 컨텍스트를 누적한 뒤 도메인 리서치 워크플로우를 동적으로 선택합니다. 시장 조사·기술 스택·제약 조건을 구조화된 문서로 산출하며, 변증법으로 산출물 품질을 보장합니다.',
+            title: 'Domain Research',
+            body: '업계 전문가의 어휘로 말할 수 있게 합니다.\n\n- **산출물**: 도메인 딥다이브 문서 (용어·규제·관행)\n- **언제**: 의료·금융·게임 등 전문 도메인, LLM이 맞는 용어를 못 쓸 때\n- **특징**: 이후 모든 스펙이 "해당 업계 사람이 읽어도 어색하지 않은" 언어로 작성되게 하는 토대',
           },
           {
-            id: 'prd',
-            title: 'PRD 생성',
-            body: '브레인스토밍 + 도메인 리서치 컨텍스트를 바탕으로 Product Requirements Document를 자동 생성합니다. 기능 목록, 성공 기준, 기술 제약이 구조화된 마크다운으로 저장됩니다. 변증법으로 완성도를 검증합니다.',
+            id: 'tech-research',
+            title: 'Tech Research',
+            body: '"만들 수 있나?"를 코드 한 줄 쓰기 전에 검증합니다.\n\n- **산출물**: 기술 타당성·아키텍처 옵션·리스크 리포트\n- **언제**: 생소한 스택, 성능·확장 이슈, 엔진·프레임워크 선정이 필요할 때\n- **특징**: 여러 옵션을 trade-off로 비교 — Architecture 단계 전에 선택지를 정리',
           },
           {
-            id: 'epics',
-            title: 'Epic 도출',
-            body: 'PRD에서 구현 단위인 Epic과 하위 Story를 도출합니다. `epics.md` 파일로 저장되며, 이 파일이 다음 단계 ExecutionPlanner의 입력이 됩니다. 에픽 간 의존성도 이 단계에서 정의됩니다.',
+            id: 'create-prd',
+            title: 'Create PRD',
+            body: '제품 요구사항을 "실행 가능한 문서"로 고정합니다.\n\n- **산출물**: Product Requirements Document\n- **언제**: Discovery가 끝나고 범위를 박아야 할 때 (**필수**)\n- **특징**: 에픽·스토리로 바로 쪼갤 수 있는 수준의 요구사항 명세. AntithesisAgent(反)가 검증·수정 루프 동반',
+          },
+          {
+            id: 'create-ux',
+            title: 'Create UX',
+            body: '화면이 제품의 얼굴이라면, 먼저 얼굴을 그립니다.\n\n- **산출물**: UX 설계서 (플로우·패턴·화면 스펙)\n- **언제**: UI가 제품의 주요 가치일 때\n- **특징**: PRD 위에서 사용자 여정·상호작용 패턴을 설계 — 이후 구현 스토리에 바로 반영',
+          },
+          {
+            id: 'create-architecture',
+            title: 'Create Architecture',
+            body: '"어떻게 만들지"를 한 문서에 담습니다.\n\n- **산출물**: 기술 아키텍처 문서 (시스템·데이터·통합)\n- **언제**: 구현 전 (**필수**)\n- **특징**: 기술 결정·의존성·확장 포인트를 기록 — 이후 Dev 루프의 모든 스토리가 이 문서를 참조',
+          },
+          {
+            id: 'create-epics-stories',
+            title: 'Create Epics & Stories',
+            navLabel: 'Epics & Stories',
+            body: '설계를 "AI가 병렬로 먹을 수 있는 단위"로 쪼갭니다.\n\n- **산출물**: 에픽 + 스토리 리스트\n- **언제**: Architecture 완료 후 (**필수**)\n- **특징**: 여기서 쪼개진 스토리 단위가 그대로 병렬 Dev 파이프라인의 입력이 됩니다. 설계와 실행을 잇는 핵심 변환점',
           },
         ],
       },
+
+      // ── Depth 2: Story Cycle ──────────────────────────────────────────────
       {
-        id: 'sprint-execution',
-        title: '병렬 스프린트: sprint-execution-plan',
-        body: 'ExecutionPlanner가 epics.md의 의존성을 분석해 execution-plan.yaml을 생성하고, WaveExecutor가 웨이브별로 스토리를 병렬 실행합니다. Git worktree 격리로 브랜치 간 충돌 없이 동시 개발이 가능합니다.',
+        id: 'story-cycle',
+        title: 'Story Cycle',
+        body: '매 스토리마다 독립된 워커트리에서 실행됩니다. Code Review ACCEPT 판정이 나올 때까지 Dev → Review → (QA) → Playtest 루프를 자동 반복합니다. 최대 5개 스토리를 동시에 병렬 진행하며, 완료된 스토리는 자동 머지됩니다. 웨이브 간 통합 무결성은 자동으로 보장됩니다.',
         children: [
           {
-            id: 'wave-plan',
-            title: '의존성 기반 웨이브 계획',
-            body: '`ExecutionPlanner`가 `epics.md`의 스토리 의존성을 분석해 `execution-plan.yaml`을 생성합니다.\n\n- **networkx DAG + 위상 정렬**로 병렬 실행 가능한 웨이브 구성\n- **"에픽당 1스토리/웨이브" 제약**으로 병합 충돌 최소화\n- 사이클 감지 및 자동 파괴(cycle-breaking) 기능 포함\n- `sprint-status.yaml`로 웨이브별 실행 상태 추적',
+            id: 'sprint-planning',
+            title: 'Sprint Planning',
+            body: '병렬 실행의 웨이브를 설계합니다.\n\n- **산출물**: 웨이브 그룹 계획 (`execution-plan.yaml`)\n- **언제**: Dev 루프 시작 전 (**필수**)\n- **특징**: 의존성을 위상정렬해 "동시에 돌려도 안전한 스토리 묶음"을 구성 — 격리된 워커트리에서 **최대 5개 스토리 병렬 진행**',
           },
           {
-            id: 'git-worktree',
-            title: 'Git Worktree 병렬 개발',
-            body: '`WaveExecutor`가 웨이브 내 스토리를 `asyncio.gather()`로 동시에 실행합니다.\n\n- 각 스토리는 **독립된 Git worktree 브랜치**에서 진행 (기본 최대 5개 동시)\n- **WorktreePool** 세마포어로 동시성 상한 제어\n- 완료된 스토리부터 순차적으로 wave 머지\n- 다음 웨이브는 머지 결과를 기반으로 시작',
-          },
-        ],
-      },
-      {
-        id: 'implementation',
-        title: '구현 단계 (Implementation)',
-        body: 'StoryPipeline이 각 Story를 `create → dev → CR(코드 리뷰) + rework 루프 → merge` 순서로 처리합니다. 각 단계를 dialectic 세션으로 실행해 품질을 보장합니다.',
-        children: [
-          {
-            id: 'story',
-            title: 'Story 생성 (CS)',
-            body: 'StoryPipeline의 첫 단계입니다. Epic에서 개발 가능한 단위인 Story를 생성합니다. dialectic 세션으로 Story 범위·수용 기준(AC)·의존성을 확정합니다.',
+            id: 'create-story',
+            title: 'Create Story',
+            body: '스토리 한 건을 "구현 직전" 상태까지 준비합니다.\n\n- **산출물**: 컨텍스트가 채워진 스토리 파일\n- **언제**: 각 스토리 사이클의 시작\n- **특징**: 에픽·아키텍처·이전 스토리 학습을 주입한 풍부한 컨텍스트 — 개발자 AI가 더 이상 물어볼 게 없을 만큼 준비',
           },
           {
-            id: 'dev',
-            title: '개발 (Dev)',
-            body: 'Executor 에이전트가 Story 요구사항에 따라 코드를 작성합니다. `acceptEdits` 권한으로 파일을 수정하고, HumanRole이 변증법적으로 검증한 뒤 ACCEPT 시 커밋됩니다.',
+            id: 'dev-story',
+            title: 'Dev Story',
+            body: '격리된 워커트리에서 실제 구현을 진행합니다.\n\n- **산출물**: 실제 코드·테스트·스토리 상태 업데이트\n- **언제**: Create Story 직후\n- **특징**: 워커트리 격리 + 피드백 루프 — Review/Playtest 반려 시 피드백을 먹고 재작업',
           },
           {
-            id: 'qa-review',
-            title: 'QA / 코드 리뷰 (CR)',
-            body: '코드 리뷰(CR) dialectic 세션에서 코드 품질·보안·테스트 커버리지를 검증합니다. ACCEPT 시 Antithesis Playtest(AP) 런타임 검증을 실행하고, REFINE/COUNTER 시 개발 rework 루프를 반복합니다.',
+            id: 'code-review',
+            title: '코드 리뷰',
+            body: '정적 품질의 1차 관문입니다.\n\n- **산출물**: REFINE / ACCEPT / COUNTER / HALT 중 하나의 판정\n- **언제**: Dev Story 직후\n- **특징**: AntithesisAgent(反)가 AC 충족·코드 품질·일관성을 독립 평가 — **ACCEPT 없이 통과 없음, Dev로 회귀**',
           },
           {
-            id: 'simulator',
-            title: '시뮬레이터 테스트 (Playtest)',
-            body: 'PlaytestRunner가 실제 서버를 로컬에서 기동하고 LLM 시나리오로 5-signal 검증(기능·성능·보안·안정성·사용성)을 수행합니다. 실패 시 개발 단계로 피드백이 전달됩니다.',
+            id: 'qa-test',
+            title: 'QA 자동화 테스트',
+            navLabel: 'QA 자동화',
+            body: '리그레션 방지선을 자동으로 세웁니다.\n\n- **산출물**: API/E2E 자동화 테스트 스위트\n- **언제**: 구현된 스토리에 대해 (선택)\n- **특징**: Review가 "코드 검토"라면 QA는 "실행 가능한 안전망" 생성 — 이후 모든 스토리의 변경이 자동으로 검증됨',
           },
           {
-            id: 'integration',
-            title: '통합 (Integration)',
-            body: 'MergeAgent가 Claude SDK 기반으로 시맨틱 머지를 수행합니다. 충돌을 자동으로 해결하고, Pre-merge impact analysis + 통합 검증 후 main 브랜치에 머지합니다. Wave Boundary Safety Harness(WBSH)로 웨이브 간 통합 무결성을 보장합니다.',
+            id: 'antithesis-playtest',
+            title: 'Antithesis Playtest',
+            navLabel: 'Playtest',
+            body: 'AC 체크리스트 통과 ≠ 실제로 동작함. 진짜 돌려봅니다.\n\n- **산출물**: 런타임 증거 (스크린샷·로그·판정)\n- **언제**: Code Review ACCEPT 직후 (선택)\n- **특징**: Dev 서버를 실제로 띄우고 **브라우저/프로세스/HTTP 드라이버**로 조작 — 정적 리뷰를 통과했지만 런타임에 깨지는 실패를 잡아냄. 실패 시 Dev로 회귀',
           },
         ],
       },
     ],
   },
+
   // ── Depth 1: Core Module ──────────────────────────────────────────────────
   {
     id: 'core-module',
@@ -150,22 +167,22 @@ Executor 에이전트(正)가 초안을 제시하면 HumanRole 에이전트(反)
         repoUrl: 'https://github.com/simsimhae91/tas',
         body: `**TAS** — Claude Code 기반 변증법 멀티 에이전트 오케스트레이션 플러그인.
 
-**3계층 구조:**\n\n
+**3계층 구조:**\n
 - **MainOrchestrator** — 전체 라이프사이클 조율
 - **MetaAgent** — 단계 계획 및 에이전트 파견
 - **ThesisAgent(正) · AntithesisAgent(反)** — 변증법적 산출물 검증
 
-**5 스킬:**\n\n
+**5 스킬:**\n
 - \`/tas\` — 주요 오케스트레이션 진입점
 - \`/tas-review\` — 산출물 리뷰
 - \`/tas-verify\` — 검증 단계 (역할반전: Attacker 모드)
 - \`/tas-explain\` — 워크플로우 설명
 - \`/tas-workspace\` — 워크스페이스 관리
 
-**4단계 라이프사이클:**\n\n
+**4단계 라이프사이클:**\n
 기획 → 구현 → 검증(역할반전) → 테스트(역할반전)
 
-**설치:**\n\n
+**설치:**\n
 \`\`\`bash
 # claude code 실행 후
 /plugin marketplace add https://github.com/simsimhae91/tas.git
@@ -179,10 +196,10 @@ Executor 에이전트(正)가 초안을 제시하면 HumanRole 에이전트(反)
         repoUrl: 'https://github.com/LimSuyun/openai-image-mcp-server',
         body: `**ImageGen MCP** — Claude Desktop / Cursor / VS Code 호환 MCP 서버. OpenAI gpt-image 패밀리를 Claude 워크플로우에서 직접 사용할 수 있습니다.
 
-**지원 모델:**\n\n
+**지원 모델:**\n
 gpt-image-1, gpt-image-2
 
-**6 도구:**\n\n
+**6 도구:**\n
 - \`gpt_image_generate\` — 텍스트 기반 이미지 생성
 - \`gpt_image_edit\` — 이미지 편집
 - \`gpt_image_create_variation\` — 이미지 변형 생성
@@ -190,7 +207,7 @@ gpt-image-1, gpt-image-2
 - \`gpt_image_generate_pose\` — 포즈 기반 이미지 생성
 - \`gpt_image_generate_sprite_sheet\` — 스프라이트 시트 생성
 
-**설치:**\n\n
+**설치:**\n
 \`\`\`bash
 git clone https://github.com/LimSuyun/openai-image-mcp-server
 \`\`\``,
@@ -213,7 +230,7 @@ git clone https://github.com/LimSuyun/openai-image-mcp-server
             id: 'auto-fix',
             title: '자동 수정',
             // forward-looking — tas quick 패턴 기반
-            body: '임계값을 초과하는 에러 이벤트 발생 시 TAS 워크플로우가 자동으로 트리거됩니다.\n\n```\ntas quick "{에러 스택 + 재현 조건}"\n```\n\nExecutor 에이전트(正)가 수정 코드를 제안하고, HumanRole 에이전트(反)가 변증법적으로 검증합니다. ACCEPT Verdict 시 자동 커밋됩니다.',
+            body: '임계값을 초과하는 에러 이벤트 발생 시 TAS 워크플로우가 자동으로 트리거됩니다.\n\n```\ntas quick "{에러 스택 + 재현 조건}"\n```\n\nThesisAgent(正)가 수정 코드를 제안하고, AntithesisAgent(反)가 변증법적으로 검증합니다. ACCEPT Verdict 시 자동 커밋됩니다.',
           },
           {
             id: 'auto-pr',

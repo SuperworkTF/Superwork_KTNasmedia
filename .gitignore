@@ -33,3 +33,5 @@ tests/*-retry*.*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+TAS_WORKFLOW_SHOWCASE.md

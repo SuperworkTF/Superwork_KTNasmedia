@@ -119,6 +119,7 @@ function TextBlocks({ raw }: { raw: string }) {
           return (
             <ul
               key={bi}
+              role="list"
               style={{
                 margin: '12px 0',
                 paddingLeft: '0',
@@ -404,7 +405,7 @@ function SelfHealingDiagram() {
             >
               자동 수정 (PingPong)
             </div>
-            <p style={labelStyle}>Executor(正) → HumanRole(反) → ACCEPT</p>
+            <p style={labelStyle}>ThesisAgent(正) → AntithesisAgent(反) → ACCEPT</p>
           </div>
 
           <div style={{ ...arrowStyle, margin: '4px 0' }}>↓</div>
