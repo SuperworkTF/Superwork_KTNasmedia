@@ -50,6 +50,15 @@ export interface WorkflowSubsection {
    * 비공개 레포 URL은 절대 넣지 않는다.
    */
   repoUrl?: string;
+  /**
+   * 하위 `children` 렌더링 레이아웃 (선택).
+   * - 미지정: 기본 스택형 Leaf 렌더링 (Depth 3 heading + 본문)
+   * - 'cards-solo': 1-col 카드 스택 (full-width — 순차 스텝 느낌)
+   * - 'cards': 2-col 카드 그리드 (roomy — 동적 선택 느낌)
+   * - 'cards-dense': 3-col 카드 그리드 (tight — 반복 루프 느낌)
+   * 카드 내부는 기존 마크다운 body 파서를 그대로 사용한다.
+   */
+  layout?: 'cards-solo' | 'cards' | 'cards-dense';
   /** Depth 3 하위 항목 (선택) */
   children?: WorkflowLeaf[];
   sourceHint?: string;

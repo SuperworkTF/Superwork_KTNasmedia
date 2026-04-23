@@ -559,9 +559,51 @@ function LeafSection({ leaf }: { leaf: WorkflowLeaf }) {
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
+// Leaf 카드 렌더러 (Depth 3 — 카드 그리드용)
+// ──────────────────────────────────────────────────────────────────────────────
+function LeafCard({ leaf }: { leaf: WorkflowLeaf }) {
+  return (
+    <li
+      id={leaf.id}
+      aria-labelledby={`${leaf.id}-heading`}
+      className="workflow-leaf-card"
+    >
+      <h4
+        id={`${leaf.id}-heading`}
+        style={{
+          fontSize: '1rem',
+          fontWeight: 600,
+          color: 'var(--color-snow)',
+          letterSpacing: '-0.01em',
+          margin: '0 0 10px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}
+      >
+        <span aria-hidden="true" className="workflow-leaf-card__dot" />
+        {leaf.title}
+      </h4>
+      {leaf.body && <BodyText text={leaf.body} />}
+    </li>
+  );
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
 // Subsection 렌더러 (Depth 2)
 // ──────────────────────────────────────────────────────────────────────────────
 function SubsectionBlock({ sub }: { sub: WorkflowSubsection }) {
+  const hasChildren = sub.children && sub.children.length > 0;
+  const cardVariant =
+    sub.layout === 'cards-solo'
+      ? 'solo'
+      : sub.layout === 'cards-dense'
+      ? 'dense'
+      : sub.layout === 'cards'
+      ? 'roomy'
+      : null;
+  const useCardGrid = hasChildren && cardVariant !== null;
+
   return (
     <section
       id={sub.id}
@@ -602,9 +644,20 @@ function SubsectionBlock({ sub }: { sub: WorkflowSubsection }) {
 
       {sub.body && <BodyText text={sub.body} />}
 
-      {sub.children && sub.children.length > 0 && (
+      {hasChildren && useCardGrid && (
+        <ul
+          role="list"
+          className={`workflow-card-grid workflow-card-grid--${cardVariant}`}
+        >
+          {sub.children!.map((leaf) => (
+            <LeafCard key={leaf.id} leaf={leaf} />
+          ))}
+        </ul>
+      )}
+
+      {hasChildren && !useCardGrid && (
         <div style={{ paddingLeft: '0', marginTop: '16px' }}>
-          {sub.children.map((leaf) => (
+          {sub.children!.map((leaf) => (
             <LeafSection key={leaf.id} leaf={leaf} />
           ))}
         </div>

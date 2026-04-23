@@ -285,6 +285,66 @@ body {
   }
 }
 
+/* ── 워크플로우 카드 그리드 (Discovery & Planning / Story Cycle) ─────── */
+.workflow-card-grid {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .workflow-card-grid--roomy,
+  .workflow-card-grid--dense {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .workflow-card-grid--dense {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.workflow-leaf-card {
+  border-radius: 12px;
+  border: 1px solid var(--color-outline);
+  background-color: #111114;
+  padding: 18px 20px 16px;
+  scroll-margin-top: 80px;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.workflow-leaf-card:hover {
+  border-color: var(--color-ember);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
+}
+
+.workflow-leaf-card:focus-within {
+  border-color: var(--color-ember);
+  outline: none;
+}
+
+.workflow-leaf-card__dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-ember);
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workflow-leaf-card,
+  .workflow-leaf-card:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
 /* ── 워크플로우 사이드바 서브트리 ─────────────────────────── */
 .sidebar-subtree {
   margin-top: 2px;

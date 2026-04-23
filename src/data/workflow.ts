@@ -66,6 +66,7 @@ ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고,
         id: 'discovery-planning',
         title: 'Discovery & Planning',
         body: 'NavigatorAgent가 프로젝트 성격을 분석해 아래 단계 중 필요한 것만 동적으로 선택·실행합니다. 각 단계는 변증법 루프로 산출물 완성도를 보장합니다.',
+        layout: 'cards',
         children: [
           {
             id: 'brainstorm',
@@ -116,6 +117,7 @@ ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고,
         id: 'story-cycle',
         title: 'Story Cycle',
         body: '매 스토리마다 독립된 워커트리에서 실행됩니다. Code Review ACCEPT 판정이 나올 때까지 Dev → Review → (QA) → Playtest 루프를 자동 반복합니다. 최대 5개 스토리를 동시에 병렬 진행하며, 완료된 스토리는 자동 머지됩니다. 웨이브 간 통합 무결성은 자동으로 보장됩니다.',
+        layout: 'cards-solo',
         children: [
           {
             id: 'sprint-planning',
