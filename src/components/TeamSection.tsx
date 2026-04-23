@@ -13,12 +13,14 @@ export function TeamSection() {
         style={{
           position: 'relative',
           overflow: 'hidden',
-          padding: 'clamp(48px, 8vw, 96px) clamp(16px, 4vw, 48px) clamp(40px, 6vw, 64px)',
+          /* 수직 padding 만 section 담당 — 수평은 내부 1400 centered wrapper 가
+             담당해 아래 멤버 그리드와 edge 1:1 정렬 */
+          padding: 'clamp(48px, 8vw, 96px) 0 clamp(40px, 6vw, 64px)',
           background: 'linear-gradient(180deg, #0C0C0F 0%, #09090B 100%)',
           borderBottom: '1px solid var(--color-outline)',
         }}
       >
-        {/* 배경 글로우 */}
+        {/* 배경 글로우 — section 에 full-bleed */}
         <div
           aria-hidden="true"
           style={{
@@ -33,7 +35,16 @@ export function TeamSection() {
           }}
         />
 
-        <div style={{ position: 'relative', maxWidth: '860px' }}>
+        {/* 멤버 그리드와 동일한 max-width + horizontal padding 토큰 — edge 정렬 */}
+        <div
+          style={{
+            position: 'relative',
+            maxWidth: '1400px',
+            margin: '0 auto',
+            padding: '0 clamp(20px, 2vw, 32px)',
+          }}
+        >
+          <div style={{ maxWidth: '860px' }}>
           {/* Eyebrow */}
           <p
             style={{
@@ -74,6 +85,7 @@ export function TeamSection() {
           >
             우리는 문제의 밑바닥까지 깊게 파고들어(Question & Re-define), AI 에이전트 워크플로우를 통해 가장 효율적인 방식으로 비즈니스 해답을 찾아냅니다. 기획부터 배포까지, 끊김 없는(Seamless) AI 네이티브 환경을 구축하는 것이 우리의 목표입니다.
           </p>
+          </div>
         </div>
       </section>
 
@@ -81,14 +93,17 @@ export function TeamSection() {
       <section
         aria-label="팀 멤버"
         style={{
-          padding: 'clamp(48px, 6vw, 80px) clamp(16px, 4vw, 48px)',
+          /* 수직 padding 만 section 담당, 수평은 내부 1400 centered wrapper 가 담당 */
+          padding: 'clamp(48px, 6vw, 80px) 0',
           backgroundColor: '#09090B',
         }}
       >
         <div
           style={{
-            maxWidth: '1200px',
+            /* 인트로 섹션과 동일한 max-width + horizontal padding — edge 1:1 정렬 */
+            maxWidth: '1400px',
             margin: '0 auto',
+            padding: '0 clamp(20px, 2vw, 32px)',
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
             gap: '24px',

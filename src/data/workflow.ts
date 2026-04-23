@@ -21,7 +21,8 @@ export const workflowSections: WorkflowSection[] = [
     title: '개요',
     body: `Superwork팀은 프로젝트를 Superwork Workflow로 시작합니다. 정반합(正反合) 변증법 기반 멀티 에이전트 시스템이 아이디어 강화부터 배포까지 전 과정을 자동화합니다.
 
-ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고, ACCEPT Verdict가 나올 때까지 반복해 산출물 품질을 끌어올립니다. 사람은 방향을 정하고, 시스템이 실행합니다.`,
+ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고, ACCEPT Verdict가 나올 때까지 반복해 산출물 품질을 끌어올립니다.\n
+**사람은 방향을 정하고, 시스템이 실행합니다.**`,
   },
 
   // ── Depth 1: 시작하기: tas init ────────────────────────────────────────────
@@ -47,7 +48,7 @@ ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고,
   {
     id: 'lifecycle',
     title: '전체 라이프사이클: tas lifecycle',
-    body: '`tas lifecycle "아이디어"` 명령 하나로 전체 개발 라이프사이클이 시작됩니다.\n\nNavigatorAgent가 아이디어를 분석해 Discovery & Planning 단계를 동적으로 구성하고, Story Cycle이 모든 스토리를 ACCEPT까지 자동 실행합니다. 실행 상태가 저장되어 중단 후 재개를 지원합니다.',
+    body: '`tas lifecycle "아이디어"` 명령 하나로 전체 개발 라이프사이클이 시작됩니다.\n\nNavigatorAgent가 아이디어를 분석해 Discovery & Planning 단계를 동적으로 구성하고, Story Cycle이 모든 스토리를 ACCEPT까지 자동 실행합니다.',
     children: [
       // ── Depth 2: 아이디어 강화 ────────────────────────────────────────────
       {
@@ -114,7 +115,7 @@ ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고,
       {
         id: 'story-cycle',
         title: 'Story Cycle',
-        body: '매 스토리마다 독립된 워커트리에서 실행됩니다. Code Review ACCEPT 판정이 나올 때까지 Dev → (QA) → Review → Playtest 루프를 자동 반복합니다. 최대 5개 스토리를 동시에 병렬 진행하며, 완료된 스토리는 자동 머지됩니다. 웨이브 간 통합 무결성은 자동으로 보장됩니다.',
+        body: '매 스토리마다 독립된 워커트리에서 실행됩니다. Code Review ACCEPT 판정이 나올 때까지 Dev → (QA) → Review → Playtest 루프를 자동 반복합니다.\n\n최대 5개 스토리를 동시에 병렬 진행하며, 완료된 스토리는 자동 머지됩니다. 웨이브 간 통합 무결성은 자동으로 보장됩니다.',
         layout: 'cards-solo',
         children: [
           {
@@ -205,7 +206,7 @@ ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고,
   {
     id: 'core-module',
     title: 'Core Module',
-    body: 'Superwork 워크플로우를 구성하는 모듈입니다. TAS는 변증법 기반 멀티 에이전트 오케스트레이션을, ImageGen MCP는 이미지 생성 AI 통합을, Self-Healing은 운영 에러 자동 감지·수정을 담당합니다.',
+    body: '',
     children: [
       {
         id: 'core-tas',
@@ -259,13 +260,13 @@ gpt-image-1, gpt-image-2
         title: 'Self-Healing (자가 복구)',
         navLabel: 'Self-Healing',
         // forward-looking — 운영 환경 자동화 비전
-        body: '운영 중인 서비스에서 발생하는 에러를 자동으로 감지하고 수정하는 자가 복구 시스템입니다. Sentry와 Firebase Crashlytics로부터 에러를 수집하고, TAS 워크플로우로 자동 수정 후 PR을 생성합니다.',
+        body: '운영 중인 서비스에서 발생하는 에러를 자동으로 감지하고 수정하는 자가 복구 시스템입니다.\n\nSentry와 Firebase Crashlytics로부터 에러를 수집하고, TAS 워크플로우로 자동 수정 후 PR을 생성합니다.',
         children: [
           {
             id: 'error-detection',
             title: '에러 감지 (Sentry + Firebase)',
             // forward-looking — 외부 연동 (Sentry, Firebase Crashlytics)
-            body: 'Sentry(백엔드/프론트엔드 런타임 에러)와 Firebase Crashlytics(모바일 크래시)로부터 실시간 에러 이벤트를 수집합니다. 에러 빈도·스택 트레이스·영향 범위를 기준으로 자동 처리 대상을 분류합니다.\n\n- **낮은 심각도** → 로그 기록만\n- **높은 심각도** → TAS Quick 자동 트리거',
+            body: 'Sentry(백엔드/프론트엔드 런타임 에러)와 Firebase Crashlytics(모바일 크래시)로부터 실시간 에러 이벤트를 수집합니다.\n\n에러 빈도·스택 트레이스·영향 범위를 기준으로 자동 처리 대상을 분류합니다.\n\n- **낮은 심각도** → 로그 기록만\n- **높은 심각도** → TAS Quick 자동 트리거',
           },
           {
             id: 'auto-fix',

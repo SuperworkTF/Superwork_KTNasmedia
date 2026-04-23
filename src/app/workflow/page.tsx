@@ -23,12 +23,14 @@ export default function WorkflowPage() {
         style={{
           position: 'relative',
           overflow: 'hidden',
-          padding: 'clamp(48px, 8vw, 96px) clamp(16px, 4vw, 48px) clamp(40px, 6vw, 64px)',
+          /* 수직 padding 만 section 이 담당 — 수평은 내부 1400 centered wrapper 가 담당해
+             .workflow-layout 과 좌/우 edge 가 1:1 정렬됨 */
+          padding: 'clamp(48px, 8vw, 96px) 0 clamp(40px, 6vw, 64px)',
           background: 'linear-gradient(180deg, #0C0C0F 0%, #09090B 100%)',
           borderBottom: '1px solid var(--color-outline)',
         }}
       >
-        {/* 배경 글로우 */}
+        {/* 배경 글로우 — section 에 full-bleed */}
         <div
           aria-hidden="true"
           style={{
@@ -43,28 +45,29 @@ export default function WorkflowPage() {
           }}
         />
 
-        <div style={{ position: 'relative', maxWidth: '860px' }}>
-          {/* 배지 */}
-          <div style={{ marginBottom: '20px' }}>
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '4px 12px',
-                borderRadius: '9999px',
-                border: '1px solid var(--color-outline)',
-                backgroundColor: 'var(--color-surface)',
-                fontSize: '0.75rem',
-                fontWeight: 600,
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-                color: 'var(--color-ember)',
-              }}
-            >
-              AI 개발 방법론
-            </span>
-          </div>
+        {/* workflow-layout 과 동일한 max-width + 수평 padding 토큰 — edge 정렬 */}
+        <div
+          style={{
+            position: 'relative',
+            maxWidth: '1400px',
+            margin: '0 auto',
+            padding: '0 clamp(20px, 2vw, 32px)',
+          }}
+        >
+          <div style={{ maxWidth: '860px' }}>
+          {/* Eyebrow — Team 섹션과 동일한 편집 레이블 패턴 (pill 대신 text kicker) */}
+          <p
+            style={{
+              margin: '0 0 16px',
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: 'var(--color-ember)',
+            }}
+          >
+            AI 개발 방법론
+          </p>
 
           <h1
             style={{
@@ -98,6 +101,7 @@ export default function WorkflowPage() {
               {heroCopy.ctaLabel} ↓
             </a>
           )}
+          </div>
         </div>
       </section>
 

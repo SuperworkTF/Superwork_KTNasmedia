@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 export function Hero() {
@@ -73,7 +74,7 @@ export function Hero() {
               color: '#A1A1AA',
             }}
           >
-            Superwork · 오픈소스 AI 도구
+            AI 네이티브 개발 조직
           </span>
         </motion.div>
 
@@ -98,54 +99,106 @@ export function Hero() {
               backgroundClip: 'text',
             }}
           >
-            두 개의 AI 도구를
+            SUPERWORK를 소개합니다
           </span>
           <br />
-          <span style={{ color: '#FAFAFA' }}>오픈소스로 공개합니다</span>
+          <span
+            style={{
+              color: '#FAFAFA',
+              /* line 2는 supporting statement — line 1 (hero)과 sub(body) 사이 중간 계층 */
+              fontSize: 'clamp(1.25rem, 2.5vw, 2rem)',
+              fontWeight: 600,
+            }}
+          >
+            기획·개발·검증·배포 전 과정을 AI 에이전트가 주도합니다.
+          </span>
         </motion.h1>
 
-        {/* Subtitle */}
+        {/* Subtitle — 와이드에서 한 줄 렌더링을 위해 외부 래퍼(1200px) 내 거의 풀폭으로 확장 */}
         <motion.p
           {...fadeUp(0.2)}
           style={{
             margin: '0 auto 40px',
-            maxWidth: '640px',
+            maxWidth: '1120px',
             fontSize: 'clamp(1rem, 2vw, 1.25rem)',
             lineHeight: 1.6,
             color: '#A1A1AA',
           }}
         >
-          Claude Code에서 두 에이전트가 논쟁하며 코드를 개선하는 TAS,{' '}
-          gpt-image-api로 이미지를 생성·편집하는 MCP 서버입니다.
+          Superwork Workflow 프로세스와 공개된 오픈소스 프로젝트를 살펴보세요.
         </motion.p>
 
-        {/* CTA */}
-        <motion.div {...fadeUp(0.3)}>
-          <motion.a
-            href="#projects"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.97 }}
-            style={{
-              display: 'inline-block',
-              padding: '14px 32px',
-              borderRadius: '8px',
-              background: 'linear-gradient(135deg, #F97316, #EC4899)',
-              fontSize: '1rem',
-              fontWeight: 600,
-              color: '#09090B', /* 흰 텍스트 2.69:1(fail) → 어두운 텍스트 5.92:1+ (WCAG AA) */
-              textDecoration: 'none',
-              boxShadow: '0 0 24px rgba(249,115,22,0.35)',
-              transition: 'box-shadow 0.15s ease-out',
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 0 40px rgba(249,115,22,0.55)';
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 0 24px rgba(249,115,22,0.35)';
-            }}
-          >
-            프로젝트 보기 →
-          </motion.a>
+        {/* CTAs — Primary: Workflow(filled), Secondary: Team(outlined, 퍼플 호버)
+            grid 1fr 1fr 로 두 버튼 폭 동일 보장. 좁은 뷰포트는 auto-fit 로 자동 세로 스택 */}
+        <motion.div
+          {...fadeUp(0.3)}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: '12px',
+            maxWidth: '560px',
+            margin: '0 auto',
+          }}
+        >
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+            <Link
+              href="/workflow"
+              style={{
+                display: 'block',
+                padding: '14px 32px',
+                borderRadius: '8px',
+                background: 'linear-gradient(135deg, #F97316, #EC4899)',
+                fontSize: '1rem',
+                fontWeight: 600,
+                color: '#09090B', /* 어두운 텍스트로 WCAG AA 확보 */
+                textDecoration: 'none',
+                textAlign: 'center',
+                boxShadow: '0 0 24px rgba(249,115,22,0.35)',
+                transition: 'box-shadow 0.15s ease-out',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.boxShadow =
+                  '0 0 40px rgba(249,115,22,0.55)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.boxShadow =
+                  '0 0 24px rgba(249,115,22,0.35)';
+              }}
+            >
+              Superwork Workflow →
+            </Link>
+          </motion.div>
+
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+            <Link
+              href="/team"
+              style={{
+                display: 'block',
+                padding: '14px 32px',
+                borderRadius: '8px',
+                border: '1px solid #3F3F46',
+                backgroundColor: 'transparent',
+                fontSize: '1rem',
+                fontWeight: 600,
+                color: '#FAFAFA',
+                textDecoration: 'none',
+                textAlign: 'center',
+                transition: 'border-color 0.15s ease-out, background-color 0.15s ease-out',
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.borderColor = '#BF7FFF';
+                el.style.backgroundColor = 'rgba(191,127,255,0.04)';
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.borderColor = '#3F3F46';
+                el.style.backgroundColor = 'transparent';
+              }}
+            >
+              Superwork Team →
+            </Link>
+          </motion.div>
         </motion.div>
       </div>
     </section>

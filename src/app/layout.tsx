@@ -12,13 +12,13 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'SUPERWORK — 오픈소스 AI 도구',
+  title: 'SUPERWORK — AI 네이티브 개발 조직',
   description:
-    'Claude Code에서 두 에이전트가 논쟁하며 코드를 개선하는 TAS, gpt-image-1,2로 이미지를 생성·편집하는 MCP 서버입니다.',
+    'Superwork는 변증법 AI 에이전트 워크플로우로 기획·개발·검증·배포 전 과정을 자동화하는 팀입니다.',
   openGraph: {
-    title: 'SUPERWORK — 오픈소스 AI 도구',
+    title: 'SUPERWORK — AI 네이티브 개발 조직',
     description:
-      'Claude Code에서 두 에이전트가 논쟁하며 코드를 개선하는 TAS, gpt-image-1,2로 이미지를 생성·편집하는 MCP 서버입니다.',
+      'Superwork는 변증법 AI 에이전트 워크플로우로 기획·개발·검증·배포 전 과정을 자동화하는 팀입니다.',
     type: 'website',
   },
 };

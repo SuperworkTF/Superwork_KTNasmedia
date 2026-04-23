@@ -254,7 +254,7 @@ body {
 .workflow-layout {
   display: flex;
   flex-direction: column;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -265,7 +265,8 @@ body {
 .workflow-content-col {
   flex: 1;
   min-width: 0;
-  padding: 24px 16px 64px;
+  /* 히어로와 같은 fluid 리듬 — 모바일 20px에서 와이드 32px 까지 비례 */
+  padding: clamp(20px, 3vw, 32px) clamp(20px, 2vw, 32px) clamp(48px, 6vw, 80px);
 }
 
 .workflow-toc-col {
@@ -277,13 +278,15 @@ body {
     flex-direction: row;
     /* align-items 는 default(stretch) 유지 — flex-start면 자식 높이가 콘텐츠로
        갇혀 sticky 자식이 이동할 공간이 사라져 따라다니지 않음 */
-    gap: 40px;
-    /* TOC가 글로벌 사이드바에 이어붙도록 좌측 앵커.
-       여유 공간은 우측으로 흘려보냄 — 좌측 nav 묶음이 "프레임 edge"가 됨 */
-    margin-left: 0;
+    gap: clamp(32px, 3vw, 48px);
+    /* 1400 cap 초과분을 양쪽으로 분산 — 1024–1660px 구간은 content-area를 그대로
+       채우므로 변화 없음, 그 이상 와이드에서만 대칭 centering 이 활성화됨.
+       덕분에 우측에 몰리던 빈 공간이 좌우 gutter 로 균등 배분됨. */
+    margin-left: auto;
     margin-right: auto;
-    /* 글로벌 사이드바와 TOC 사이 숨 여백 */
-    padding-left: 24px;
+    /* 히어로 inner wrapper와 동일한 horizontal padding — 두 블록 edge 1:1 정렬 */
+    padding-left: clamp(20px, 2vw, 32px);
+    padding-right: clamp(20px, 2vw, 32px);
   }
 
   .workflow-sidebar-col {
@@ -293,13 +296,14 @@ body {
 
   .workflow-content-col {
     max-width: none;
-    padding: 40px 16px 80px;
+    /* desktop 에선 layout 의 horizontal padding 이 edge 담당 — col 자체는 수직만 */
+    padding: clamp(36px, 3vw, 56px) 0 clamp(64px, 6vw, 96px);
   }
 
   .workflow-toc-col {
     display: block;
     flex-shrink: 0;
-    padding-top: 40px;
+    padding-top: clamp(36px, 3vw, 56px);
   }
 }
 
