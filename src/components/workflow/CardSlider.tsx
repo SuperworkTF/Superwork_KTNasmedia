@@ -93,7 +93,6 @@ export function CardSlider({ variant, ariaLabel, children }: CardSliderProps) {
   return (
     <div
       className={`workflow-slider workflow-slider--${variant}`}
-      data-can-prev={canPrev ? 'true' : 'false'}
       data-can-next={canNext ? 'true' : 'false'}
       role="region"
       aria-roledescription="carousel"
@@ -155,10 +154,6 @@ export function CardSlider({ variant, ariaLabel, children }: CardSliderProps) {
         <ul ref={trackRef} role="list" className="workflow-slider__track">
           {children}
         </ul>
-        <span
-          className="workflow-slider__fade workflow-slider__fade--left"
-          aria-hidden="true"
-        />
         <span
           className="workflow-slider__fade workflow-slider__fade--right"
           aria-hidden="true"

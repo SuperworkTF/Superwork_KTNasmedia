@@ -475,17 +475,11 @@ body {
   flex-shrink: 0;
   scroll-snap-align: start;
   margin: 0;
-}
-
-.workflow-slider--roomy .workflow-slider__track > .workflow-leaf-card {
-  width: clamp(260px, 46%, 324px);
-}
-
-.workflow-slider--solo .workflow-slider__track > .workflow-leaf-card {
+  /* Discovery·Story Cycle 카드 폭 통일 — solo 치수 기준 */
   width: clamp(300px, 84%, 492px);
 }
 
-/* 엣지 페이드 — 스크롤 여유가 있는 방향만 노출 */
+/* 엣지 페이드 — 오른쪽에만 노출 (왼쪽은 활성 카드 내용과 간섭되어 제거) */
 .workflow-slider__fade {
   position: absolute;
   top: 4px;
@@ -496,17 +490,11 @@ body {
   transition: opacity 0.2s ease;
 }
 
-.workflow-slider__fade--left {
-  left: 8px;
-  background: linear-gradient(to right, #09090B 10%, rgba(9, 9, 11, 0) 100%);
-}
-
 .workflow-slider__fade--right {
   right: 8px;
   background: linear-gradient(to left, #09090B 10%, rgba(9, 9, 11, 0) 100%);
 }
 
-.workflow-slider[data-can-prev='true'] .workflow-slider__fade--left,
 .workflow-slider[data-can-next='true'] .workflow-slider__fade--right {
   opacity: 1;
 }
