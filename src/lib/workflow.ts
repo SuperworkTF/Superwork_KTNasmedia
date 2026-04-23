@@ -28,6 +28,22 @@ export interface WorkflowLeaf {
    */
   required?: boolean;
   /**
+   * 카드 상단에 표시할 이미지 (선택).
+   * 지정 시 카드 그리드(`layout: 'cards*'`)에서 제목/본문 위에 이미지가 먼저 렌더된다.
+   * `src`는 `/public` 기준 루트 절대 경로(예: `/workflow/use-cases/flutter.webp`).
+   * 렌더 시 basePath가 자동 부여된다.
+   */
+  image?: {
+    src: string;
+    alt: string;
+  };
+  /**
+   * 이미지 프레임의 CSS aspect-ratio 값 (선택).
+   * 예: '4 / 3', '3 / 4', '9 / 16', '16 / 10'. 미지정 시 기본 4 / 3.
+   * 원본 스크린샷 비율에 맞추면 `object-fit: contain`의 레터박스 여백이 최소화된다.
+   */
+  imageAspect?: string;
+  /**
    * 개발자용 소스 힌트 — TAS(simsimhae91/tas) 파일 경로 참조.
    * 렌더링되지 않으며 문서화·유지보수 용도로만 사용.
    * (주석 전용 필드: UI에 절대 노출 금지)

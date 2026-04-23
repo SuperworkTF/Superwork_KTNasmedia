@@ -378,6 +378,63 @@ body {
   flex-shrink: 0;
 }
 
+/* 이미지 중심 카드 (Use Cases) — 상단 이미지 프레임 + 하단 캡션 */
+.workflow-leaf-card--image {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.workflow-leaf-card--image > h4,
+.workflow-leaf-card--image > .workflow-leaf-card__hook {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.workflow-leaf-card--image > h4 {
+  margin-top: 14px;
+}
+
+.workflow-leaf-card--image > .workflow-leaf-card__hook {
+  padding-bottom: 16px;
+  margin: 0;
+}
+
+.workflow-leaf-card__image-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background-color: #0D0D0F;
+  border-bottom: 1px solid var(--color-outline);
+  overflow: hidden;
+}
+
+.workflow-leaf-card__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Use-case 이미지 카드 — 높이 고정, 폭은 원본 비율로 자동 파생.
+   포트레이트/랜드스케이프가 섞여도 모든 카드 높이가 같아 슬라이드 전환이 일정함. */
+.workflow-slider--solo .workflow-slider__track > .workflow-leaf-card--image {
+  width: auto;
+  min-width: 280px;
+  max-width: min(720px, 88%);
+}
+
+.workflow-leaf-card--image .workflow-leaf-card__image-frame {
+  height: clamp(320px, 48vh, 480px);
+  width: auto;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .workflow-leaf-card,
   .workflow-leaf-card:hover {

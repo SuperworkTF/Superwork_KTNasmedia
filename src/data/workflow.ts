@@ -155,6 +155,52 @@ ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고,
     ],
   },
 
+  // ── Depth 1: Use Cases ────────────────────────────────────────────────────
+  {
+    id: 'use-cases',
+    title: 'Use Cases',
+    body: 'Superwork Workflow로 만든 실제 프로덕트. 모바일 네이티브부터 웹 게임, 설치형 웹앱까지 런타임을 가리지 않습니다.',
+    children: [
+      {
+        id: 'use-cases-products',
+        title: '프로덕트 3종 and more..',
+        layout: 'cards-solo',
+        children: [
+          {
+            id: 'use-case-flutter',
+            title: 'Flutter 앱',
+            body: '네이티브 모바일 · TAS 라이프사이클 풀코스',
+            image: {
+              src: '/workflow/use-cases/flutter.webp',
+              alt: 'Flutter 앱 스크린샷',
+            },
+            imageAspect: '474 / 988',
+          },
+          {
+            id: 'use-case-cocos',
+            title: 'Cocos 웹게임',
+            body: '웹 게임 · Story Cycle + ImageGen MCP 에셋 자동화',
+            image: {
+              src: '/workflow/use-cases/cocos.webp',
+              alt: 'Cocos 웹게임 스크린샷',
+            },
+            imageAspect: '896 / 1622',
+          },
+          {
+            id: 'use-case-pwa',
+            title: 'Next.js PWA',
+            body: '설치형 웹앱 · TAS 라이프사이클 풀코스',
+            image: {
+              src: '/workflow/use-cases/pwa.webp',
+              alt: 'Next.js PWA 스크린샷',
+            },
+            imageAspect: '2242 / 1352',
+          },
+        ],
+      },
+    ],
+  },
+
   // ── Depth 1: Core Module ──────────────────────────────────────────────────
   {
     id: 'core-module',

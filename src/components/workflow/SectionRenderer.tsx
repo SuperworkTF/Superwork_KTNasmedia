@@ -1,6 +1,7 @@
 import type { WorkflowSection, WorkflowSubsection, WorkflowLeaf } from '@/lib/workflow';
 import type { CSSProperties, ReactNode } from 'react';
 import { CardSlider, type CardSliderVariant } from './CardSlider';
+import { withBasePath } from '@/lib/basePath';
 
 // ──────────────────────────────────────────────────────────────────────────────
 // 간이 마크다운 렌더러
@@ -571,12 +572,38 @@ function LeafCard({ leaf }: { leaf: WorkflowLeaf }) {
   const hook = hookRaw.split('\n').join(' ').trim();
   const rest = restRaw.trim();
 
+  const hasImage = !!leaf.image;
+
   return (
     <li
       id={leaf.id}
       aria-labelledby={`${leaf.id}-heading`}
-      className="workflow-leaf-card"
+      className={
+        hasImage
+          ? 'workflow-leaf-card workflow-leaf-card--image'
+          : 'workflow-leaf-card'
+      }
     >
+      {hasImage && (
+        <div
+          className="workflow-leaf-card__image-frame"
+          style={
+            leaf.imageAspect
+              ? { aspectRatio: leaf.imageAspect }
+              : undefined
+          }
+        >
+          {/* next/image는 basePath를 자동 적용하지 않음(unoptimized+export) */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={withBasePath(leaf.image!.src)}
+            alt={leaf.image!.alt}
+            className="workflow-leaf-card__image"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      )}
       <h4
         id={`${leaf.id}-heading`}
         style={{
