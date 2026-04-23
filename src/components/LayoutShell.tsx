@@ -6,7 +6,6 @@ import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import { SidebarContext } from '@/contexts/SidebarContext';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
-import { Footer } from './Footer';
 import { ErrorBoundary } from './ErrorBoundary';
 
 export function LayoutShell({ children }: { children: React.ReactNode }) {
@@ -71,7 +70,6 @@ export function LayoutShell({ children }: { children: React.ReactNode }) {
         <div className="content-area">
           <Header />
           {children}
-          <Footer />
         </div>
       </div>
     </SidebarContext.Provider>

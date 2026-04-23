@@ -1,21 +1,18 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Users, X, Layers, ChevronDown } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Users, X, Layers } from 'lucide-react';
 import FocusTrap from 'focus-trap-react';
 import { useSidebar } from '@/contexts/SidebarContext';
-import { useWorkflowScrollspy } from '@/hooks/useWorkflowScrollspy';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { workflowSections } from '@/data/workflow';
 
 // ── 메인 Sidebar 컴포넌트 ───────────────────────────────────────────
 export function Sidebar() {
   const { isSidebarOpen, closeSidebar } = useSidebar();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const activeId = useWorkflowScrollspy();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
   const pathname = usePathname();
 
@@ -26,21 +23,7 @@ export function Sidebar() {
     }
   }, [isSidebarOpen, isDesktop]);
 
-  const chevronRef = useRef<HTMLButtonElement>(null);
-
   const isWorkflow = pathname.startsWith('/workflow');
-  const [isWorkflowOpen, setIsWorkflowOpen] = useState(() => pathname.startsWith('/workflow'));
-
-  const closeWorkflow = () => {
-    setIsWorkflowOpen(false);
-    setTimeout(() => chevronRef.current?.focus(), 0);
-  };
-
-  useEffect(() => {
-    if (pathname.startsWith('/workflow')) {
-      setIsWorkflowOpen(true);
-    }
-  }, [pathname]);
 
   const sidebarContent = (
     <motion.aside
@@ -141,114 +124,17 @@ export function Sidebar() {
         aria-label="사이드바 내비게이션"
         style={{ flex: 1, padding: '8px', overflowY: 'auto' }}
       >
-        {/* Superwork Workflow — 좌측 토글 chevron + Link */}
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <button
-            ref={chevronRef}
-            onClick={() => setIsWorkflowOpen((prev) => !prev)}
-            aria-expanded={isWorkflowOpen}
-            aria-controls="workflow-nav-subtree"
-            aria-label={isWorkflowOpen ? 'Superwork Workflow 메뉴 접기' : 'Superwork Workflow 메뉴 펼치기'}
-            onKeyDown={(e) => {
-              if (e.key === 'Escape') closeWorkflow();
-            }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-              width: '24px',
-              height: '32px',
-              marginLeft: '2px',
-              borderRadius: '6px',
-              border: 'none',
-              backgroundColor: 'transparent',
-              color: 'var(--color-muted)',
-              cursor: 'pointer',
-              transition: 'color 0.1s, background-color 0.1s',
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLButtonElement;
-              el.style.color = 'var(--color-snow)';
-              el.style.backgroundColor = 'var(--sidebar-item-hover-bg)';
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLButtonElement;
-              el.style.color = 'var(--color-muted)';
-              el.style.backgroundColor = 'transparent';
-            }}
-          >
-            {/*
-              좌측 배치 chevron — 접힘 ▶ / 펼침 ▼
-              - isWorkflowOpen=false (접힘): rotate(-90deg)로 ChevronDown(▼)을 오른쪽(▶)으로 회전
-              - isWorkflowOpen=true  (펼침): rotate(0deg) 유지 → ▼ (아래)
-            */}
-            <ChevronDown
-              size={14}
-              aria-hidden="true"
-              style={{
-                transform: isWorkflowOpen ? 'rotate(0deg)' : 'rotate(-90deg)',
-                transition: 'transform 0.22s ease',
-              }}
-            />
-          </button>
-
-          <Link
-            href="/workflow"
-            className="sidebar-item"
-            aria-current={isWorkflow ? 'page' : undefined}
-            onClick={closeSidebar}
-            style={{ flex: 1 }}
-          >
-            <Layers size={16} aria-hidden="true" />
-            Superwork Workflow
-          </Link>
-        </div>
-
-        {/* 워크플로우 서브트리 — isWorkflowOpen 상태 기반 토글 */}
-        <AnimatePresence initial={false}>
-          {isWorkflowOpen && (
-            <motion.div
-              id="workflow-nav-subtree"
-              role="group"
-              aria-label="Superwork Workflow 하위 메뉴"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
-              style={{ overflow: 'hidden' }}
-              onKeyDown={(e) => {
-                if (e.key === 'Escape') closeWorkflow();
-              }}
-            >
-              <div className="sidebar-subtree">
-                {workflowSections.map((section) => (
-                  <div key={section.id}>
-                    <Link
-                      href={`/workflow#${section.id}`}
-                      className="sidebar-subitem"
-                      aria-current={activeId === section.id ? 'location' : undefined}
-                      onClick={closeSidebar}
-                    >
-                      {section.navLabel ?? section.title}
-                    </Link>
-                    {section.children?.map((child) => (
-                      <Link
-                        key={child.id}
-                        href={`/workflow#${child.id}`}
-                        className="sidebar-subsubitem"
-                        aria-current={activeId === child.id ? 'location' : undefined}
-                        onClick={closeSidebar}
-                      >
-                        {child.navLabel ?? child.title}
-                      </Link>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Superwork Workflow — 전 페이지 통일: 서브트리 없음.
+            워크플로우 내부 내비는 /workflow 페이지의 좌측 TOC(DetailSidebar)가 담당 */}
+        <Link
+          href="/workflow"
+          className="sidebar-item"
+          aria-current={isWorkflow ? 'page' : undefined}
+          onClick={closeSidebar}
+        >
+          <Layers size={16} aria-hidden="true" />
+          Superwork Workflow
+        </Link>
 
         {/* Superwork Team */}
         <Link

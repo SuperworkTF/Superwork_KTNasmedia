@@ -423,22 +423,24 @@ export function DetailSidebar({ sections }: Props) {
     </nav>
   );
 
-  // ── 데스크탑: sticky 사이드바 ─────────────────────────────────
+  // ── 데스크탑: sticky 좌측 TOC (글로벌 사이드바 우측에 이어붙음) ────
   if (isDesktop) {
     return (
       <div
         style={{
           position: 'sticky',
           top: '32px',
-          width: '260px',
+          width: '240px',
           flexShrink: 0,
-          alignSelf: 'flex-start',
+          /* alignSelf 생략 — 부모 .workflow-layout이 default(stretch)이므로
+             이 요소는 부모 전체 높이를 얻고, sticky가 스크롤 내내 따라다님.
+             maxHeight는 viewport 안으로 시각 높이 제한 */
           maxHeight: 'calc(100vh - 64px)',
           overflowY: 'auto',
           scrollbarWidth: 'thin',
           scrollbarColor: 'var(--color-outline) transparent',
           borderRight: '1px solid var(--color-outline)',
-          paddingRight: '8px',
+          paddingRight: '16px',
         }}
       >
         <p
@@ -452,7 +454,7 @@ export function DetailSidebar({ sections }: Props) {
             color: 'var(--color-muted)',
           }}
         >
-          목차
+          이 페이지에서
         </p>
         {navContent}
       </div>

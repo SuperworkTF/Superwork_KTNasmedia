@@ -250,7 +250,7 @@ body {
   transform: translateY(0) scale(0.98);
 }
 
-/* ── /workflow 상세 페이지 2단 레이아웃 ───────────────────── */
+/* ── /workflow 상세 페이지 — 3단(글로벌 사이드바 + 좌측 TOC + 본문) ── */
 .workflow-layout {
   display: flex;
   flex-direction: column;
@@ -268,14 +268,22 @@ body {
   padding: 24px 16px 64px;
 }
 
+.workflow-toc-col {
+  display: none;
+}
+
 @media (min-width: 1024px) {
   .workflow-layout {
     flex-direction: row;
-    align-items: flex-start;
-    /* 사이드바 앵커: 중앙정렬 시 좌측 공백이 과도해 보여 좌측 고정,
-       여유 공간은 우측으로 흘려보냄 (사이드바 하이라이트와 콘텐츠 헤딩 정렬) */
+    /* align-items 는 default(stretch) 유지 — flex-start면 자식 높이가 콘텐츠로
+       갇혀 sticky 자식이 이동할 공간이 사라져 따라다니지 않음 */
+    gap: 40px;
+    /* TOC가 글로벌 사이드바에 이어붙도록 좌측 앵커.
+       여유 공간은 우측으로 흘려보냄 — 좌측 nav 묶음이 "프레임 edge"가 됨 */
     margin-left: 0;
     margin-right: auto;
+    /* 글로벌 사이드바와 TOC 사이 숨 여백 */
+    padding-left: 24px;
   }
 
   .workflow-sidebar-col {
@@ -285,8 +293,13 @@ body {
 
   .workflow-content-col {
     max-width: none;
-    /* 좌측 48px: 사이드바(260px)와의 숨쉬는 간격 */
-    padding: 40px 48px 80px;
+    padding: 40px 16px 80px;
+  }
+
+  .workflow-toc-col {
+    display: block;
+    flex-shrink: 0;
+    padding-top: 40px;
   }
 }
 

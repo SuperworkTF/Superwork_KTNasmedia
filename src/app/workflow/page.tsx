@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { heroCopy, workflowSections } from '@/data/workflow';
 import { SectionRenderer } from '@/components/workflow/SectionRenderer';
+import { DetailSidebar } from '@/components/workflow/DetailSidebar';
 
 export const metadata: Metadata = {
   title: 'Superwork Workflow — SUPERWORK',
@@ -100,8 +101,11 @@ export default function WorkflowPage() {
         </div>
       </section>
 
-      {/* ── 본문 콘텐츠 (좌측 글로벌 사이드바가 목차 역할 대체) ─── */}
+      {/* ── 좌측 TOC + 본문 (데스크톱 3단: 글로벌 사이드바 + TOC + 본문) ─── */}
       <div className="workflow-layout">
+        <aside className="workflow-toc-col" aria-label="이 페이지에서">
+          <DetailSidebar sections={workflowSections} />
+        </aside>
         <div className="workflow-content-col">
           {workflowSections.map((section) => (
             <SectionRenderer key={section.id} section={section} />
