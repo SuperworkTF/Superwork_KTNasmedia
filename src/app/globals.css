@@ -337,6 +337,29 @@ body {
   flex-shrink: 0;
 }
 
+.workflow-leaf-card__hook {
+  margin: 0 0 12px;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  font-weight: 500;
+  color: var(--color-snow);
+  letter-spacing: -0.005em;
+}
+
+.workflow-leaf-card__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background-color: rgba(249, 115, 22, 0.12);
+  color: #FB923C;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .workflow-leaf-card,
   .workflow-leaf-card:hover {

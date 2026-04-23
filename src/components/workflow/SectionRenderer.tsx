@@ -562,6 +562,14 @@ function LeafSection({ leaf }: { leaf: WorkflowLeaf }) {
 // Leaf 카드 렌더러 (Depth 3 — 카드 그리드용)
 // ──────────────────────────────────────────────────────────────────────────────
 function LeafCard({ leaf }: { leaf: WorkflowLeaf }) {
+  // body를 첫 빈 줄 기준으로 hook 단락과 나머지(불릿 리스트 등)로 분리
+  const body = leaf.body ?? '';
+  const blankSplit = body.indexOf('\n\n');
+  const hookRaw = blankSplit >= 0 ? body.slice(0, blankSplit) : body;
+  const restRaw = blankSplit >= 0 ? body.slice(blankSplit + 2) : '';
+  const hook = hookRaw.split('\n').join(' ').trim();
+  const rest = restRaw.trim();
+
   return (
     <li
       id={leaf.id}
@@ -579,12 +587,19 @@ function LeafCard({ leaf }: { leaf: WorkflowLeaf }) {
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
+          flexWrap: 'wrap',
         }}
       >
         <span aria-hidden="true" className="workflow-leaf-card__dot" />
-        {leaf.title}
+        <span>{leaf.title}</span>
+        {leaf.required && (
+          <span className="workflow-leaf-card__badge" aria-label="필수 단계">
+            필수
+          </span>
+        )}
       </h4>
-      {leaf.body && <BodyText text={leaf.body} />}
+      {hook && <p className="workflow-leaf-card__hook">{renderInline(hook)}</p>}
+      {rest && <BodyText text={rest} />}
     </li>
   );
 }

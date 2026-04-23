@@ -91,7 +91,8 @@ ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고,
           {
             id: 'create-prd',
             title: 'Create PRD',
-            body: '제품 요구사항을 "실행 가능한 문서"로 고정합니다.\n\n- **산출물**: Product Requirements Document\n- **언제**: Discovery가 끝나고 범위를 박아야 할 때 (**필수**)\n- **특징**: 에픽·스토리로 바로 쪼갤 수 있는 수준의 요구사항 명세. AntithesisAgent(反)가 검증·수정 루프 동반',
+            required: true,
+            body: '제품 요구사항을 "실행 가능한 문서"로 고정합니다.\n\n- **산출물**: Product Requirements Document\n- **언제**: Discovery가 끝나고 범위를 박아야 할 때\n- **특징**: 에픽·스토리로 바로 쪼갤 수 있는 수준의 요구사항 명세. AntithesisAgent(反)가 검증·수정 루프 동반',
           },
           {
             id: 'create-ux',
@@ -101,13 +102,15 @@ ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고,
           {
             id: 'create-architecture',
             title: 'Create Architecture',
-            body: '"어떻게 만들지"를 한 문서에 담습니다.\n\n- **산출물**: 기술 아키텍처 문서 (시스템·데이터·통합)\n- **언제**: 구현 전 (**필수**)\n- **특징**: 기술 결정·의존성·확장 포인트를 기록 — 이후 Dev 루프의 모든 스토리가 이 문서를 참조',
+            required: true,
+            body: '"어떻게 만들지"를 한 문서에 담습니다.\n\n- **산출물**: 기술 아키텍처 문서 (시스템·데이터·통합)\n- **언제**: 구현 전\n- **특징**: 기술 결정·의존성·확장 포인트를 기록 — 이후 Dev 루프의 모든 스토리가 이 문서를 참조',
           },
           {
             id: 'create-epics-stories',
             title: 'Create Epics & Stories',
             navLabel: 'Epics & Stories',
-            body: '설계를 "AI가 병렬로 먹을 수 있는 단위"로 쪼갭니다.\n\n- **산출물**: 에픽 + 스토리 리스트\n- **언제**: Architecture 완료 후 (**필수**)\n- **특징**: 여기서 쪼개진 스토리 단위가 그대로 병렬 Dev 파이프라인의 입력이 됩니다. 설계와 실행을 잇는 핵심 변환점',
+            required: true,
+            body: '설계를 "AI가 병렬로 먹을 수 있는 단위"로 쪼갭니다.\n\n- **산출물**: 에픽 + 스토리 리스트\n- **언제**: Architecture 완료 후\n- **특징**: 여기서 쪼개진 스토리 단위가 그대로 병렬 Dev 파이프라인의 입력이 됩니다. 설계와 실행을 잇는 핵심 변환점',
           },
         ],
       },
@@ -116,13 +119,14 @@ ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고,
       {
         id: 'story-cycle',
         title: 'Story Cycle',
-        body: '매 스토리마다 독립된 워커트리에서 실행됩니다. Code Review ACCEPT 판정이 나올 때까지 Dev → Review → (QA) → Playtest 루프를 자동 반복합니다. 최대 5개 스토리를 동시에 병렬 진행하며, 완료된 스토리는 자동 머지됩니다. 웨이브 간 통합 무결성은 자동으로 보장됩니다.',
+        body: '매 스토리마다 독립된 워커트리에서 실행됩니다. Code Review ACCEPT 판정이 나올 때까지 Dev → (QA) → Review → Playtest 루프를 자동 반복합니다. 최대 5개 스토리를 동시에 병렬 진행하며, 완료된 스토리는 자동 머지됩니다. 웨이브 간 통합 무결성은 자동으로 보장됩니다.',
         layout: 'cards-solo',
         children: [
           {
             id: 'sprint-planning',
             title: 'Sprint Planning',
-            body: '병렬 실행의 웨이브를 설계합니다.\n\n- **산출물**: 웨이브 그룹 계획 (`execution-plan.yaml`)\n- **언제**: Dev 루프 시작 전 (**필수**)\n- **특징**: 의존성을 위상정렬해 "동시에 돌려도 안전한 스토리 묶음"을 구성 — 격리된 워커트리에서 **최대 5개 스토리 병렬 진행**',
+            required: true,
+            body: '병렬 실행의 웨이브를 설계합니다.\n\n- **산출물**: 웨이브 그룹 계획 (`execution-plan.yaml`)\n- **언제**: Dev 루프 시작 전\n- **특징**: 의존성을 위상정렬해 "동시에 돌려도 안전한 스토리 묶음"을 구성 — 격리된 워커트리에서 **최대 5개 스토리 병렬 진행**',
           },
           {
             id: 'create-story',
@@ -135,15 +139,15 @@ ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고,
             body: '격리된 워커트리에서 실제 구현을 진행합니다.\n\n- **산출물**: 실제 코드·테스트·스토리 상태 업데이트\n- **언제**: Create Story 직후\n- **특징**: 워커트리 격리 + 피드백 루프 — Review/Playtest 반려 시 피드백을 먹고 재작업',
           },
           {
-            id: 'code-review',
-            title: '코드 리뷰',
-            body: '정적 품질의 1차 관문입니다.\n\n- **산출물**: REFINE / ACCEPT / COUNTER / HALT 중 하나의 판정\n- **언제**: Dev Story 직후\n- **특징**: AntithesisAgent(反)가 AC 충족·코드 품질·일관성을 독립 평가 — **ACCEPT 없이 통과 없음, Dev로 회귀**',
-          },
-          {
             id: 'qa-test',
             title: 'QA 자동화 테스트',
             navLabel: 'QA 자동화',
-            body: '리그레션 방지선을 자동으로 세웁니다.\n\n- **산출물**: API/E2E 자동화 테스트 스위트\n- **언제**: 구현된 스토리에 대해 (선택)\n- **특징**: Review가 "코드 검토"라면 QA는 "실행 가능한 안전망" 생성 — 이후 모든 스토리의 변경이 자동으로 검증됨',
+            body: '리그레션 방지선을 자동으로 세웁니다.\n\n- **산출물**: API/E2E 자동화 테스트 스위트\n- **언제**: 구현된 스토리에 대해 (선택)\n- **특징**: "실행 가능한 안전망" 생성 — 이후 모든 스토리의 변경이 자동으로 검증됨',
+          },
+          {
+            id: 'code-review',
+            title: '코드 리뷰',
+            body: '정적 품질의 1차 관문입니다.\n\n- **산출물**: REFINE / ACCEPT / COUNTER / HALT 중 하나의 판정\n- **언제**: Dev Story 후\n- **특징**: AntithesisAgent(反)가 AC 충족·코드 품질·일관성을 독립 평가, **ACCEPT 없이 통과 없음, Dev로 회귀**',
           },
           {
             id: 'antithesis-playtest',
@@ -165,7 +169,6 @@ ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고,
       {
         id: 'core-tas',
         title: 'TAS (Thesis Antithesis Synthesis)',
-        navLabel: 'TAS',
         repoUrl: 'https://github.com/simsimhae91/tas',
         body: `**TAS** — Claude Code 기반 변증법 멀티 에이전트 오케스트레이션 플러그인.
 

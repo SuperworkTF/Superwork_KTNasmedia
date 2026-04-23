@@ -22,6 +22,12 @@ export interface WorkflowLeaf {
   /** 마크다운 형식의 본문 텍스트 (선택) */
   body?: string;
   /**
+   * 필수 단계 표식 (선택).
+   * `true` 지정 시 카드 제목 옆에 "필수" 뱃지가 렌더링된다.
+   * 카드 그리드 레이아웃(`layout: 'cards*'`)에서만 시각적으로 노출된다.
+   */
+  required?: boolean;
+  /**
    * 개발자용 소스 힌트 — TAS(simsimhae91/tas) 파일 경로 참조.
    * 렌더링되지 않으며 문서화·유지보수 용도로만 사용.
    * (주석 전용 필드: UI에 절대 노출 금지)
