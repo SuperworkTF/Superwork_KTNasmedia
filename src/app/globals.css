@@ -368,6 +368,180 @@ body {
   }
 }
 
+/* ── 워크플로우 좌우 슬라이더 (Discovery & Planning / Story Cycle) ─── */
+.workflow-slider {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  outline: none;
+}
+
+.workflow-slider:focus-visible {
+  outline: none;
+}
+
+.workflow-slider:focus-visible .workflow-slider__viewport {
+  box-shadow: 0 0 0 2px var(--color-ember);
+  border-radius: 14px;
+}
+
+.workflow-slider__controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.workflow-slider__counter {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  margin-right: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+}
+
+.workflow-slider__counter-current {
+  color: var(--color-snow);
+  font-weight: 600;
+}
+
+.workflow-slider__counter-sep {
+  opacity: 0.4;
+  padding: 0 2px;
+}
+
+.workflow-slider__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--color-outline);
+  background-color: #111114;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease,
+    background-color 0.15s ease, transform 0.12s ease;
+}
+
+.workflow-slider__btn:hover:not(:disabled) {
+  color: var(--color-ember);
+  border-color: var(--color-ember);
+  background-color: rgba(249, 115, 22, 0.06);
+}
+
+.workflow-slider__btn:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.workflow-slider__btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.workflow-slider__viewport {
+  position: relative;
+  /* 카드 hover translateY(-2px) + box-shadow 이 잘리지 않도록 여백 */
+  margin: -4px -8px;
+  padding: 4px 8px;
+}
+
+.workflow-slider__track {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.workflow-slider__track::-webkit-scrollbar {
+  display: none;
+}
+
+.workflow-slider__track > .workflow-leaf-card {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  margin: 0;
+}
+
+.workflow-slider--roomy .workflow-slider__track > .workflow-leaf-card {
+  width: clamp(260px, 46%, 324px);
+}
+
+.workflow-slider--solo .workflow-slider__track > .workflow-leaf-card {
+  width: clamp(300px, 84%, 492px);
+}
+
+/* 엣지 페이드 — 스크롤 여유가 있는 방향만 노출 */
+.workflow-slider__fade {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  width: 56px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.workflow-slider__fade--left {
+  left: 8px;
+  background: linear-gradient(to right, #09090B 10%, rgba(9, 9, 11, 0) 100%);
+}
+
+.workflow-slider__fade--right {
+  right: 8px;
+  background: linear-gradient(to left, #09090B 10%, rgba(9, 9, 11, 0) 100%);
+}
+
+.workflow-slider[data-can-prev='true'] .workflow-slider__fade--left,
+.workflow-slider[data-can-next='true'] .workflow-slider__fade--right {
+  opacity: 1;
+}
+
+/* 프로그레스 바 */
+.workflow-slider__progress {
+  position: relative;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.workflow-slider__progress-fill {
+  display: block;
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  background: linear-gradient(90deg, #F97316 0%, #FB923C 100%);
+  border-radius: 999px;
+  transition: transform 0.22s ease-out;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workflow-slider__track {
+    scroll-behavior: auto;
+  }
+  .workflow-slider__progress-fill,
+  .workflow-slider__fade,
+  .workflow-slider__btn {
+    transition: none;
+  }
+}
+
 /* ── 워크플로우 사이드바 서브트리 ─────────────────────────── */
 .sidebar-subtree {
   margin-top: 2px;

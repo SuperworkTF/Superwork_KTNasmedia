@@ -1,5 +1,6 @@
 import type { WorkflowSection, WorkflowSubsection, WorkflowLeaf } from '@/lib/workflow';
 import type { CSSProperties, ReactNode } from 'react';
+import { CardSlider, type CardSliderVariant } from './CardSlider';
 
 // ──────────────────────────────────────────────────────────────────────────────
 // 간이 마크다운 렌더러
@@ -609,15 +610,14 @@ function LeafCard({ leaf }: { leaf: WorkflowLeaf }) {
 // ──────────────────────────────────────────────────────────────────────────────
 function SubsectionBlock({ sub }: { sub: WorkflowSubsection }) {
   const hasChildren = sub.children && sub.children.length > 0;
-  const cardVariant =
-    sub.layout === 'cards-solo'
-      ? 'solo'
-      : sub.layout === 'cards-dense'
-      ? 'dense'
-      : sub.layout === 'cards'
+  const sliderVariant: CardSliderVariant | null =
+    sub.layout === 'cards'
       ? 'roomy'
+      : sub.layout === 'cards-solo'
+      ? 'solo'
       : null;
-  const useCardGrid = hasChildren && cardVariant !== null;
+  const useSlider = hasChildren && sliderVariant !== null;
+  const useDenseGrid = hasChildren && sub.layout === 'cards-dense';
 
   return (
     <section
@@ -659,18 +659,26 @@ function SubsectionBlock({ sub }: { sub: WorkflowSubsection }) {
 
       {sub.body && <BodyText text={sub.body} />}
 
-      {hasChildren && useCardGrid && (
-        <ul
-          role="list"
-          className={`workflow-card-grid workflow-card-grid--${cardVariant}`}
+      {useSlider && (
+        <CardSlider
+          variant={sliderVariant!}
+          ariaLabel={`${sub.title} 카드 슬라이더`}
         >
+          {sub.children!.map((leaf) => (
+            <LeafCard key={leaf.id} leaf={leaf} />
+          ))}
+        </CardSlider>
+      )}
+
+      {useDenseGrid && (
+        <ul role="list" className="workflow-card-grid workflow-card-grid--dense">
           {sub.children!.map((leaf) => (
             <LeafCard key={leaf.id} leaf={leaf} />
           ))}
         </ul>
       )}
 
-      {hasChildren && !useCardGrid && (
+      {hasChildren && !useSlider && !useDenseGrid && (
         <div style={{ paddingLeft: '0', marginTop: '16px' }}>
           {sub.children!.map((leaf) => (
             <LeafSection key={leaf.id} leaf={leaf} />
