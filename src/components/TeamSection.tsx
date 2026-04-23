@@ -44,7 +44,6 @@ export function TeamSection() {
             padding: '0 clamp(20px, 2vw, 32px)',
           }}
         >
-          <div style={{ maxWidth: '860px' }}>
           {/* Eyebrow */}
           <p
             style={{
@@ -74,18 +73,16 @@ export function TeamSection() {
             Superwork: Think Deeply, Act Autonomously
           </h1>
 
-          {/* Paragraph */}
+          {/* Paragraph — 1400 래퍼와 동일 폭으로 흘려, 와이드 뷰포트에서도 edge 정렬 유지 */}
           <p
             style={{
               color: 'var(--color-muted)',
               lineHeight: 1.75,
               fontSize: 'clamp(0.9375rem, 1.5vw, 1.0625rem)',
-              maxWidth: '660px',
             }}
           >
             우리는 문제의 밑바닥까지 깊게 파고들어(Question & Re-define), AI 에이전트 워크플로우를 통해 가장 효율적인 방식으로 비즈니스 해답을 찾아냅니다. 기획부터 배포까지, 끊김 없는(Seamless) AI 네이티브 환경을 구축하는 것이 우리의 목표입니다.
           </p>
-          </div>
         </div>
       </section>
 

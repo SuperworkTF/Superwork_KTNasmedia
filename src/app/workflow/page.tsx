@@ -54,7 +54,6 @@ export default function WorkflowPage() {
             padding: '0 clamp(20px, 2vw, 32px)',
           }}
         >
-          <div style={{ maxWidth: '860px' }}>
           {/* Eyebrow — Team 섹션과 동일한 편집 레이블 패턴 (pill 대신 text kicker) */}
           <p
             style={{
@@ -84,12 +83,12 @@ export default function WorkflowPage() {
             {heroCopy.headline}
           </h1>
 
+          {/* Subcopy — 1400 래퍼와 동일 폭으로 흘려, 와이드 뷰포트에서도 edge 정렬 유지 */}
           <p
             style={{
               color: 'var(--color-muted)',
               lineHeight: 1.75,
               fontSize: 'clamp(0.9375rem, 1.5vw, 1.0625rem)',
-              maxWidth: '600px',
               marginBottom: '32px',
             }}
           >
@@ -101,7 +100,6 @@ export default function WorkflowPage() {
               {heroCopy.ctaLabel} ↓
             </a>
           )}
-          </div>
         </div>
       </section>
 
