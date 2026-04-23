@@ -81,7 +81,16 @@ export function TeamSection() {
               fontSize: 'clamp(0.9375rem, 1.5vw, 1.0625rem)',
             }}
           >
-            우리는 문제의 밑바닥까지 깊게 파고들어(Question & Re-define), AI 에이전트 워크플로우를 통해 가장 효율적인 방식으로 비즈니스 해답을 찾아냅니다. 기획부터 배포까지, 끊김 없는(Seamless) AI 네이티브 환경을 구축하는 것이 우리의 목표입니다.
+            우리는 문제의 밑바닥까지 깊게 파고들어(Question & Re-define), AI 에이전트 워크플로우를 통해 가장 효율적인 방식으로 비즈니스 해답을 찾아냅니다.
+          </p>
+          <p
+            style={{
+              color: 'var(--color-muted)',
+              lineHeight: 1.75,
+              fontSize: 'clamp(0.9375rem, 1.5vw, 1.0625rem)',
+            }}
+          >
+            기획부터 배포까지, 끊김 없는(Seamless) AI 네이티브 환경을 구축하는 것이 우리의 목표입니다.
           </p>
         </div>
       </section>
