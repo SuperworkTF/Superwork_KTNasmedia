@@ -54,9 +54,13 @@ export function Hero() {
       <div
         style={{
           position: 'relative',
+          /* flex 자식의 min-width: auto 로 인한 가로 오버플로우 방지
+             (좁은 뷰포트에서 자식 min-content 가 부모를 밀어내는 문제) */
+          width: '100%',
+          minWidth: 0,
           maxWidth: '1200px',
           margin: '0 auto',
-          padding: '0 24px',
+          padding: '0 clamp(16px, 4vw, 24px)',
           textAlign: 'center',
         }}
       >
@@ -78,14 +82,15 @@ export function Hero() {
           </span>
         </motion.div>
 
-        {/* H1 */}
+        {/* H1 — 모바일에선 min 2.5rem 이 375px 뷰포트를 밀어내 오버플로우가 나던 문제를
+            해결하기 위해 min 을 1.875rem 으로 낮춤. 모바일 vw 스케일에서 여유있게 렌더 */}
         <motion.h1
           {...fadeUp(0.1)}
           style={{
             marginBottom: '24px',
             fontWeight: 700,
-            fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
-            lineHeight: 1.1,
+            fontSize: 'clamp(1.875rem, 7vw, 4.5rem)',
+            lineHeight: 1.15,
             letterSpacing: '-0.03em',
             wordBreak: 'keep-all',
           }}
@@ -105,8 +110,9 @@ export function Hero() {
           <span
             style={{
               color: '#FAFAFA',
-              /* line 2는 supporting statement — line 1 (hero)과 sub(body) 사이 중간 계층 */
-              fontSize: 'clamp(1.25rem, 2.5vw, 2rem)',
+              /* line 2는 supporting statement — line 1 (hero)과 sub(body) 사이 중간 계층.
+                 모바일 min 을 1rem 으로 내려서 좁은 뷰포트에서도 안전하게 렌더 */
+              fontSize: 'clamp(1rem, 3.5vw, 2rem)',
               fontWeight: 600,
             }}
           >
@@ -129,13 +135,15 @@ export function Hero() {
         </motion.p>
 
         {/* CTAs — Primary: Workflow(filled), Secondary: Team(outlined, 퍼플 호버)
-            grid 1fr 1fr 로 두 버튼 폭 동일 보장. 좁은 뷰포트는 auto-fit 로 자동 세로 스택 */}
+            grid 1fr 1fr 로 두 버튼 폭 동일 보장. 좁은 뷰포트는 min(240px, 100%)
+            트릭으로 컬럼 min 을 컨테이너 폭 이하로 제약해 자연스럽게 1-col 로 스택됨 */}
         <motion.div
           {...fadeUp(0.3)}
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(240px, 100%), 1fr))',
             gap: '12px',
+            width: '100%',
             maxWidth: '560px',
             margin: '0 auto',
           }}
