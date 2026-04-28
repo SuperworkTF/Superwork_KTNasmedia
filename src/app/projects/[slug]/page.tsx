@@ -6,7 +6,7 @@ import { withBasePath } from '@/lib/basePath';
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.id }));
-  // Covers: 'tas', 'openai-image-mcp-server'
+  // Covers: 'tas', 'minigame-assets-mcp'
 }
 
 export async function generateMetadata({

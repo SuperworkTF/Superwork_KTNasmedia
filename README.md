@@ -9,7 +9,7 @@ SuperworkTF 팀의 오픈소스 AI 도구를 소개하는 정적 홈페이지입
 | 프로젝트 | 설명 | 링크 |
 |---------|------|------|
 | **tas** | 두 AI 에이전트가 논쟁하며 더 나은 코드를 만드는 Claude Code 플러그인 | [simsimhae91/tas](https://github.com/simsimhae91/tas) |
-| **openai-image-mcp-server** | gpt-image-1,2로 이미지를 생성·편집·변형하는 MCP 서버 | [LimSuyun/openai-image-mcp-server](https://github.com/LimSuyun/openai-image-mcp-server) |
+| **minigame-assets-mcp** | Claude와 대화하면서 캐릭터·스프라이트·배경·UI·로고까지 게임 에셋을 자동 생성하는 MCP 서버 | [LimSuyun/minigame-assets-mcp](https://github.com/LimSuyun/minigame-assets-mcp) |
 
 ## 기술 스택
 

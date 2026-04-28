@@ -180,7 +180,7 @@ ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고,
           {
             id: 'use-case-cocos',
             title: 'Cocos 웹게임',
-            body: '웹 게임 · Story Cycle + ImageGen MCP 에셋 자동화',
+            body: '웹 게임 · Story Cycle + Minigame Assets MCP 에셋 자동화',
             image: {
               src: '/workflow/use-cases/cocos.webp',
               alt: 'Cocos 웹게임 스크린샷',
@@ -237,22 +237,32 @@ ThesisAgent(正)가 초안을 제시하면 AntithesisAgent(反)가 검증하고,
 \`\`\``,
       },
       {
-        id: 'core-imagegen',
-        title: 'ImageGen MCP',
-        navLabel: 'ImageGen MCP',
-        repoUrl: 'https://github.com/LimSuyun/openai-image-mcp-server',
-        body: `**ImageGen MCP** — Claude Desktop / Cursor / VS Code 호환 MCP 서버. OpenAI gpt-image 패밀리를 Claude 워크플로우에서 직접 사용할 수 있습니다.
+        id: 'core-minigame-assets',
+        title: 'Minigame Assets MCP',
+        navLabel: 'Minigame Assets MCP',
+        repoUrl: 'https://github.com/LimSuyun/minigame-assets-mcp',
+        body: `**Minigame Assets MCP** — Claude와 대화하면서 게임 에셋(캐릭터·스프라이트·배경·UI·로고·썸네일)을 그때그때 만들어 주는 MCP 서버.
 
-**지원 모델:**\n
-gpt-image-1, gpt-image-2
+**워크플로우:**\n
+\`\`\`
+컨셉 → 실행 계획 → 캐릭터/에셋 생성 → 검토·검증 → 배포
+\`\`\`
+모든 원본은 \`.minigame-assets/\` 폴더에 모이고, \`asset_deploy\` 가 승인된 항목만 \`asset_size_spec.json\` 기반으로 리사이즈해 \`public/assets/\` 같은 코드 경로로 복사합니다.
 
-**6 도구:**\n
-- \`gpt_image_generate\` — 텍스트 기반 이미지 생성
-- \`gpt_image_edit\` — 이미지 편집
-- \`gpt_image_create_variation\` — 이미지 변형 생성
-- \`gpt_image_create_character_reference\` — 캐릭터 레퍼런스 생성
-- \`gpt_image_generate_pose\` — 포즈 기반 이미지 생성
-- \`gpt_image_generate_sprite_sheet\` — 스프라이트 시트 생성`,
+**할 수 있는 것:**\n
+- **캐릭터** — 베이스 → 장비 결합 → 스프라이트 시트 (Sequential anchor+prev, 액션별 5+ 프레임 매트릭스, Phaser/Unity/Cocos atlas 자동 동반)
+- **배경·화면** — 게임 씬 배경(spec-aware), 로딩·로비 화면, parallax 다층 레이어
+- **UI** — HUD · 버튼 · 팝업 · 아이콘 · 스타일 레퍼런스 시트
+- **마케팅** — 타이틀 워드마크 PNG, 앱 로고·썸네일(워드마크+캐릭터 합성), 스토어 배너/스크린샷, SNS 팩
+- **사운드**, **영상** - 추가 예정
+
+**설치 (플러그인 권장):**\n
+\`\`\`bash
+export OPENAI_API_KEY=sk-...
+claude plugin marketplace add LimSuyun/minigame-assets-mcp
+claude plugin install minigame-assets@minigame-assets-mcp
+\`\`\`
+설치 후 \`/reload-plugins\`. 슬래시 명령(\`/minigame-assets:create-minigame-assets\`, \`/minigame-assets:setup-minigame-assets-concept\`, \`/minigame-assets:minigame-assets-help\`)과 자동 트리거 워크플로우 스킬이 함께 제공됩니다.`,
       },
       // ── Depth 2: Self-Healing ─────────────────────────────────────────────
       {

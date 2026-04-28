@@ -26,7 +26,7 @@ export const team: TeamMember[] = [
     role: 'AI Creative Engineer',
     tagline: '"AI가 창작하도록 도구를 쥐여주고, 그 도구로 직접 만듭니다."',
     description: 'Superwork 워크플로우 위에서 에이전트가 협업하고 창작하는 여러 구조를 설계하며, 가장 효과적인 흐름을 찾아갑니다. AI 에이전트가 이미지·사운드·영상 같은 창작물을 스스로 만들 수 있는 파이프라인(MCP)을 직접 설계·구축하고, 그 도구로 게임과 앱, 서비스를 실제로 출시합니다. 도구를 만드는 사람과 그 도구를 쓰는 사람의 경계를 허물어, 아이디어가 결과물에 도달하는 거리를 최단으로 좁힙니다.',
-    project: 'openai-image-mcp-server',
+    project: 'minigame-assets-mcp',
     githubUrl: 'https://github.com/LimSuyun',
     avatarUrl: 'https://github.com/LimSuyun.png',
   },

@@ -95,10 +95,10 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/projects/openai-image-mcp-server"
+                  href="/projects/minigame-assets-mcp"
                   className="footer-link"
                 >
-                  ImageGen MCP
+                  Minigame Assets MCP
                 </Link>
               </li>
             </ul>
